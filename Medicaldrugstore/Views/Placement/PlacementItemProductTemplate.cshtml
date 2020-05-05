@@ -1,0 +1,157 @@
+﻿@model Medicaldrugstore.Models.PlacementItemProduct
+
+@{
+    Layout = null;
+}
+
+<script>
+    function onProductSelect(e) {
+        var dataItem = this.dataItem(e.item.index());
+        var selectedProductId = dataItem.Value;
+        var selectedPlacementItemId = '@Model.PlacementItemId';
+        var q = $.ajax({
+            url: '@Url.Action("CurrentCountInfo", "Placement")',
+            dataType: "json",
+            type: "GET",
+            data: { productId: selectedProductId, placementItemId: selectedPlacementItemId },
+            async: true,
+            success: function (data) {
+                dt = data.Data;
+                rt = true;
+                if (dt != null) {
+                    $("#CurrentStoreCount").html(dt[0].CurrentStoreCount);
+                    $("#CurrentRequestedCount").html(dt[0].CurrentRequestCount);
+                }
+            },
+            error: function (xhr) {
+                dt = xhr;
+                rt = false;
+            }
+        });
+    }
+</script>
+
+@using (Html.BeginForm("SavePlacementItemProduct", "Placement", FormMethod.Post, new { id = "frmPlacementProduct" }))
+{
+    <div class="create-item">
+
+        @Html.HiddenFor(model => model.PlacementItemProductId)
+        @Html.HiddenFor(model => model.PlacementItemId)
+
+        <div class="create-item">
+            <div class="form-group col-sm-12 border-box">
+                @Html.LabelFor(model => model.ProductId, new { @class = "control-label" })
+                @(Html.Kendo().ComboBoxFor(model => model.ProductId)
+                .DataTextField("Text")
+                .DataValueField("Value")
+                .Filter(FilterType.StartsWith)
+                .Events(e =>
+                {
+                    e.Select("onProductSelect");
+                })
+                .BindTo(ViewBag.vbProducts)
+                .HtmlAttributes(new { data_value_primitive = true })
+                )
+                <span class="k-invalid-msg vldmsg" data-for="ProductId"></span>
+            </div>
+
+            <div class="form-group col-sm-12 border-box">
+                <table class="table table-striped details" style="margin-bottom:0;">
+                    <tr>
+                        <td class="col-xs-6">@Html.Label("Պահեստում առկա քանակ", new { @class = "control-label align-right" })</td>
+                        <td class="col-xs-6">@Html.Label(" ", new { id = "CurrentStoreCount", size = 10, @class = "bold" })</td>
+                    </tr>
+                    <tr>
+                        <td class="col-xs-6">@Html.Label("Ներկայումս պատվիրված քանակ", htmlAttributes: new { @class = "control-label align-right" })</td>
+                        <td class="col-xs-6">@Html.Label(" ", new { id = "CurrentRequestedCount", size = 10, @class = "bold" })</td>
+                    </tr>
+                </table>
+            </div>
+            <div class="clear"></div>
+            <div class="form-group col-sm-6 border-box">
+                @Html.LabelFor(model => model.Quantity, htmlAttributes: new { @class = "control-label" })
+                @Html.EditorFor(model => model.Quantity, new { htmlAttributes = new { @class = "k-textbox" } })
+                @Html.ValidationMessageFor(model => model.Quantity, "", new { @class = "text-danger" })
+            </div>
+            <div class="form-group col-sm-6 border-box">
+                @Html.LabelFor(model => model.StorageId, htmlAttributes: new { @class = "control-label" })
+                @(Html.Kendo().ComboBoxFor(model => model.StorageId)
+                .DataTextField("Text")
+                .DataValueField("Value")
+                .Filter(FilterType.StartsWith)
+                .BindTo(ViewBag.vbStorages)
+                .HtmlAttributes(new { data_value_primitive = true })
+                )
+                <span class="k-invalid-msg vldmsg" data-for="StorageId"></span>
+            </div>
+            <div class="clear"></div>
+            <div class="form-group margin-10-0 col-sm-12 border-box align-right">
+                <button id="piptSave" class="k-button"><i class="glyphicon glyphicon-floppy-disk"></i> @Resources.General_Save</button>
+                <button id="piptCancel" class="k-button"><i class="glyphicon glyphicon-off"></i> @Resources.General_Close</button>
+            </div>
+        </div>
+    </div>
+}
+<script>
+    $(document).ready(function () {
+        $("#piptCancel")
+            .click(function () {
+                $(this).closest(".k-window-content").data("kendoWindow").close();
+                return false;
+            });
+        $("#piptSave")
+            .click(function (e) {
+                var errTmplt = '<div class="k-widget k-tooltip k-tooltip-validation" style="margin:0.5em; padding:3px 5px;"><span class="fa fa-exclamation-triangle"></span> #=message#<div class="k-callout k-callout-n"></div></div>';
+                var validator = $("#frmPlacementProduct").kendoValidator({
+                    errorTemplate: errTmplt
+                }).data("kendoValidator");
+                if (!validator.validate()) {
+                    return false;
+                }
+
+
+                var item = new Object();
+                item.placementItemProductId = '@(Model.PlacementItemProductId)';
+                item.placementItemId = '@(Model.PlacementItemId)';
+                item.productId = document.getElementById("ProductId").value;
+                item.quantity = document.getElementById("Quantity").value;
+                item.storageId = document.getElementById("StorageId").value;
+
+                var rt = false;
+                var dt;
+                var q = $.ajax({
+                    url: '@Url.Action("SavePlacementItemProduct", "Placement")',
+                    dataType: "json",
+                    type: "POST",
+                    data: JSON.stringify({ placementItemProduct: item }),
+                    contentType: "application/json; charset=utf-8",
+                    async: false,
+                    success: function (data) {
+                        dt = data;
+                        rt = true;
+                    },
+                    error: function (xhr) {
+                        dt = xhr;
+                        rt = false;
+                    }
+                });
+
+                if (rt == true) {
+                    if (dt.success != true) {
+                        /*Այստեղ իրականացվում է սերվերից վերադարձված սխալի ցուցադրման գործառույթը:
+                        Անհրաժեշտ է որ alert-ի փոխարեն կարմիր գույնով ցուցադրվի սխալը:
+                        Այդ սխալը պետք է տեղակայված լինի մուտքային վերջին դաշտի և հրահանգների արանքում:*/
+                        alert(JSON.stringify(dt.responseText));
+                    }
+                    else {
+                        $(this).closest(".k-window-content").data("kendoWindow").close();
+                    }
+                }
+                else {
+                    alert(JSON.stringify("Unknown error occured."));
+                }
+                return false;
+
+            });
+    });
+</script>

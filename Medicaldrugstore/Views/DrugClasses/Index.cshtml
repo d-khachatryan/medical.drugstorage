@@ -1,0 +1,572 @@
+﻿@model IEnumerable<Medicaldrugstore.Models.DrugClass>
+@using Kendo.Mvc.UI
+
+@{
+    ViewBag.Title = Resources.Drug_Title;
+}
+<div class="clear"></div>
+<div class="for-Toolbar">
+    <div class="right-slidePanel">
+        <div class="slidePanel-Content" style="margin-top:-2px;">
+            <div class="slidePanel-btn">
+            </div>
+            <div class="slidePanel-Content-fields create-item">
+                <h4>@Resources.General_Search</h4>
+                <div class="form-group margin-5-0">
+                    <input id="prmDrugClassName" class="k-textbox" placeholder=@Resources.Drug_Name />
+                </div>
+                <div class="form-group margin-5-0">
+                    <input id="prmGenericName" class="k-textbox" placeholder=@Resources.Drug_GenericName />
+                </div>
+                <div class="form-group margin-5-0">
+                    @(Html.Kendo().ComboBox()
+                          .Name("prmProductGroupId")
+                          .DataTextField("Text")
+                          .Placeholder(@Resources.Drug_ProductGroup)
+                          .DataValueField("Value")
+                          .Filter(FilterType.StartsWith)
+                          .BindTo(ViewBag.vbProductGroups)
+                          .HtmlAttributes(new { data_value_primitive = true, @class = "width100" })
+                    )
+                </div>
+                <div class="form-group margin-5-0">
+                    @(Html.Kendo().ComboBox()
+                          .Name("prmProductCategoryId")
+                          .DataTextField("Text")
+                          .Placeholder(@Resources.Drug_ProductCategory)
+                          .DataValueField("Value")
+                          .Filter(FilterType.StartsWith)
+                          .BindTo(ViewBag.vbProductCategories)
+                          .HtmlAttributes(new { data_value_primitive = true, @class = "width100" })
+                    )
+                </div>
+                <div class="form-group margin-5-0">
+                    @(Html.Kendo().ComboBox()
+                          .Name("prmDrugCategoryId")
+                          .DataTextField("Text")
+                          .Placeholder(@Resources.Drug_DrugCategory)
+                          .DataValueField("Value")
+                          .Filter(FilterType.StartsWith)
+                          .BindTo(ViewBag.vbDrugCategories)
+                          .HtmlAttributes(new { data_value_primitive = true, @class = "width100" })
+                    )
+                </div>
+                <div class="form-group margin-5-0">
+                    @(Html.Kendo().ComboBox()
+                          .Name("prmDrugTypeId")
+                          .DataTextField("Text")
+                          .Placeholder(@Resources.Drug_DrugType)
+                          .DataValueField("Value")
+                          .Filter(FilterType.StartsWith)
+                          .BindTo(ViewBag.vbDrugTypes)
+                          .HtmlAttributes(new { data_value_primitive = true, @class = "width100" })
+                    )
+                </div>
+                <div class="form-group margin-5-0">
+                    @(Html.Kendo().ComboBox()
+                         .Name("prmProductTypeId")
+                         .DataTextField("Text")
+                         .Placeholder(@Resources.Drug_ProductType)
+                         .DataValueField("Value")
+                         .Filter(FilterType.StartsWith)
+                         .BindTo(ViewBag.vbProductTypes)
+                         .HtmlAttributes(new { data_value_primitive = true, @class = "width100" })
+                    )
+                </div>
+                <div class="form-group margin-5-0">
+                    <input type='checkbox' id="prmIsActive" />
+                    <label>@Resources.DrugClass_Status</label>
+                </div>
+                <div class="form-group btns align-right">
+                    <button type="submit" id="rtSearch" class="k-button" onclick="return Search();"><i class="glyphicon glyphicon-search"></i> @Resources.General_Search</button>
+                    <button type="submit" class="k-button" onclick="return Clear();"><i class="glyphicon glyphicon-minus"></i> @Resources.General_Clean</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script type="text/javascript">
+
+    $(document).ready(function () {
+        currentDrugClassIndex = -1;
+        DCID = 0;
+        currentDrugIndex = -1;
+        DID = 0;
+        $("#prmIsActive").prop('checked', true);
+    });
+
+    function Search() {
+        $("#DrugClass").data("kendoGrid").dataSource.read();
+        $("#DrugClass").data("kendoGrid").refresh();
+        $("#Drug").data("kendoGrid").dataSource.read();
+        $("#Drug").data("kendoGrid").refresh();
+        return false;
+    }
+
+    function Clear() {
+        $("#prmDrugClassName").val("");
+        $("#prmGenericName").val("");
+        $("#prmProductCategoryId").data("kendoComboBox").select(-1);
+        $("#prmProductTypeId").data("kendoComboBox").select(-1);
+        $("#prmProductGroupId").data("kendoComboBox").select(-1);
+        $("#prmDrugCategoryId").data("kendoComboBox").select(-1);
+        $("#prmDrugTypeId").data("kendoComboBox").select(-1);
+        $("#DrugClass").data("kendoGrid").dataSource.read();
+        $("#DrugClass").data("kendoGrid").refresh();
+        $("#prmIsActive").prop('checked', true);
+        return false;
+    }
+
+    function getParameter() {
+        return {
+            drugClassName: $("#prmDrugClassName").val(),
+            genericName: $("#prmGenericName").val(),
+            productCategoryId: $("#prmProductCategoryId").val(),
+            productTypeId: $("#prmProductTypeId").val(),
+            productGroupId: $("#prmProductGroupId").val(),
+            drugTypeId: $("#prmDrugTypeId").val(),
+            drugCategoryId: $("#prmDrugCategoryId").val(),
+            isActive: $("#prmIsActive").is(":checked")
+        };
+    }
+
+    function onDrugClassDataBound(e) {
+        $(".k-grid-Update, .Update_Icon").find("span").addClass("glyphicon glyphicon-pencil");
+        $(".k-grid-Delete, .Delete_Icon").find("span").addClass("glyphicon glyphicon-trash");
+        if (currentDrugClassIndex != -1) {
+            var row = $(this.tbody).find("tr.k-master-row:eq(" + currentDrugClassIndex + ")");
+            this.expandRow(row);
+        }
+    }
+
+    function onDrugClassDetailExpand(e) {
+        currentDrugClassIndex = $(e.masterRow).index(".k-master-row");
+        var selectedItem = this.dataItem(e.masterRow);
+        DCID = selectedItem.DrugClassId;
+    }
+
+    function onDrugDataBound(e) {
+        $(".k-grid-Update, .Update_Icon").find("span").addClass("glyphicon glyphicon-pencil");
+        $(".k-grid-Delete, .Delete_Icon").find("span").addClass("glyphicon glyphicon-trash");
+        if (currentDrugIndex != -1) {
+            var row = $(this.tbody).find("tr.k-master-row:eq(" + currentDrugIndex + ")");
+            this.expandRow(row);
+        }
+    }
+
+    function onDrugDetailExpand(e) {
+        currentDrugIndex = $(e.masterRow).index(".k-master-row");
+        var selectedItem = this.dataItem(e.masterRow);
+        DID = selectedItem.DrugId;
+    }
+
+</script>
+
+@(Html.Kendo().TabStrip()
+          .Name("tabStrip1")
+          .SelectedIndex(0)
+          .Animation(animation => animation.Open(open => open.Fade(FadeDirection.In)))
+          .Items(items =>
+          {
+          items.Add().Text("Անվանացանկ").Content(@<text>
+        @(Html.Kendo().Grid<Medicaldrugstore.Models.DrugClassDetail>()
+                        .Name("DrugClass")
+                        .Events(events => events.DataBound("onDrugClassDataBound").DetailExpand("onDrugClassDetailExpand"))
+                        .Columns(columns =>
+                        {
+                            columns.Bound(model => model.DrugClassId).Hidden();
+                            columns.Bound(model => model.DrugClassName).Width(153);
+                            columns.Bound(model => model.GenericName).Width(146);
+                            columns.Bound(model => model.DrugCategoryName).Width(80);
+                            columns.Bound(model => model.DrugTypeName).Width(115);
+                            columns.Bound(model => model.ProductCategoryName).Width(195);
+                            columns.Bound(model => model.ProductGroupName).Width(125);
+                            columns.Bound(model => model.ProductTypeName).Width(161);
+                            columns.Bound(model => model.DrugClassStatus).HtmlAttributes(new { style = "text-align: center;" }).ClientTemplate("#if(DrugClassStatus){#" +
+                                               "<i class=\"glyphicon glyphicon-ok\"></i>" +
+                                               "#} else {#" +
+                                               "<i class=\"glyphicon glyphicon-minus\"></i>" +
+                                               "# } #").Width(86);
+                            columns.Command(commands =>
+                            {
+                                commands.Custom("Update").Text(" ").Click("UpdateDrugClass");
+                                commands.Custom("Delete").Text(" ").Click("DeleteDrugClass");
+                            }).Title(Resources.General_Commands).Width(130);
+                        })
+
+                        .ToolBar(toolbar =>
+                        {
+                            toolbar.Custom().Name("btnCreateDrugClass").Text(@Resources.DrugClass_New).HtmlAttributes(new { onclick = "return CreateDrugClass();" });
+                            toolbar.Custom().Name("btnShowDetails").Text(Resources.General_Details).HtmlAttributes(new { onclick = "return ShowDrugClassDetails();" });
+                            toolbar.Custom().Name("btnCreateDrug").Text(@Resources.Drug_New).HtmlAttributes(new { onclick = "return CreateDrug();" });
+                        })
+                        .Selectable(s => s.Mode(Kendo.Mvc.UI.GridSelectionMode.Single))
+                        .Pageable(pageable => pageable
+                        .Refresh(true)
+                        .PageSizes(true)
+                        .ButtonCount(5))
+                        .Scrollable()
+                        .Resizable(resize => resize.Columns(true))
+                        .Reorderable(reorder => reorder.Columns(true))
+                        .Sortable()
+                        .DataSource(dataSource => dataSource
+                        .Ajax()
+                        .Read(read => read.Action("ReadDrugClasses", "DrugClasses").Data("getParameter"))
+                        .Sort(sort => sort.Add("DrugClassId").Descending())
+                        .PageSize(15)
+                        .Model(model => model.Id(p => p.DrugClassId))
+)
+        )
+        </text>);
+          items.Add().Text("Ապրանքներ").Content(@<text>
+            @(Html.Kendo().Grid<Medicaldrugstore.Models.DrugItem>()
+                        .Name("Drug")
+                        .Events(events => events.DataBound("onDrugDataBound").DetailExpand("onDrugDetailExpand"))
+                        .Columns(columns =>
+                        {
+                            columns.Bound(model => model.DrugId).Width(50);
+                            columns.Bound(model => model.DrugName).Width(195);
+                            columns.Bound(model => model.ExpirationDate).Width(162);
+                            columns.Bound(model => model.UnitCost).Width(124);
+                            columns.Bound(model => model.Quantity).Width(66);
+                            columns.Bound(model => model.ItemQuantity).Width(128);
+                            columns.Bound(model => model.TotalCost).Width(128);
+                            columns.Command(commands =>
+                            {
+                                commands.Custom("Update1").Text(" ").Click("UpdateDrug").HtmlAttributes(new { @class = "Update_Icon" });
+                                commands.Custom("Delete1").Text(" ").Click("DeleteDrug").HtmlAttributes(new { @class = "Delete_Icon" });
+                            }).Title(Resources.General_Commands).Width(130);
+                        })
+                        .ToolBar(toolbar =>
+                        {
+                            toolbar.Custom().Name("showDetails").Text(Resources.General_Details).HtmlAttributes(new { onclick = "return ShowDrugDetails();" });
+                            toolbar.Custom().Name("UploadFile").Text("Բեռնել").HtmlAttributes(new { onclick = "return UploadFile();" });
+                        })
+                        .Selectable(s => s.Mode(Kendo.Mvc.UI.GridSelectionMode.Single))
+                        .Pageable(pageable => pageable
+                        .Refresh(true)
+                        .PageSizes(true)
+                        )
+                        .Scrollable()
+                        .ClientDetailTemplateId("productTemplate")
+                        .Resizable(resize => resize.Columns(true))
+                        .Reorderable(reorder => reorder.Columns(true))
+                        .Sortable()
+                        .HtmlAttributes(new { style = "height:620px;" })
+                        .DataSource(dataSource => dataSource
+                        .Ajax()
+                        .Read(read => read.Action("ReadDrugs", "DrugClasses").Data("getParameter"))
+                        .PageSize(15)
+                        .Model(model => model.Id(p => p.DrugId))
+)
+            )
+        </text>);
+          })
+)
+
+<script id="productTemplate" type="text/kendo-tmpl">
+    @(Html.Kendo().Grid<Medicaldrugstore.Models.ProductDetail>()
+                        .Name("Product_#=DrugId#")
+                        .Columns(columns =>
+                        {
+                            columns.Bound(model => model.ProductId).Hidden();
+                            columns.Bound(model => model.RegistrationDate).Width(180);
+                            columns.Bound(model => model.StorageName).Width(145);
+                            columns.Bound(model => model.Quantity).Width(110);
+                            columns.Bound(model => model.ItemQuantity).Width(163);
+                            columns.Bound(model => model.TotalCost).Width(163);
+                        })
+                    .Selectable(s => s.Mode(GridSelectionMode.Single))
+                    .Pageable()
+        .Scrollable()
+        .Events(e => e.DataBound("onRowBound"))
+        .Resizable(resize => resize.Columns(true))
+        .Reorderable(reorder => reorder.Columns(true))
+        .Sortable()
+        .HtmlAttributes(new { style = "max-height:620px;" })
+        .DataSource(dataSource => dataSource
+        .Ajax()
+        .Read(read => read.Action("ReadProducts", "DrugClasses", new { id = "#=DrugId#" }))
+        .PageSize(15)
+        .Model(model => model.Id(p => p.ProductId))
+    )
+    .ToClientTemplate()
+    )
+</script>
+
+@(Html.Kendo().Window().Name("wndDrugClass").Width(623)
+            .Height(360).Draggable()
+            .Resizable().Content("")
+            .Title(Resources.Drug_Edit_Title)
+            .Modal(true)
+            .Actions(actions => actions.Pin().Close())
+            .Visible(false)
+            .Events(events => events
+            .Open("onOpenDrugClass").Close("onCloseDrugClass").Refresh("onRefreshDrugClass"))
+)
+
+@(Html.Kendo().Window().Name("wndDrugClassDetail")
+            .Width(660).Height(370)
+            .Draggable().Resizable()
+            .Content("").Modal(true)
+            .Actions(actions => actions.Pin().Close())
+            .Visible(false)
+)
+
+@(Html.Kendo().Window().Name("wndDrug").Draggable()
+            .Width(800).Height(600)
+            .Resizable().Content("")
+            .Title(Resources.Drug_Edit_Title)
+            .Modal(true)
+            .Actions(actions => actions.Pin().Close())
+            .Visible(false)
+            .Events(events => events
+            .Open("onOpenDrug").Close("onCloseDrug").Refresh("onRefreshDrug"))
+)
+
+@(Html.Kendo().Window().Name("wndUploadFile").Width(500)
+            .Height(200).Draggable()
+            .Resizable().Content("")
+            .Title("Բեռնել")
+            .Modal(true)
+            .Actions(actions => actions.Pin().Close())
+            .Visible(false)
+)
+
+@(Html.Kendo().Window().Name("wndDrugDetails").Width(800)
+            .Height(600).Draggable()
+            .Resizable().Content("")
+            .Title(Resources.Drug_Edit_Title)
+            .Modal(true)
+            .Actions(actions => actions.Pin().Close())
+            .Visible(false)
+)
+
+
+<script>
+
+    function CreateDrugClass() {
+        var window = $("#wndDrugClass").data("kendoWindow");
+        window.content("");
+        window.title("@Resources.DrugClass_Entry");
+        window.refresh({
+            url: "@Url.Action("CreateDrugClass", "DrugClasses")"
+        });
+        window.center();
+        window.open();
+        return false;
+    }
+
+    function UpdateDrugClass(e) {
+        var grid = $("#DrugClass").data("kendoGrid");
+        var row = $(e.target).closest("tr");
+        var dataItem = grid.dataItem(row);
+        var window = $("#wndDrugClass").data("kendoWindow");
+        window.content("");
+        window.title("@Resources.General_Edit ");
+        window.refresh({
+            url: "@Url.Action("UpdateDrugClass", "DrugClasses")" + "/" + dataItem.DrugClassId
+        });
+        window.center();
+        window.open();
+        return false;
+    }
+
+    function DeleteDrugClass(e) {
+        if (confirm('@Resources.General_Delete_Question')) {
+            var grid = $("#DrugClass").data("kendoGrid");
+            var row = $(e.target).closest("tr");
+            var dataItem = grid.dataItem(row);
+            var drugClassId = dataItem.DrugClassId;
+            var rt = false;
+            var dt;
+            var q = $.ajax({
+                url: '@Url.Action("DeleteDrugClass", "DrugClasses")',
+                dataType: "json",
+                type: "GET",
+                data: { id: drugClassId },
+                async: false,
+                success: function (data) {
+                    dt = data;
+                    rt = true;
+                },
+                error: function (xhr) {
+                    dt = xhr;
+                    rt = false;
+                }
+            });
+            if (rt == true) {
+                if (dt != "1") {
+                    alert(JSON.stringify(dt));
+                }
+                else {
+                    $("#DrugClass").data("kendoGrid").dataSource.read();
+                }
+            }
+            else {
+                alert(dt);
+                return false;
+            }
+        }
+        return false;
+    }
+
+    function ShowDrugClassDetails() {
+        var grid = $("#DrugClass").data("kendoGrid");
+        var selectedItem = grid.dataItem(grid.select());
+        if (selectedItem == null) {
+            alert("@Resources.General_NotSelected");
+            return false;
+        }
+        var window = $("#wndDrugClassDetail").data("kendoWindow");
+        window.content("");
+        window.title("@Resources.DrugClass_Details");
+        window.refresh({
+            url: "@Url.Action("DrugClassDetails", "DrugClasses")" + "/" + selectedItem.DrugClassId
+        });
+        window.center();
+        window.open();
+        return false;
+    }
+
+
+    function CreateDrug() {
+        var grid = $("#DrugClass").data("kendoGrid");
+        var selectedItem = grid.dataItem(grid.select());
+        if (selectedItem == null) {
+            alert("@Resources.General_NotSelected");
+            return false;
+        }
+        var window = $("#wndDrug").data("kendoWindow");
+        window.content("");
+        window.title("@Resources.Product_Entry");
+        window.refresh({
+            url: "@Url.Action("CreateDrug", "DrugClasses")" + "/" + selectedItem.DrugClassId
+        });
+        window.center();
+        window.open();
+        return false;
+    }
+
+    function UpdateDrug(e) {
+        var grid = $("#Drug").data("kendoGrid");
+        var row = $(e.target).closest("tr");
+        var dataItem = grid.dataItem(row);
+        var window = $("#wndDrug").data("kendoWindow");
+        window.content("");
+        window.title("@Resources.General_Edit");
+        window.refresh({
+            url: "@Url.Action("UpdateDrug", "DrugClasses")" + "/" + dataItem.DrugId
+        });
+        window.center();
+        window.open();
+        return false;
+    }
+
+    function DeleteDrug(e) {
+        if (confirm('@Resources.General_Delete_Question')) {
+            var drugGridName = "#Drug";
+            var grid = $(drugGridName).data("kendoGrid");
+            var row = $(e.target).closest("tr");
+            var dataItem = grid.dataItem(row);
+            var drugId = dataItem.DrugId;
+            var rt = false;
+            var dt;
+            var q = $.ajax({
+                url: '@Url.Action("DeleteDrug", "DrugClasses")',
+                dataType: "json",
+                type: "GET",
+                data: { id: drugId },
+                async: false,
+                success: function (data) {
+                    dt = data;
+                    rt = true;
+                },
+                error: function (xhr) {
+                    dt = xhr;
+                    rt = false;
+                }
+            });
+            if (rt == true) {
+                if (dt.success != true) {
+                    alert(JSON.stringify(dt.responseText));
+                }
+                else {
+                    var drugGridName = "#Drug";
+                    $(drugGridName).data("kendoGrid").dataSource.read();
+                }
+            }
+            else {
+                alert(JSON.stringify("Unknown error occured."));
+            }
+            return false;
+        }
+        return false;
+    }
+
+    function ShowDrugDetails() {
+        var grid = $("#Drug").data("kendoGrid");
+        var window = $("#wndDrugDetails").data("kendoWindow");
+        var selectedItem = grid.dataItem(grid.select());
+        if (selectedItem == null) {
+            alert("@Resources.General_NotSelected");
+            return false;
+        }
+        window.content("");
+        window.title("@Resources.Product_Details_Title");
+        window.refresh({
+            url: "@Url.Action("DrugDetails", "DrugClasses")" + "/" + selectedItem.DrugId
+        });
+        window.center();
+        window.open();
+        return false;
+    }
+
+    function UploadFile(e) {
+        var grid = $("#Drug").data("kendoGrid");
+        var window = $("#wndUploadFile").data("kendoWindow");
+        var selectedItem = grid.dataItem(grid.select());
+        if (selectedItem == null) {
+            alert("@Resources.General_NotSelected");
+            return false;
+        }
+        window.content("Բեռնել");
+        window.title("@Resources.Product_Details_Title");
+
+        window.refresh({
+            url: "@Url.Action("UploadFile", "DrugClasses")" + "/" + selectedItem.DrugId
+        });
+        window.center();
+        window.open();
+        return false;
+    }
+
+
+    function onOpenDrugClass(e) {
+        kendo.ui.progress(e.sender.element, true);
+    }
+    function onCloseDrugClass() {
+        $("#DrugClass").data("kendoGrid").dataSource.read();
+    }
+    function onRefreshDrugClass(e) {
+        kendo.ui.progress(e.sender.element, false);
+    }
+
+    function onOpenDrug(e) {
+        kendo.ui.progress(e.sender.element, true);
+    }
+    function onCloseDrug() {
+        $("#Drug").data("kendoGrid").dataSource.read();
+    }
+    function onRefreshDrug(e) {
+        kendo.ui.progress(e.sender.element, false);
+    }
+
+</script>
+
+
+
+
+
+

@@ -1,0 +1,116 @@
+﻿@model TransferDetail
+
+@{
+    Layout = null;
+}
+
+<div>
+    <fieldset class="margin-10 create-item">
+        <legend> @Resources.Transfer_Sender</legend>
+        <table class="table table-striped details">
+            <tr>
+                <td class="col-xs-6">@Html.DisplayNameFor(model => model.TransferDate)</td>
+                <td class="col-xs-6">@Html.DisplayFor(model => model.TransferDate)</td>
+            </tr>
+            <tr>
+                <td class="col-xs-6">@Html.DisplayNameFor(model => model.BaseDocumentName)</td>
+                <td class="col-xs-6">@Html.DisplayFor(model => model.BaseDocumentName)</td>
+            </tr>
+            <tr>
+                <td class="col-xs-6">@Html.DisplayNameFor(model => model.SenderName)</td>
+                <td class="col-xs-6">@Html.DisplayFor(model => model.SenderName)</td>
+            </tr>
+            <tr>
+                <td class="col-xs-6">@Html.DisplayNameFor(model => model.SenderLocation)</td>
+                <td class="col-xs-6">@Html.DisplayFor(model => model.SenderLocation)</td>
+            </tr>
+            @*<tr>
+                <td class="col-xs-6">@Html.DisplayNameFor(model => model.SenderRegistrationNumber)</td>
+                <td class="col-xs-6">@Html.DisplayFor(model => model.SenderRegistrationNumber)</td>
+            </tr>*@
+            <tr>
+                <td class="col-xs-6">@Html.DisplayNameFor(model => model.SenderBankName)</td>
+                <td class="col-xs-6">@Html.DisplayFor(model => model.SenderBankName)</td>
+            </tr>
+            <tr>
+                <td class="col-xs-6">@Html.DisplayNameFor(model => model.SenderTin)</td>
+                <td class="col-xs-6">@Html.DisplayFor(model => model.SenderTin)</td>
+            </tr>
+            <tr>
+                <td class="col-xs-6">@Html.DisplayNameFor(model => model.SenderHeadName)</td>
+                <td class="col-xs-6">@Html.DisplayFor(model => model.SenderHeadName)</td>
+            </tr>
+            <tr>
+                <td class="col-xs-6">@Html.DisplayNameFor(model => model.SenderAccountantName)</td>
+                <td class="col-xs-6">@Html.DisplayFor(model => model.SenderAccountantName)</td>
+            </tr>
+            <tr>
+                <td class="col-xs-6">@Html.DisplayNameFor(model => model.SenderResponsibleName)</td>
+                <td class="col-xs-6">@Html.DisplayFor(model => model.SenderResponsibleName)</td>
+            </tr>
+        </table>
+        </fieldset>
+        <fieldset class="margin-10 create-item">
+            <legend>@Resources.Transfer_Receiver</legend>
+            <table class="table table-striped details">
+                <tr>
+                    <td class="col-xs-6">@Html.DisplayNameFor(model => model.ReceiverName)</td>
+                    <td class="col-xs-6">@Html.DisplayFor(model => model.ReceiverName)</td>
+                </tr>
+                <tr>
+                    <td class="col-xs-6">@Html.DisplayNameFor(model => model.ReceiverLocation)</td>
+                    <td class="col-xs-6">@Html.DisplayFor(model => model.ReceiverLocation)</td>
+                </tr>
+                @*<tr>
+                    <td class="col-xs-6">@Html.DisplayNameFor(model => model.ReceiverRegistrationNumber)</td>
+                    <td class="col-xs-6">@Html.DisplayFor(model => model.ReceiverRegistrationNumber)</td>
+                </tr>*@
+                <tr>
+                    <td class="col-xs-6">@Html.DisplayNameFor(model => model.ReceiverBankName)</td>
+                    <td class="col-xs-6">@Html.DisplayFor(model => model.ReceiverBankName)</td>
+                </tr>
+                <tr>
+                    <td class="col-xs-6">@Html.DisplayNameFor(model => model.ReceiverTin)</td>
+                    <td class="col-xs-6">@Html.DisplayFor(model => model.ReceiverTin)</td>
+                </tr>
+                <tr>
+                    <td class="col-xs-6">@Html.DisplayNameFor(model => model.ReceiverHeadName)</td>
+                    <td class="col-xs-6">@Html.DisplayFor(model => model.ReceiverHeadName)</td>
+                </tr>
+                <tr>
+                    <td class="col-xs-6">@Html.DisplayNameFor(model => model.ReceiverAccountantName)</td>
+                    <td class="col-xs-6">@Html.DisplayFor(model => model.ReceiverAccountantName)</td>
+                </tr>
+                <tr>
+                    <td class="col-xs-6">@Html.DisplayNameFor(model => model.ReceiverResponsibleName)</td>
+                    <td class="col-xs-6">@Html.DisplayFor(model => model.ReceiverResponsibleName)</td>
+                </tr>
+                </table>
+            </fieldset>
+
+            <fieldset class="margin-10 create-item">
+                <table class="table table-striped details">
+                    <tr>
+                        <td class="col-xs-6">@Html.DisplayNameFor(model => model.BaseDocumentName)</td>
+                        <td class="col-xs-6">@Html.DisplayFor(model => model.BaseDocumentName)</td>
+                    </tr>
+                    <tr>
+                        <td class="col-xs-6">@Html.DisplayNameFor(model => model.TransferSum)</td>
+                        <td class="col-xs-6">@Html.DisplayFor(model => model.TransferSum)</td>
+                    </tr>
+                    <tr>
+                        <td class="col-xs-6">@Html.DisplayNameFor(model => model.TransferTextSum)</td>
+                        <td class="col-xs-6">@Html.DisplayFor(model => model.TransferTextSum)</td>
+                    </tr>
+                    <tr>
+                        <td class="col-xs-6">@Html.DisplayNameFor(model => model.TransferTotal)</td>
+                        <td class="col-xs-6">@Html.DisplayFor(model => model.TransferTotal)</td>
+                    </tr>
+                    <tr>
+                        <td class="col-xs-6">@Html.DisplayNameFor(model => model.Comment)</td>
+                        <td class="col-xs-6">@Html.DisplayFor(model => model.Comment)</td>
+                    </tr>
+                </table>
+            </fieldset>
+</div>
+

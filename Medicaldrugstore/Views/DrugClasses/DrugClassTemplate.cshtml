@@ -1,0 +1,209 @@
+﻿@model Medicaldrugstore.Models.DrugClass
+
+@{
+    Layout = null;
+}
+@using (Html.BeginForm("SaveDrugClass", "DrugClasses", FormMethod.Post, new { id = "frmDrugClassTemplate" }))
+{
+<div class="create-item">
+
+    @Html.HiddenFor(model => model.DrugClassId)
+
+    <div class="form-group margin-5-0">
+        @Html.LabelFor(model => model.DrugClassName, htmlAttributes: new { @class = "control-label border-box col-sm-4 align-right" })
+        <div class="col-sm-8 border-box">
+            @Html.Kendo().TextBoxFor(model => model.DrugClassName)
+            @Html.ValidationMessageFor(model => model.DrugClassName)
+        </div>
+    </div>
+    <div class="clear"></div>
+    <div class="form-group margin-5-0">
+        @Html.LabelFor(model => model.GenericName, htmlAttributes: new { @class = "control-label col-sm-4 border-box align-right" })
+        <div class="col-sm-8 border-box">
+            @Html.Kendo().TextBoxFor(model => model.GenericName)
+            @Html.ValidationMessageFor(model => model.GenericName)
+        </div>
+    </div>
+    <div class="clear"></div>
+    <div class="form-group margin-5-0">
+        @Html.LabelFor(model => model.ProductCategoryId, htmlAttributes: new { @class = "control-label col-sm-4 border-box align-right" })
+        <div class="col-sm-8 border-box">
+            @(Html.Kendo().ComboBoxFor(model => model.ProductCategoryId)
+                .DataTextField("Text")
+                .DataValueField("Value")
+                .Filter(FilterType.StartsWith)
+                .BindTo(ViewBag.vbProductCategories)
+                .HtmlAttributes(new { data_value_primitive = true })
+            )
+            @Html.ValidationMessageFor(model => model.ProductCategoryId)
+        </div>
+    </div>
+    <div class="clear"></div>
+    <div class="form-group margin-5-0">
+        @Html.LabelFor(model => model.ProductGroupId, htmlAttributes: new { @class = "control-label border-box col-sm-4 align-right" })
+        <div class="col-sm-8 border-box">
+            @(Html.Kendo().ComboBoxFor(model => model.ProductGroupId)
+                .DataTextField("Text")
+                .DataValueField("Value")
+                .Filter(FilterType.StartsWith)
+                .BindTo(ViewBag.vbProductGroups)
+                .HtmlAttributes(new { data_value_primitive = true })
+            )
+            @Html.ValidationMessageFor(model => model.ProductGroupId)
+        </div>
+    </div>
+    <div class="clear"></div>
+    <div class="form-group margin-5-0">
+        @Html.LabelFor(model => model.ProductTypeId, htmlAttributes: new { @class = "control-label col-sm-4 border-box align-right" })
+        <div class="col-sm-8 border-box">
+            @(Html.Kendo().ComboBoxFor(model => model.ProductTypeId)
+                .DataTextField("Text")
+                .DataValueField("Value")
+                .Filter(FilterType.StartsWith)
+                .BindTo(ViewBag.vbProductTypes)
+                .HtmlAttributes(new { data_value_primitive = true })
+            )
+            @Html.ValidationMessageFor(model => model.ProductTypeId)
+        </div>
+    </div>
+    <div class="clear"></div>
+    <div class="form-group margin-5-0">
+        @Html.LabelFor(model => model.DrugCategoryId, htmlAttributes: new { @class = "control-label col-sm-4 border-box align-right" })
+        <div class="col-sm-8 border-box">
+            @(Html.Kendo().ComboBoxFor(model => model.DrugCategoryId)
+                .DataTextField("Text")
+                .DataValueField("Value")
+                .Filter(FilterType.StartsWith)
+                .BindTo(ViewBag.vbDrugCategories)
+                .HtmlAttributes(new { data_value_primitive = true })
+            )
+            @Html.ValidationMessageFor(model => model.DrugCategoryId)
+        </div>
+    </div>
+    <div class="clear"></div>
+    <div class="form-group margin-5-0">
+        @Html.LabelFor(model => model.DrugTypeId, htmlAttributes: new { @class = "control-label col-sm-4 border-box align-right" })
+        <div class="col-sm-8 border-box">
+            @(Html.Kendo().ComboBoxFor(model => model.DrugTypeId)
+                .DataTextField("Text")
+                .DataValueField("Value")
+                .Filter(FilterType.StartsWith)
+                .BindTo(ViewBag.vbDrugTypes)
+                .HtmlAttributes(new { data_value_primitive = true })
+            )
+            @Html.ValidationMessageFor(model => model.DrugTypeId)
+        </div>
+    </div>
+    <div class="clear"></div>
+    <div class="form-group margin-5-0">
+        <label class="control-label col-sm-4 border-box align-right">Հիմնական պահեստ</label>
+        @*@Html.LabelFor(model => model.DrugTypeId, htmlAttributes: new { @class = "control-label col-sm-4 border-box align-right" })*@
+        <div class="col-sm-8 border-box">
+            @(Html.Kendo().ComboBoxFor(model => model.StoreOrganizationId)
+                .DataTextField("Text")
+                .DataValueField("Value")
+                .Filter(FilterType.StartsWith)
+                .BindTo(ViewBag.vbStoreOrganizations)
+                .HtmlAttributes(new { data_value_primitive = true })
+            )
+            @Html.ValidationMessageFor(model => model.StoreOrganizationId)
+        </div>
+    </div>
+    <div class="clear"></div>
+
+    <div class="form-group margin-10-0">
+        @Html.LabelFor(model => model.DrugClassStatus, htmlAttributes: new { @class = "control-label col-xs-4 align-right border-box" })
+        <div class="col-xs-8 border-box">
+            @Html.Kendo().CheckBoxFor(model => model.DrugClassStatus).Label(" ")
+            @*@Html.CheckBox("DrugClassStatus", Model.DrugClassStatus != null && (bool) Model.DrugClassStatus)*@
+            @Html.ValidationMessageFor(model => model.DrugClassStatus)
+        </div>
+    </div>
+    <div class="clear"></div>
+    <div class="form-group margin-10-0">
+        <div class="col-sm-6 border-box">
+            <span id="errormssg"></span>
+        </div>
+        <div class="col-sm-6 border-box align-right">
+            <button id="dctSave" class="k-button"><i class="glyphicon glyphicon-floppy-disk"></i> @Resources.General_Save</button>
+            <button id="dctCancel" class="k-button"><i class="glyphicon glyphicon-off"></i> @Resources.General_Close</button>
+        </div>
+    </div>
+    <div class="clear"></div>
+</div>
+}
+
+<script>
+
+    $(document).ready(function () {
+
+        $("#dctCancel")
+            .click(function () {
+                $(this).closest(".k-window-content").data("kendoWindow").close();
+                return false;
+            });
+        $("#dctSave")
+            .click(function (e) {
+                var errTmplt = '<div class="k-widget k-tooltip k-tooltip-validation" style="margin:0.5em; padding:3px 5px;"><span class="fa fa-exclamation-triangle"></span> #=message#<div class="k-callout k-callout-n"></div></div>';
+                var validator = $("#frmDrugClassTemplate").kendoValidator({
+                    errorTemplate: errTmplt
+                }).data("kendoValidator");
+                var DrugCategoryId = $("#DrugCategoryId").data("kendoComboBox").input;
+
+                if (!validator.validate()) {
+                    //$("#errormssg").html("<span class='fa fa-exclamation-triangle'></span> @GeneralResources.FieldsRequired");
+                    //DrugCategoryId.addClass("k-invalid");
+                    return false;
+                }
+
+                DrugCategoryId.removeClass("k-invalid");
+
+                var item = new Object();
+                item.DrugClassId = $("#DrugClassId").val();
+                item.DrugClassName = $("#DrugClassName").val();
+                item.GenericName = $("#GenericName").val();
+                item.ProductCategoryId = $("#ProductCategoryId").val();
+                item.ProductTypeId = $("#ProductTypeId").val();
+                item.ProductGroupId = $("#ProductGroupId").val();
+                item.DrugCategoryId = $("#DrugCategoryId").val();
+                item.DrugTypeId = $("#DrugTypeId").val();
+                item.StoreOrganizationId = $("#StoreOrganizationId").val();
+                item.DrugClassStatus = document.getElementById("DrugClassStatus").checked;
+
+
+                var rt = false;
+                var dt;
+                var q = $.ajax({
+                    url: '@Url.Action("SaveDrugClass", "DrugClasses")',
+                    dataType: "json",
+                    type: "POST",
+                    data: JSON.stringify({ drugClass: item }),
+                    contentType: "application/json; charset=utf-8",
+                    async: false,
+                    success: function (data) {
+                        dt = data;
+                        rt = true;
+                    },
+                    error: function (xhr) {
+                        dt = xhr;
+                        rt = false;
+                    }
+                });
+                debugger;
+                if (rt == true) {
+                    if (dt.success != true) {
+                        alert(JSON.stringify(dt.responseText));
+                        return false;
+                    }
+                    else {
+                        $(this).closest(".k-window-content").data("kendoWindow").close();
+                        return false;
+                    }
+                }
+                else {
+                    alert(JSON.stringify("Unknown error occured."));
+                    return false;
+                }
+            });
+    });
+</script>

@@ -1,0 +1,25 @@
+﻿CREATE TABLE [dbo].[Replacement] (
+    [ReplacementId]             INT           IDENTITY (1, 1) NOT NULL,
+    [ReplacementDate]           DATE          NULL,
+    [ConfirmDate]               DATE          NULL,
+    [ReadyDate]                 DATE          NULL,
+    [ProvisionDate]             DATE          NULL,
+    [ReceiveDate]               DATE          NULL,
+    [SourceOrganizationId]      INT           NULL,
+    [ConfirmOrganizationId]     INT           NULL,
+    [DestinationOrganizationId] INT           NULL,
+    [ReplacementSum]            FLOAT (53)    NULL,
+    [ReplacementStatusId]       INT           NULL,
+    [IsRetransfer]              BIT           NULL,
+    [RetransferId]              INT           NULL,
+    [ReplacementBaseId]         INT           NULL,
+    [ReplacementBaseDate]       DATE          NULL,
+    [ReplacementBaseText]       NVARCHAR (50) NULL,
+    CONSTRAINT [PK_Replacement] PRIMARY KEY CLUSTERED ([ReplacementId] ASC),
+    CONSTRAINT [FK_Replacement_Organization] FOREIGN KEY ([SourceOrganizationId]) REFERENCES [dbo].[Organization] ([OrganizationId]),
+    CONSTRAINT [FK_Replacement_Organization1] FOREIGN KEY ([ConfirmOrganizationId]) REFERENCES [dbo].[Organization] ([OrganizationId]),
+    CONSTRAINT [FK_Replacement_Organization2] FOREIGN KEY ([DestinationOrganizationId]) REFERENCES [dbo].[Organization] ([OrganizationId]),
+    CONSTRAINT [FK_Replacement_ReplacementBase] FOREIGN KEY ([ReplacementBaseId]) REFERENCES [dbo].[ReplacementBase] ([ReplacementBaseId]),
+    CONSTRAINT [FK_Replacement_ReplacementStatus] FOREIGN KEY ([ReplacementStatusId]) REFERENCES [dbo].[ReplacementStatus] ([ReplacementStatusId])
+);
+

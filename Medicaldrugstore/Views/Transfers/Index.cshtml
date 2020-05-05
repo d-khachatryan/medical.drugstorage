@@ -1,0 +1,459 @@
+﻿@model IEnumerable<Medicaldrugstore.Models.Transfer>
+
+@{
+    ViewBag.Title = Resources.Transfer_Title;
+}
+<div class="clear"></div>
+<div class="for-Toolbar">
+    @(Html.Kendo().ToolBar()
+    .Name("ToolBar")
+    .Items(items =>
+    {
+        items.Add().Type(CommandType.Button).Togglable(false).Text(@Resources.Transfer_New).Id("btnNew").Click("CreateTransfer");
+        items.Add().Type(CommandType.Button).Togglable(false).Text(@Resources.Transfer_DeliverReady).Id("btnDeliverReady").Click("RepresentTransfer");
+        items.Add().Type(CommandType.Button).Togglable(false).Text(@Resources.General_Details).Id("btnDetails").Click("TransferDetail");
+    })
+    )
+    @* Search Panel - Right Slide *@
+    <div class="right-slidePanel">
+        <div class="slidePanel-Content">
+            <div class="slidePanel-btn">
+            </div>
+            <div class="slidePanel-Content-fields create-item">
+                <h4>@Resources.General_Search</h4>
+                <div class="form-group margin-5-0">
+                    @(Html.Kendo().ComboBox()
+                          .Name("prmBaseDocumentId")
+                          .DataTextField("Text")
+                          .Placeholder(@Resources.Transfer_BaseDoc)
+                          .DataValueField("Value")
+                          .Filter(FilterType.StartsWith)
+                          .BindTo(ViewBag.vbBaseDocuments)
+                          .HtmlAttributes(new { data_value_primitive = true, @class = "width100" })
+                    )
+                </div>
+                <div class="form-group margin-5-0">
+                    @(Html.Kendo().ComboBox()
+                          .Name("prmSenderOrganizationId")
+                          .DataTextField("Text")
+                          .Placeholder(@Resources.Transfer_SenderOrganization)
+                          .DataValueField("Value")
+                          .Filter(FilterType.StartsWith)
+                          .BindTo(ViewBag.vbSenderOrganizations)
+                          .HtmlAttributes(new { data_value_primitive = true, @class = "width100" })
+                    )
+                </div>
+                <div class="form-group margin-10-0">
+                    <label class="control-label" for="prmInitiationStartDate">@Resources.General_DatePeriod</label>
+                    <div class="input-search data-period">
+                        @(Html.Kendo().DatePicker()
+                                    .Name("prmStartTransferDate")
+                                    .HtmlAttributes(new { placeholder = @Resources.General_Start, @class = "width100" })
+                        )
+                        @(Html.Kendo().DatePicker()
+                                    .Name("prmTerminationTransferDate")
+                                    .HtmlAttributes(new { placeholder = @Resources.General_End, @class = "width100" })
+                        )
+                    </div>
+                </div>
+                <div class="form-group margin-5-0">
+                    @(Html.Kendo().ComboBox()
+                          .Name("prmReceiverOrganizationId")
+                          .DataTextField("Text")
+                          .Placeholder(@Resources.Transfer_ReceiverOrganization)
+                          .DataValueField("Value")
+                          .Filter(FilterType.StartsWith)
+                          .BindTo(ViewBag.vbReceiverOrganizations)
+                          .HtmlAttributes(new { data_value_primitive = true, @class = "width100" })
+                    )
+                </div>
+                <div class="form-group btns align-right">
+                    <button type="submit" id="rtSearch" class="k-button" onclick="return Search();"><i class="glyphicon glyphicon-search"></i> @Resources.General_Search</button>
+                    <button type="submit" class="k-button" onclick="return Clear();"><i class="glyphicon glyphicon-minus"></i> @Resources.General_Clean</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script type="text/javascript">
+
+    $(document).ready(function () {
+        currentTransferIndex = -1;
+    });
+
+    function Clear() {
+        $("#prmBaseDocumentId").data("kendoComboBox").select(-1);
+        $("#prmSenderOrganizationId").data("kendoComboBox").select(-1);
+        $("#prmReceiverOrganizationId").data("kendoComboBox").select(-1);
+        $("#prmStartTransferDate").val("");
+        $("#prmTerminationTransferDate").val("");
+        $("#Transfer").data("kendoGrid").dataSource.read();
+        $("#Transfer").data("kendoGrid").refresh();
+        return false;
+    }
+
+    function Search() {
+        $("#Transfer").data("kendoGrid").dataSource.read();
+        $("#Transfer").data("kendoGrid").refresh();
+        return false;
+    }
+
+    function getParameter() {
+        return {
+            basedocumentId: $("#prmBaseDocumentId").val(),
+            senderOrganizationId: $("#prmSenderOrganizationId").val(),
+            receiverOrganizationId: $("#prmReceiverOrganizationId").val(),
+            startTransferDate: $("#prmStartTransferDate").val(),
+            terminationTransferDate: $("#prmTerminationTransferDate").val()
+        };
+    }
+
+    function onTransferDataBound(e) {
+        $(".k-grid-Update, .Update_Icon").find("span").addClass("glyphicon glyphicon-pencil");
+        $(".k-grid-Delete, .Delete_Icon").find("span").addClass("glyphicon glyphicon-trash");
+        if (currentTransferIndex != -1) {
+            var row = $(this.tbody).find("tr.k-master-row:eq(" + currentTransferIndex + ")");
+            this.expandRow(row);
+        }
+    }
+
+    function onTransferDetailExpand(e) {
+        currentTransferIndex = $(e.masterRow).index(".k-master-row");
+        var selectedItem = this.dataItem(e.masterRow);
+        TID = selectedItem.TransferId;
+        TSID = selectedItem.TransferStatusId;
+        this.collapseRow(this.tbody.find(' > tr.k-master-row').not(e.masterRow));
+    }
+
+</script>
+
+
+@(Html.Kendo().Grid<Medicaldrugstore.Models.TransferDetail>()
+      .Name("Transfer")
+      .Events(events => events.DataBound("onTransferDataBound").DetailExpand("onTransferDetailExpand"))
+      .Columns(columns =>
+      {
+          columns.Bound(model => model.TransferId).Hidden();
+          columns.Bound(model => model.TransferDate).Width(110);
+          columns.Bound(model => model.BaseDocumentName).Width(130);
+          columns.Bound(model => model.SenderName);
+          columns.Bound(model => model.ReceiverName);
+          columns.Bound(model => model.TransferStatusName).Width(168);
+          columns.Bound(model => model.TransferTotal).Width(121);
+          columns.Command(commands =>
+          {
+              commands.Custom("Update").Text(" ").Click("UpdateTransfer");
+              commands.Custom("Delete").Text(" ").Click("DeleteTransfer");
+          }).Title(Resources.General_Commands).Width(130);
+      })
+      .Selectable(s => s.Mode(Kendo.Mvc.UI.GridSelectionMode.Single))
+      .Pageable()
+      .ClientDetailTemplateId("template")
+      .Scrollable()
+      .Sortable()
+      .Resizable(resize => resize.Columns(true))
+      .Reorderable(reorder => reorder.Columns(true))
+      .DataSource(dataSource => dataSource
+          .Ajax()
+          .Read(read => read.Action("ReadTransfers", "Transfers").Data("getParameter"))
+          .PageSize(15)
+          .Sort(sort => sort.Add("TransferId").Descending())
+          .Model(model => model.Id(p => p.TransferId))
+      ))
+
+
+@(Html.Kendo().Window().Name("wndTransfer")
+                //.Width(1280).Height(700)
+                .Draggable().Resizable()
+                .Content("").Modal(true)
+                .Actions(actions => actions.Pin().Close())
+                .Visible(false)
+                .Events(events => events
+                .Close("onTransferClose").Open("onTransferOpen").Refresh("onTransferRefresh"))
+)
+
+@(Html.Kendo().Window().Name("wndTransferRepresentation")
+                .Width(397).Height(100)
+                .Draggable().Resizable()
+                .Content("").Modal(true)
+                .Actions(actions => actions.Pin().Close())
+                .Visible(false)
+                .Events(events => events
+                .Close("onTransferClose").Open("onTransferOpen").Refresh("onTransferRefresh"))
+)
+
+
+@(Html.Kendo().Window().Name("wndTransferDetail")
+                //.Width(1280).Height(700)
+                .Draggable().Resizable()
+                .Content("").Modal(true)
+                .Actions(actions => actions.Pin().Close())
+                .Visible(false)
+                .Events(events => events
+                .Open("onTransferOpen"))
+)
+
+
+<script>
+    $("#wndTransfer, #wndTransferDetail").kendoWindow({
+        width: "800px",
+        height: "92%"
+    });
+
+    function CreateTransfer() {
+        var window = $("#wndTransfer").data("kendoWindow");
+        window.content("");
+        window.title("@Resources.Transfer_NewTitle");
+
+        window.refresh({
+            url: "@Url.Action("TransferTemplate", "Transfers")" + "?transferId=" + 0
+        });
+        window.center();
+        window.open();
+        return false;
+    }
+
+    function UpdateTransfer(e) {
+        var row = $(e.target).closest("tr");
+        var grid = $("#Transfer").data("kendoGrid");
+        var dataItem = grid.dataItem(row);
+
+        if (dataItem.TransferStatusId != null) {
+            alert("@Resources.General_NoSubjectToEditing");
+            return false;
+        }
+
+        var window = $("#wndTransfer").data("kendoWindow");
+        window.content("");
+        window.title("@Resources.General_Edit");
+        window.refresh({
+            url: "@Url.Action("TransferTemplate", "Transfers")" + "?transferId=" + dataItem.TransferId
+        });
+        window.center();
+        window.open();
+        return false;
+    }
+
+    function DeleteTransfer(e) {
+
+        var row = $(e.target).closest("tr");
+        var grid = $("#Transfer").data("kendoGrid");
+        var dataItem = grid.dataItem(row);
+
+        if (dataItem.TransferStatusId != null) {
+            alert("@Resources.General_NoSubjectToDelete");
+            return false;
+        }
+
+        var r = confirm("@Resources.General_TransferRemovalConfirm");
+        if (r == false) {
+            return false;
+        }
+        var rt = false;
+        var dt;
+        var q = $.ajax({
+            url: '@Url.Action("DeleteTransfer", "Transfers")',
+            dataType: "json",
+            type: "GET",
+            data: {
+                id: dataItem.TransferId
+            },
+            async: false,
+            success: function (data) {
+                dt = data;
+                rt = true;
+            },
+            error: function (xhr) {
+                dt = xhr;
+                rt = false;
+            }
+        });
+
+        if (rt == true) {
+            if (dt.success != true) {
+                alert(JSON.stringify(dt.responseText));
+            }
+            else {
+                $("#Transfer").data("kendoGrid").dataSource.read();
+            }
+        }
+        else {
+            alert(JSON.stringify("Unknown error occured."));
+        }
+        return false;
+    }
+    function RepresentTransfer(e) {
+        var alrt = "@Html.Raw(Resources.Transfer_RepresentAlert)";
+        var grid = $("#Transfer").data("kendoGrid");
+        var selectedItem = grid.dataItem(grid.select());
+        if (selectedItem == null) {
+            alert("@Resources.General_NotSelected");
+            return false;
+        }
+
+        if (selectedItem.TransferStatusId != null) {
+            alert(alrt);
+            return false;
+        }
+
+        var window = $("#wndTransferRepresentation").data("kendoWindow");
+        window.content("");
+        window.title("@Resources.Transfer_Represent");
+        window.refresh({
+            url: "@Url.Action("TransferRepresentationTemplate", "Transfers")" + "/" + selectedItem.TransferId
+        });
+        window.center();
+        window.open();
+        return false;
+
+    }
+
+    function TransferDetail() {
+        var window = $("#wndTransferDetail").data("kendoWindow");
+        var grid = $("#Transfer").data("kendoGrid");
+        var selectedItem = grid.dataItem(grid.select());
+        if (selectedItem == null) {
+            alert("@Resources.General_NotSelected");
+            return false;
+        }
+        window.content("");
+        window.refresh({
+            url: "@Url.Action("TransferDetail", "Transfers")" + "/" + selectedItem.TransferId
+        });
+        window.center();
+        window.title("@Resources.Transfer_Details_Title");
+        window.open();
+        return false;
+    }
+
+    function onTransferOpen(e) {
+        kendo.ui.progress(e.sender.element, true);
+    }
+
+    function onTransferClose(e) {
+        $("#Transfer").data("kendoGrid").dataSource.read();
+        $("#Transfer").data("kendoGrid").refresh();
+    }
+
+    function onTransferRefresh(e) {
+        kendo.ui.progress(e.sender.element, false);
+    }
+
+</script>
+
+<script id="template" type="text/kendo-tmpl">
+    @(Html.Kendo().TabStrip()
+              .Name("tabstrip_#=TransferId#")
+              .SelectedIndex(0)
+              .Animation(animation => animation.Open(open => open.Fade(FadeDirection.In)))
+              .Items(items =>
+              {
+                  items.Add().Text(rsTransfer.TransferPlacement).Content(@<text>
+        @(Html.Kendo().Grid<Medicaldrugstore.Models.PlacementDetail>()
+                  .Name("Placement_#=TransferId#")
+                  .Columns(columns =>
+                  {
+                      columns.Bound(model => model.PlacementId).Width(85);
+                      columns.Bound(model => model.PlacementDate).Width(150);
+                      columns.Bound(model => model.PlacementStatusName);
+                      columns.Bound(model => model.ReadyDate).Width(140);
+                      columns.Bound(o => o.IsTransfer).ClientTemplate("\\#if(IsTransfer){\\#" +
+                                               "<i class=\"glyphicon glyphicon-ok\"></i>" +
+                                               "\\#} else {\\#" +
+                                               "<i class=\"glyphicon glyphicon-minus\"></i>" +
+                                               "\\# } \\#"
+                                               )
+                            .HtmlAttributes(new { style = "text-align: center" })
+                            .Width(80)
+                            .EditorTemplateName("IsTransfer");
+                      columns.Command(commands =>
+                      {
+                          commands.Custom("JoinPlacement_#=TransferId#").Text(" ").Click("JoinPlacement").HtmlAttributes(new { @class = "Attache_Icon" });
+                      }).Title(Resources.General_Commands).Width(105).HtmlAttributes(new { style = "text-align: center" });
+                  })
+                  .DataSource(dataSource => dataSource
+                      .Ajax()
+                      .Read(read => read.Action("ReadTransferPlacements", "Transfers", new { id = "#=TransferId#" }))
+                      .Model(model =>
+                      {
+                          model.Id(p => p.PlacementId);
+                          model.Field(p => p.PlacementId).Editable(false);
+                          model.Field(p => p.PlacementDate).Editable(false);
+                          model.Field(p => p.PlacementStatusId).Editable(false);
+                      }
+                      )
+                  )
+                  .Scrollable()
+                  .Resizable(resize => resize.Columns(true))
+                  .Reorderable(reorder => reorder.Columns(true))
+                  .Events(e => e.DataBound("onRowBound"))
+                  .Sortable()
+                  .ToClientTemplate()
+        )
+                </text>
+                      );
+              })
+              .ToClientTemplate())
+</script>
+
+
+@(Html.Kendo().Window().Name("wndJoinPlacement")
+                    .Width(400).Height(80)
+                    .Draggable().Resizable()
+                    .Content("").Modal(true)
+                    .Actions(actions => actions.Pin().Close())
+                    .Visible(false)
+                    .Events(events => events
+                    .Close("onPlacementClose").Open("onPlacementOpen").Refresh("onPlacementRefresh"))
+    )
+
+<script>
+
+        function JoinPlacement(e) {
+
+            if (TSID == 1) {
+                alert("@Resources.Transfer_JoinAlert");
+                return false;
+            }
+
+            var gridName = "#Placement_" + TID;
+            var row = $(e.target).closest("tr");
+            var grid = $(gridName).data("kendoGrid");
+            var dataItem = grid.dataItem(row);
+
+            var window = $("#wndJoinPlacement").data("kendoWindow");
+            window.content("");
+            window.title("@Resources.Transfer_JoinPlacement");
+            window.refresh({
+                url: '@Url.Action("JoinPlacement", "Transfers")?pid=' + dataItem.PlacementId + '&tid=' + TID
+            });
+            window.center();
+            window.open();
+            return false;
+        }
+
+        function onPlacementOpen(e) {
+            kendo.ui.progress(e.sender.element, true);
+        }
+
+        function onPlacementClose(e) {
+            var gridName = "#Placement_" + TID;
+            $(gridName).data("kendoGrid").dataSource.read();
+            $(gridName).data("kendoGrid").refresh();
+            $("#Transfer").data("kendoGrid").dataSource.read();
+            $("#Transfer").data("kendoGrid").refresh();
+        }
+
+        function onPlacementRefresh(e) {
+            kendo.ui.progress(e.sender.element, false);
+        }
+
+    </script>
+
+
+
+
+
+
+

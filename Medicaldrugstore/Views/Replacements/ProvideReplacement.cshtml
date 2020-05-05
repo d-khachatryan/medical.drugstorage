@@ -1,0 +1,84 @@
+﻿@model Medicaldrugstore.Models.Provision 
+
+@{
+    Layout = null;
+}
+
+@using (Html.BeginForm("Provide", "Replacements", FormMethod.Post, new { id = "frmProvision" }))
+{
+<div class="create-item">
+
+    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+    @Html.HiddenFor(model => model.ReplacementId)
+
+    <div class="form-group margin-5-0 create-item">
+        @Html.LabelFor(model => model.ProvisionDate, htmlAttributes: new { @class = "control-label" })
+            @Html.EditorFor(model => model.ProvisionDate, new { htmlAttributes = new { @class = "" } })
+        <span class="k-invalid-msg" data-for="ProvisionDate"></span>
+        </div>
+
+    <div class="clear"></div>    
+    <div class="form-group margin-10-0">
+        <div class="align-right">
+            <button id="prvSave" class="k-button"><i class="glyphicon glyphicon-floppy-disk"></i> @Resources.General_Save</button>
+            <button id="prvCancel" class="k-button"><i class="glyphicon glyphicon-off"></i> @Resources.General_Close</button>
+        </div>
+    </div>
+    <div class="clear"></div>
+</div>
+}
+
+<script>
+    $(document).ready(function () {
+        $("#prvCancel")
+            .click(function () {
+                $(this).closest(".k-window-content").data("kendoWindow").close();
+                return false;
+            });
+        $("#prvSave")
+            .click(function (e) {
+
+                var validator = $("#frmProvision").kendoValidator().data("kendoValidator");
+                if (!validator.validate()) {
+                    return false;
+                }
+
+                var item = new Object();
+                item.replacementId = '@Model.ReplacementId';
+                item.provisionDate = document.getElementById("ProvisionDate").value;
+
+                var rt = false;
+                var dt;
+                var q = $.ajax({
+                    url: '@Url.Action("Provide", "Replacements")',
+                    dataType: "json",
+                    type: "POST",
+                    data: JSON.stringify({ provision: item }),
+                    contentType: "application/json; charset=utf-8",
+                    async: false,
+                    success: function (data) {
+                        dt = data;
+                        rt = true;
+                    },
+                    error: function (xhr) {
+                        dt = xhr;
+                        rt = false;
+                    }
+                });
+                if (rt == true) {
+                    if (dt != "1") {
+                        alert(JSON.stringify(dt));
+                        return false;
+                    }
+                    else {
+                        $(this).closest(".k-window-content").data("kendoWindow").close();
+                        return false;
+                    }
+                }
+                else {
+                    alert(JSON.stringify(dt));
+                    return false;
+                }
+            });
+    });
+</script>

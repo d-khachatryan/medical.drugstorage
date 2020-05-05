@@ -1,0 +1,70 @@
+﻿@model Medicaldrugstore.Models.Placement
+
+@{
+    Layout = null;
+}
+
+<div class="create-item">
+
+    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+    @Html.HiddenFor(model => model.PlacementId)
+
+    <div class="form-group margin-10-0">
+        @Html.LabelFor(model => model.PlacementDate, htmlAttributes: new { @class = "control-label col-xs-4 align-right" })
+        <div class="col-xs-6">
+            @Html.EditorFor(model => model.PlacementDate, new { htmlAttributes = new { @class = "" } })
+            <br />
+            @Html.ValidationMessageFor(model => model.PlacementDate, "", new { @class = "text-danger" })
+        </div>
+    </div>
+    <div class="clear"></div>
+    <div class="form-group margin-10-0">
+        <div class="col-xs-4"></div>
+        <div class="col-xs-6 align-right">
+            <button id="rpSave" class="k-button"><i class="glyphicon glyphicon-floppy-disk"></i> @Resources.General_Save</button>
+            <button id="rpCancel" class="k-button"><i class="glyphicon glyphicon-off"></i> @Resources.General_Close</button>
+        </div>
+    </div>
+    <div class="clear"></div>
+</div>
+
+<script>
+    $(document).ready(function () {
+        $("#rpCancel")
+            .click(function () {
+                if ($(this).closest(".k-window-content").data("kendoWindow"))
+                    $(this).closest(".k-window-content").data("kendoWindow").close();
+            });
+        $("#rpSave")
+            .click(function (e) {
+                var placementId = '@Model.PlacementId';
+                var placementDate = document.getElementById("PlacementDate").value;
+                var rt = false;
+                var dt;
+                var q = $.ajax({
+                    url: '@Url.Action("Represent", "OrganizationPlacements")',
+                    dataType: "json",
+                    type: "GET",
+                    data: { pId: placementId, pDate: placementDate },
+                    async: false,
+                    success: function (data) {
+                        dt = data;
+                        rt = true;
+                    },
+                    error: function (xhr) {
+                        dt = xhr;
+                        rt = false;
+                    }
+                });
+                if (rt == true) {
+                    if ($(this).closest(".k-window-content").data("kendoWindow"))
+                        $(this).closest(".k-window-content").data("kendoWindow").close();
+                }
+                else {
+                    alert(dt);
+                    return false;
+                }
+
+            });
+    });
+</script>

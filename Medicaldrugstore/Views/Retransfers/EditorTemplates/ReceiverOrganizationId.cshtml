@@ -1,0 +1,13 @@
+﻿@{
+    Layout = null;
+}
+
+
+@(Html.Kendo().ComboBox()
+                    .Name("ReceiverOrganizationId")
+                    .DataTextField("Text")
+                    .DataValueField("Value")
+                    .Filter(FilterType.StartsWith)
+                    .BindTo(ViewBag.vbOrganizations)
+                    .HtmlAttributes(new { data_value_primitive = true })
+)

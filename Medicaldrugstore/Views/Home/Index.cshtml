@@ -1,0 +1,53 @@
+﻿@{
+    ViewBag.Title = Resources.Home;
+}
+<div class="login-body">
+    <div class="container">
+        <div class="row margin-10-0 home-body">
+            <p class="margin-20-0">
+                @Html.Raw(Resources.Home_p1)
+            </p>
+            <p class="margin-20-0">
+                @Html.Raw(Resources.Home_p2)
+            </p>
+            <p class="margin-20-0">
+                @Html.Raw(Resources.Home_p3)
+            </p>
+            <p class="margin-20-0">
+                @Html.Raw(Resources.Home_p4)
+            </p>
+            <p class="margin-20-0">
+                @Html.Raw(Resources.Home_p5)
+            </p>
+            <p class="margin-20-0">
+                @Html.Raw(Resources.Home_p6)
+            </p>
+            <p class="margin-20-0">
+                @Html.Raw(Resources.Home_p7)
+            </p>
+        </div>
+        <fieldset class="login-info">
+            <legend>
+            </legend>
+            @Html.Raw(Resources.Login_Article)
+        </fieldset>
+        <div class="login-logos">
+            <div class="container">
+                <div>
+                    <div class="float-left margin-10">
+                        <a href="https://www.usaid.gov/armenia" target="_blank"><img src="~/Images/Pics/usaid.jpg" height="70" /></a>
+                    </div>
+                    <div class="float-left margin-10">
+                        <a href="http://nih.am/" target="_blank"><img src="~/Images/Pics/nih.jpg" height="70" /></a>
+                    </div>
+                    <div class="float-left margin-10">
+                        <a href="http://moh.am/" target="_blank"><img src="~/Images/Pics/moh.jpg" height="70" /></a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="pull-left row" style="background-color:#fff; padding:20px; width:100%;">
+            <p>&copy; @Html.Raw(Resources.Login_Footer)</p>
+        </div>
+    </div>
+</div>

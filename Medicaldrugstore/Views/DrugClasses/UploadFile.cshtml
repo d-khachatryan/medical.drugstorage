@@ -1,0 +1,84 @@
+﻿@model Medicaldrugstore.Models.DrugDetail
+
+@{
+    Layout = null;
+}
+
+<div class="demo-section k-content">
+    @(Html.Kendo().Upload()
+        .Name("files")
+    .Multiple(false)
+    .HtmlAttributes(new { accept = "image/*" })
+    .Async(a => a
+        .Save("SaveFile", "DrugClasses", new { DID = @Model.DrugId, drugFileName = ViewBag.imageName })
+        //.Remove("RemoveFile", "DrugClasses", new { DID = @Model.DrugId })
+        .AutoUpload(true)
+    )
+    .Events(x => x.Success(
+        @<text>
+            function(e) {
+
+            }
+        </text>)
+         )
+    )
+
+
+    <div class="col-sm-12 border-box">
+        <div class="form-group margin-10-0 align-right">
+            <button id="dtSaveUpload" class="k-button"><i class="glyphicon glyphicon-floppy-disk"></i> Փակել պատուհանը</button>            
+        </div>
+    </div>
+</div>
+
+<script>
+    $(document).ready(function () {
+        $("#dtSaveUpload")
+            .click(function () {
+                $(this).closest(".k-window-content").data("kendoWindow").close();
+                return false;
+            });
+
+        @*$("#dtCancelUpload")
+            .click(function (e) {
+                alert();
+                var rt = false;
+                var dt;
+                var q = $.ajax({
+                    url: '@Url.Action("CancelUpload", "DrugClasses")',
+                    dataType: "json",
+                    type: "POST",
+                    data: JSON.stringify({ name: @Html.Raw(Json.Encode(ViewBag.imageName))  }),
+                    contentType: "application/json; charset=utf-8",
+                    async: false,
+                    success: function (data) {
+                        dt = data;
+                        rt = true;
+                    },
+                    error: function (xhr) {
+                        dt = xhr;
+                        rt = false;
+                    }
+                });
+
+                if (rt == true) {
+                    if (dt.success != true) {
+                        /*Այստեղ իրականացվում է սերվերից վերադարձված սխալի ցուցադրման գործառույթը:
+                        Անհրաժեշտ է որ alert-ի փոխարեն կարմիր գույնով ցուցադրվի սխալը:
+                        Այդ սխալը պետք է տեղակայված լինի մուտքային վերջին դաշտի և հրահանգների արանքում:*/
+                        alert(JSON.stringify(dt.responseText));
+                    }
+                    else {
+                        $(this).closest(".k-window-content").data("kendoWindow").close();
+                    }
+                }
+                else {
+                    alert(JSON.stringify("Unknown error occured."));
+                }
+                return false;
+
+            }
+            
+            );*@
+    });
+</script>

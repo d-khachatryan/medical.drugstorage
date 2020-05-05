@@ -1,0 +1,83 @@
+﻿@model Medicaldrugstore.Models.PlacementDetails
+
+
+@{
+    Layout = null;
+}
+
+
+<div>
+    <table class="table table-striped details">
+        <tr>
+            <td class="col-xs-5">@Html.DisplayNameFor(model => model.OrderOrganizationName)</td>
+            <td class="bold col-xs-7">@Html.DisplayFor(model => model.OrderOrganizationName)</td>
+        </tr>
+        <tr>
+            <td class="col-xs-5">@Html.DisplayNameFor(model => model.StorageOrganizationName)</td>
+            <td class="col-xs-7">@Html.DisplayFor(model => model.StorageOrganizationName)</td>
+        </tr>
+        <tr>
+            <td class="col-xs-5">@Html.DisplayNameFor(model => model.OrganizationName)</td>
+            <td class="col-xs-7">@Html.DisplayFor(model => model.OrganizationName)</td>
+        </tr>
+        <tr>
+            <td class="col-xs-5">@Html.DisplayNameFor(model => model.PlacementBaseName)</td>
+            <td class="col-xs-7">@Html.DisplayFor(model => model.PlacementBaseName)</td>
+        </tr>
+        <tr>
+            <td class="col-xs-5">@Html.DisplayNameFor(model => model.PlacementBaseDate)</td>
+            <td class="col-xs-7">@Html.DisplayFor(model => model.PlacementBaseDate)</td>
+        </tr>
+        <tr>
+            <td class="col-xs-5">@Html.DisplayNameFor(model => model.PlacementBaseText)</td>
+            <td class="col-xs-7">@Html.DisplayFor(model => model.PlacementBaseText)</td>
+        </tr>
+        <tr>
+            <td class="col-xs-5">@Html.DisplayNameFor(model => model.PlacementStatusName)</td>
+            <td class="col-xs-7">@Html.DisplayFor(model => model.PlacementStatusName)</td>
+        </tr>
+        <tr>
+            <td class="col-xs-5">@Html.DisplayNameFor(model => model.PlacementDate)</td>
+            <td class="col-xs-7">@Html.DisplayFor(model => model.PlacementDate)</td>
+        </tr>
+        <tr>
+            <td class="col-xs-5">@Html.DisplayNameFor(model => model.CorrectionDate)</td>
+            <td class="col-xs-7">@Html.DisplayFor(model => model.CorrectionDate)</td>
+        </tr>
+        <tr>
+            <td class="col-xs-5">@Html.DisplayNameFor(model => model.ConfirmDate)</td>
+            <td class="col-xs-7">@Html.DisplayFor(model => model.ConfirmDate)</td>
+        </tr>
+        <tr>
+            <td class="col-xs-5">@Html.DisplayNameFor(model => model.ReadyDate)</td>
+            <td class="col-xs-7">@Html.DisplayFor(model => model.ReadyDate)</td>
+        </tr>
+        <tr>
+            <td class="col-xs-5">@Html.DisplayNameFor(model => model.ReleaseDate)</td>
+            <td class="col-xs-7">@Html.DisplayFor(model => model.ReleaseDate)</td>
+        </tr>
+        <tr>
+            <td class="col-xs-5">@Html.DisplayNameFor(model => model.ReceiveDate)</td>
+            <td class="col-xs-7">@Html.DisplayFor(model => model.ReceiveDate)</td>
+        </tr>
+
+        @*@foreach (var item in Model.PlacementItemDetails)
+        {
+            <tr>
+                <td class="col-xs-7">Քանակ</td>
+                <td class="col-xs-7">@Html.Raw(@item.Quantity)</td>
+
+            </tr>
+
+            if (item.PlacementItemProductDetails !=null)
+            {
+                foreach (var itm in item.PlacementItemProductDetails)
+                {
+                    <td class="col-xs-7">@Html.Raw(@itm.StorageName)</td>
+                }
+            }
+        }*@
+
+
+    </table>
+</div>

@@ -1,0 +1,247 @@
+﻿@model Medicaldrugstore.Models.Placement
+
+@{
+    Layout = null;
+}
+@using (Html.BeginForm("SavePlacement", "OrganizationPlacements", FormMethod.Post, new { id = "frmPlacement" }))
+{
+    <div class="container-full create-item">
+
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+        @Html.HiddenFor(model => model.PlacementId)
+
+        <div class="form-group margin-5-0">
+            @Html.LabelFor(model => model.OrderOrganizationId, htmlAttributes: new { @class = "control-label col-sm-4 align-right" })
+            <div class="col-sm-6">
+                @(Html.Kendo().ComboBoxFor(model => model.OrderOrganizationId)
+          .DataTextField("Text")
+          .DataValueField("Value")
+          .Filter(FilterType.StartsWith)
+          .BindTo(ViewBag.vbOrganizationPlacementOrderOrganizations)
+          .HtmlAttributes(new { required = "required", data_required_msg = "Դաշտը պարտադիր է", data_value_primitive = true })
+                )
+                <span class="k-invalid-msg vldmsg" data-for="OrderOrganizationId"></span>
+            </div>
+        </div>
+        <div class="clear"></div>
+        <div class="form-group margin-5-0">
+            @*@Html.LabelFor(model => model.OrganizationId, htmlAttributes: new { @class = "control-label col-sm-4 align-right" })*@
+            <label class="control-label col-sm-4 align-right">Ներկայացնող հիմնարկ</label>
+            <div class="col-sm-6">
+                @(Html.Kendo().ComboBoxFor(model => model.OrganizationId)
+          .DataTextField("Text")
+          .DataValueField("Value")
+          .Filter(FilterType.StartsWith)
+          .BindTo(ViewBag.vbOrganizationPlacementOrganizations)
+          .HtmlAttributes(new { required = "required", data_required_msg = "Դաշտը պարտադիր է", data_value_primitive = true })
+                )
+                <span class="k-invalid-msg vldmsg" data-for="OrganizationId"></span>
+            </div>
+        </div>
+        <div class="clear"></div>
+        <div class="form-group margin-5-0">
+            @*@Html.LabelFor(model => model.StorageOrganizationId, htmlAttributes: new { @class = "control-label col-sm-4 align-right" })*@
+            <label class="control-label col-sm-4 align-right">Հիմնական պահեստ</label>
+            <div class="col-sm-6">
+                @(Html.Kendo().ComboBoxFor(model => model.StorageOrganizationId)
+          .DataTextField("Text")
+          .DataValueField("Value")
+          .Filter(FilterType.StartsWith)
+          .BindTo(ViewBag.vbOrganizationPlacementStorageOrganizations)
+          .HtmlAttributes(new { required = "required", data_required_msg = "Դաշտը պարտադիր է", data_value_primitive = true })
+                )
+                <span class="k-invalid-msg vldmsg" data-for="StorageOrganizationId"></span>
+            </div>
+        </div>
+        <div class="clear"></div>
+        <div class="form-group margin-5-0">
+            @Html.LabelFor(model => model.PlacementBaseId, htmlAttributes: new { @class = "control-label col-sm-4 align-right" })
+            <div class="col-sm-6">
+                @(Html.Kendo().ComboBoxFor(model => model.PlacementBaseId)
+          .DataTextField("Text")
+          .DataValueField("Value")
+          .Filter(FilterType.StartsWith)
+          .BindTo(ViewBag.vbPlacementBases)
+          .HtmlAttributes(new { required = "required", data_required_msg = "Դաշտը պարտադիր է", data_value_primitive = true })
+                )
+                <span class="k-invalid-msg vldmsg" data-for="PlacementBaseId"></span>
+            </div>
+        </div>
+        <div class="clear"></div>
+        <div class="form-group margin-5-0">
+            @Html.LabelFor(model => model.PlacementBaseDate, htmlAttributes: new { @class = "control-label col-sm-4 align-right" })
+            <div class="col-sm-6">
+                @Html.EditorFor(model => model.PlacementBaseDate, new { htmlAttributes = new { @class = "form-control" } })
+                <span class="k-invalid-msg vldmsg" data-for="PlacementBaseDate"></span>
+            </div>
+        </div>
+        <div class="clear"></div>
+        <div class="form-group margin-5-0">
+            @Html.LabelFor(model => model.PlacementBaseText, htmlAttributes: new { @class = "control-label col-sm-4 align-right" })
+            <div class="col-sm-6">
+                @Html.EditorFor(model => model.PlacementBaseText, new { htmlAttributes = new { @class = "form-control" } })
+                <span class="k-invalid-msg vldmsg" data-for="PlacementBaseText"></span>
+            </div>
+        </div>
+        <div class="clear"></div>
+        
+        <div class="form-group margin-5-0">
+            @Html.LabelFor(model => model.PlacementItems, new { @class = "control-label col-sm-4 align-right" })
+            <div class="col-sm-6">
+                @(Html.Kendo().Grid<Medicaldrugstore.Models.PlacementItem>()
+                       .Name("PlacementItem")
+                       .Columns(columns =>
+                       {
+                           columns.Bound(model => model.PlacementItemId).Hidden();
+                           columns.Bound(model => model.PlacementId);
+                           columns.ForeignKey(model => model.DrugClassId, (List<SelectListItem>) ViewBag.vbDrugClasses, "Value", "Text").EditorTemplateName("DrugClass");
+                           columns.Bound(model => model.Quantity);
+                           columns.Command(commands =>
+                           {
+                               commands.Destroy().Text(" ");
+                           }).Title(" ").Width(70);
+                       })
+                           .ToolBar(toolbar =>
+                           {
+                               toolbar.Create().Text("Նոր");
+                           })
+                           .Editable(editable => editable.Mode(GridEditMode.InCell))
+                           .DataSource(dataSource => dataSource
+                               .Ajax()
+                               .Batch(true)
+                               //.PageSize(5)
+                               .Read(read => read.Action("ReadProducts", "OrganizationPlacements", new { id = @Model.PlacementId }))
+                           .Model(model =>
+                           {
+                               model.Id(p => p.PlacementId);
+                           }
+                           )
+                           )
+                            .Scrollable()
+                            .Resizable(resize => resize.Columns(true))
+                            .Reorderable(reorder => reorder.Columns(true))
+                            //.Pageable()
+                            .Sortable()
+                )
+            </div>
+        </div>
+        <div class="clear"></div>
+        <div class="form-group margin-10-0">
+            <div class="col-xs-5"></div>
+            <div class="col-xs-5 align-right">
+                <button id="optSave" class="k-button"><i class="glyphicon glyphicon-floppy-disk"></i> @Resources.General_Save</button>
+                <button id="optCancel" class="k-button"><i class="glyphicon glyphicon-off"></i> @Resources.General_Close</button>
+            </div>
+        </div>
+
+        <div class="clear"></div>
+    </div>
+}
+
+<script>
+    $(document).ready(function () {
+        $("#optCancel")
+            .click(function () {
+                $(this).closest(".k-window-content").data("kendoWindow").close();
+                return false;
+            });
+        $("#optSave")
+            .click(function (e) {
+
+                var OrderOrganizationId = $("#OrderOrganizationId").data("kendoComboBox").input;
+                var OrganizationId = $("#OrganizationId").data("kendoComboBox").input;
+                var StorageOrganizationId = $("#OrderOrganizationId").data("kendoComboBox").input;
+                var PlacementBaseId = $("#OrderOrganizationId").data("kendoComboBox").input;
+                var validator = $("#frmPlacement").kendoValidator().data("kendoValidator");
+                if (!validator.validate()) {
+                    OrderOrganizationId.addClass("k-invalid");
+                    OrganizationId.addClass("k-invalid");
+                    StorageOrganizationId.addClass("k-invalid");
+                    PlacementBaseId.addClass("k-invalid");
+                    return false;
+                }
+                OrderOrganizationId.removeClass("k-invalid");
+                OrganizationId.removeClass("k-invalid");
+                StorageOrganizationId.removeClass("k-invalid");
+                PlacementBaseId.removeClass("k-invalid");
+
+
+                var item = new Object();
+                item.PlacementId = '@Model.PlacementId';
+                item.OrderOrganizationId = document.getElementById("OrderOrganizationId").value;
+                item.OrganizationId = document.getElementById("OrganizationId").value;
+                item.PlacementBaseId = document.getElementById("PlacementBaseId").value;
+                item.PlacementBaseDate = document.getElementById("PlacementBaseDate").value;
+                item.PlacementBaseText = document.getElementById("PlacementBaseText").value;
+                item.StorageOrganizationId = document.getElementById("StorageOrganizationId").value;
+
+
+                var placementItemGrid = $("#PlacementItem").data("kendoGrid"), parameterMap = placementItemGrid.dataSource.transport.parameterMap;
+                var currentItemData = placementItemGrid.dataSource.data();
+                var rItems = [];
+                for (var i = 0; i < currentItemData.length; i++) {
+                    var itm = new Object();
+                    if (currentItemData[i].isNew()) {
+                        itm.PlacementItemId = currentItemData[i].PlacementItemId;
+                        itm.PlacementId = currentItemData[i].PlacementId;
+                        itm.DrugClassId = currentItemData[i].DrugClassId;
+                        itm.Quantity = currentItemData[i].Quantity;
+                        itm.RecordStatus = String(1);
+                        rItems.push(itm);
+                    } else if (currentItemData[i].dirty) {
+                        itm.PlacementItemId = currentItemData[i].PlacementItemId;
+                        itm.PlacementId = currentItemData[i].PlacementId;
+                        itm.DrugClassId = currentItemData[i].DrugClassId;
+                        itm.Quantity = currentItemData[i].Quantity;
+                        itm.RecordStatus = String(2);
+                        rItems.push(itm);
+                    }
+                }
+                for (var i = 0; i < placementItemGrid.dataSource._destroyed.length; i++) {
+                    var itm = new Object();
+                    itm.PlacementItemId = placementItemGrid.dataSource._destroyed[i].PlacementItemId;
+                    itm.PlacementId = placementItemGrid.dataSource._destroyed[i].PlacementId;
+                    itm.DrugClassId = placementItemGrid.dataSource._destroyed[i].DrugClassId;
+                    itm.Quantity = placementItemGrid.dataSource._destroyed[i].Quantity;
+                    itm.RecordStatus = String(3);
+                    rItems.push(itm);
+                }
+                item.PlacementItems = rItems;
+
+                var rt = false;
+                var dt;
+                var q = $.ajax({
+                    url: '@Url.Action("SavePlacement", "OrganizationPlacements")',
+                    dataType: "json",
+                    type: "POST",
+                    data: JSON.stringify({ placement: item }),
+                    contentType: "application/json; charset=utf-8",
+                    async: false,
+                    success: function (data) {
+                        dt = data;
+                        rt = true;
+                    },
+                    error: function (xhr) {
+                        dt = xhr;
+                        rt = false;
+                    }
+                });
+                if (rt == true) {
+                    if (dt.success != true) {
+                        alert(JSON.stringify(dt.responseText));
+                        return false;
+                    }
+                    else {
+                        $(this).closest(".k-window-content").data("kendoWindow").close();
+                        return false;
+                    }
+                }
+                else {
+                    alert(JSON.stringify("Unknown error occured."));
+                    return false;
+                }
+
+            });
+    });
+</script>
+

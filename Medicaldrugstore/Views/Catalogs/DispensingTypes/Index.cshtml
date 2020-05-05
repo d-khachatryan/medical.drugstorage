@@ -1,0 +1,222 @@
+﻿@model IEnumerable<Medicaldrugstore.Models.DispensingType>
+@using Kendo.Mvc.UI
+
+
+@{
+    ViewBag.Title = Resources.DispensingType_Title;
+}
+<div class="clear"></div>
+<div class="for-Toolbar">
+    @(Html.Kendo().ToolBar()
+    .Name("ToolBar")
+    .Items(items =>
+    {
+        items.Add().Type(CommandType.Button).Togglable(false).Text(@Resources.General_NewRecord).Id("btnNew").Click("CreateDispensingType");
+        items.Add().Type(CommandType.Button).Togglable(false).Text(@Resources.General_Details).Id("btnDetails").Click("ShowDetails");
+    })
+    )
+    @* Search Panel - Right Slide *@
+    <div class="right-slidePanel">
+        <div class="slidePanel-Content">
+            <div class="slidePanel-btn">
+            </div>
+            <div class="slidePanel-Content-fields create-item">
+                <h4>@Resources.General_Search</h4>
+                <div class="form-group margin-5-0">
+                    <input id="prmDispensingTypeCode" class="k-textbox" placeholder=@Resources.DispensingType_Code />
+                </div>
+                <div class="form-group margin-5-0">
+                    <input id="prmDispensingTypeName" class="k-textbox" placeholder=@Resources.DispensingType_Name />
+                </div>
+                <div class="form-group btns align-right">
+                    <button type="submit" id="rtSearch" class="k-button" onclick="return Search();"><i class="glyphicon glyphicon-search"></i> @Resources.General_Search</button>
+                    <button type="submit" class="k-button" onclick="return Clear();"><i class="glyphicon glyphicon-minus"></i> @Resources.General_Clean</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+            <script type="text/javascript">
+                function Search() {
+                    $("#DispensingType").data("kendoGrid").dataSource.read();
+                    $("#DispensingType").data("kendoGrid").refresh();
+                    return false;
+                }
+                function Clear() {
+                    $("#prmDispensingTypeCode").val("");
+                    $("#prmDispensingTypeName").val("");
+                    $("#DispensingType").data("kendoGrid").dataSource.read();
+                    $("#DispensingType").data("kendoGrid").refresh();
+                    return false;
+                }
+                function getParameter() {
+                    return {
+                        dispensingTypeCode: $("#prmDispensingTypeCode").val(),
+                        dispensingTypeName: $("#prmDispensingTypeName").val()
+                    };
+                }
+            </script>
+        @(Html.Kendo().Grid<Medicaldrugstore.Models.DispensingType>()
+                        .Name("DispensingType")
+                        .Columns(columns =>
+                        {
+                            columns.Bound(model => model.DispensingTypeCode).Width(80);
+                            columns.Bound(model => model.DispensingTypeName);
+                            columns.Command(commands =>
+                            {
+                                commands.Custom("Update").Text(" ").Click("UpdateDispensingType");
+                                commands.Custom("Delete").Text(" ").Click("DeleteDispensingType");
+                                //commands.Edit().Text(" ").CancelText(Resources.General_Close).UpdateText(Resources.General_Save);
+                                //commands.Destroy().Text(" ");
+                            }).Title(Resources.General_Commands).Width(130);
+                        })
+                        //.ToolBar(toolbar =>
+                        //{
+                        //    toolbar.Create().Text(Resources.General_NewRecord);
+                        //    toolbar.Custom().Name("showDetails").Text(Resources.General_Details).Url("#").HtmlAttributes(new { onclick = "ShowDetails();" });
+                        //})
+                        //.Editable(editable =>
+                        //{
+                        //    editable.Mode(GridEditMode.PopUp).TemplateName("MainTemplate").Window(w => w.Title(Resources.DispensingType_Title).Width(580));
+                        //    editable.DisplayDeleteConfirmation(Resources.General_Delete_Record);
+                        //})
+                        .Selectable(s => s.Mode(Kendo.Mvc.UI.GridSelectionMode.Single))
+                        .Events(e => e.DataBound("onRowBound"))
+                        .Pageable(pageable => pageable
+                        .Refresh(true)
+                        .PageSizes(true)
+                        .ButtonCount(5))
+                        .Filterable()
+                        .Scrollable()
+                        .Resizable(resize => resize.Columns(true))
+                        .Reorderable(reorder => reorder.Columns(true))
+                        .Sortable()
+                        .HtmlAttributes(new { style = "height:620px;" })
+                        .DataSource(dataSource => dataSource
+                        .Ajax()
+                        .Read(read => read.Action("ReadDispensingTypes", "DispensingTypes").Data("getParameter"))
+                        //.Create(read => read.Action("CreateDispensingType", "DispensingTypes"))
+                        //.Update(read => read.Action("UpdateDispensingType", "DispensingTypes"))
+                        //.Destroy(read => read.Action("DestroyDispensingType", "DispensingTypes"))
+                        .PageSize(15)
+                        .Model(model => model.Id(p => p.DispensingTypeId))
+)
+        )
+
+
+        @(Html.Kendo().Window().Name("window").Width(550)
+            .Height(120).Draggable()
+            .Resizable().Content("")
+            .Title(Resources.DispensingType_Title)
+            .Modal(true)
+            .Actions(actions => actions.Pin().Close())
+            .Visible(false)
+            .Events(events => events
+            .Close("onClose").Open("onOpen").Refresh("onRefresh"))
+              )
+
+@(Html.Kendo().Window().Name("crtWindow").Width(450)
+            .Height(150).Draggable()
+            .Resizable().Content("")
+            .Title(Resources.General_NewRecord)
+            .Modal(true)
+            .Actions(actions => actions.Pin().Close())
+            .Visible(false)
+            .Events(events => events
+            .Close("onClose").Open("onOpen").Refresh("onRefresh"))
+)
+<script>
+    function CreateDispensingType() {
+        var window = $("#crtWindow").data("kendoWindow");
+        window.content("");
+        window.title("@Resources.General_NewRecord");
+
+        window.refresh({
+            url: "@Url.Action("OpenCreateDispensingTypeView", "DispensingTypes")"
+        });
+    window.center();
+    window.open();
+    return false;
+    }
+
+    function UpdateDispensingType(e) {
+        var window = $("#crtWindow").data("kendoWindow");
+        var row = $(e.target).closest("tr");
+        var grid = $("#DispensingType").data("kendoGrid");
+        var dataItem = grid.dataItem(row);
+        window.content("");
+        window.title("@Resources.General_Edit");
+        window.refresh({
+            url: "@Url.Action("OpenUpdateDispensingTypeView", "DispensingTypes")" + "/" + dataItem.DispensingTypeId
+        });
+    window.center();
+    window.open();
+    return false;
+    }
+
+    function DeleteDispensingType(e) {
+        var row = $(e.target).closest("tr");
+        var grid = $("#DispensingType").data("kendoGrid");
+        var dataItem = grid.dataItem(row);
+        var r = confirm("@Resources.General_Delete_Question");
+        if (r == false) {
+            return false;
+        }
+        var rt = false;
+        var dt;
+        var q = $.ajax({
+            url: '@Url.Action("DeleteDispensingType", "DispensingTypes")',
+            dataType: "json",
+            type: "GET",
+            data: {
+                id: dataItem.DispensingTypeId
+            },
+            async: false,
+            success: function(data) {
+                dt = data;
+                rt = true;
+            },
+            error: function(xhr) {
+                dt = xhr;
+                rt = false;
+            }
+        });
+        if (rt == true) {
+            $("#DispensingType").data("kendoGrid").dataSource.read();
+            $("#DispensingType").data("kendoGrid").refresh();
+        } else {
+            alert(dt);
+            return false;
+        }
+        return false;
+    }
+
+    function ShowDetails() {
+        var window = $("#window").data("kendoWindow");
+        var grid = $("#DispensingType").data("kendoGrid");
+        var selectedItem = grid.dataItem(grid.select());
+        if (selectedItem == null) {
+            alert("@Resources.General_NotSelected");
+            return false;
+        }
+        window.content("");
+        window.title("@Resources.DispensingType_Details_Title");
+        window.refresh({
+            url: "@Url.Action("DispensingTypeDetails", "DispensingTypes")" + "/" + selectedItem.DispensingTypeId
+        });
+        window.center();
+        window.open();
+    }
+
+    function onOpen(e) {
+        kendo.ui.progress(e.sender.element, true);
+    }
+    function onClose() {
+        $("#DispensingType").data("kendoGrid").dataSource.read();
+        $("#DispensingType").data("kendoGrid").refresh();
+    }
+    function onRefresh(e) {
+        kendo.ui.progress(e.sender.element, false);
+    }
+</script>

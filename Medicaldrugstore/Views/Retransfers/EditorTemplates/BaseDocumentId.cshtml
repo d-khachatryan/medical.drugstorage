@@ -1,0 +1,14 @@
+﻿@{
+    Layout = null;
+}
+
+
+@(Html.Kendo().ComboBox()
+                    .Name("BaseDocumentId")
+                    .DataTextField("Text")
+                    .DataValueField("Value")
+                    .Filter(FilterType.StartsWith)
+                    .BindTo(ViewBag.vbBaseDocuments)
+                    .HtmlAttributes(new { data_value_primitive = true})
+)
+

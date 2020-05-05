@@ -1,0 +1,201 @@
+﻿@model IEnumerable<Medicaldrugstore.Models.OrganizationStoreExpirations>
+
+@{
+    ViewBag.Title = "Պիտանելիություն";
+}
+@*<div class="toolbar">
+    <button onclick="ShowDetails()" class="k-button">@Resources.General_Details</button>
+</div>*@
+<div class="clear"></div>
+<div class="for-Toolbar">
+    @(Html.Kendo().ToolBar()
+    .Name("ToolBar")
+    .Items(items =>
+    {
+        items.Add().Type(CommandType.Button).Togglable(false).Text(@Resources.General_Details).Id("btnDetails").Click("ShowDetails");
+    })
+    )
+    @* Search Panel - Right Slide *@
+    <div class="right-slidePanel">
+        <div class="slidePanel-Content">
+            <div class="slidePanel-btn">
+            </div>
+            <div class="slidePanel-Content-fields create-item">
+                <h4>@Resources.General_Search</h4>
+                <div class="form-group margin-5-0">
+                    @(Html.Kendo().ComboBox()
+                      .Name("prmOrganizationId")
+                      .Placeholder("Պահեստ")
+                      .DataTextField("Text")
+                      .DataValueField("Value")
+                      .Filter(FilterType.StartsWith)
+                      .BindTo(ViewBag.vbOrganizations)
+                      .HtmlAttributes(new { data_value_primitive = true, @class = "width100" })
+                    )
+                </div>
+                <div class="form-group margin-10-0">
+                    <label class="control-label" for="prmInitiationStartDate">Ամսաթիվ</label>
+                    <div class="input-search data-period">
+                        @(Html.Kendo().DatePicker()
+                                    .Name("prmCalculationDate")
+                                    .Value(DateTime.Today)
+                                    .HtmlAttributes(new { placeholder = @Resources.General_Start, @class = "width100" })
+                        )
+                    </div>
+                </div>
+                <div class="form-group margin-5-0">
+                    @(Html.Kendo().TextBox()
+                  .Name("prmExpirationDays")
+                  .Value("90")
+                  .HtmlAttributes(new { @class = "width100", placeholder = "Պահպանման օրերի թիվ" })
+                    )
+                </div>
+                <div class="form-group btns align-right">
+                    <button type="submit" id="rtSearch" class="k-button" onclick="return Search();"><i class="glyphicon glyphicon-search"></i> @Resources.General_Search</button>
+                    <button type="submit" class="k-button" onclick="return Clear();"><i class="glyphicon glyphicon-minus"></i> @Resources.General_Clean</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+@*<button class="accordion">@Resources.General_Search</button>
+<div class="panel">
+    <div class="margin-10">
+        <div class="form-inline">
+            <div class="form-group">
+                <label class="">Պահեստ</label>
+                @(Html.Kendo().ComboBox()
+                      .Name("prmOrganizationId")
+                      .DataTextField("Text")
+                      .DataValueField("Value")
+                      .Filter(FilterType.StartsWith)
+                      .BindTo(ViewBag.vbOrganizations)
+                      .HtmlAttributes(new { data_value_primitive = true })
+                )
+            </div>
+            <div class="form-group margin-0-10">
+                <label class="">Ամսաթիվ</label>
+                @(Html.Kendo().DatePicker()
+                      .Name("prmCalculationDate")
+                      .Value(DateTime.Today)
+                )
+            </div>
+            <div class="form-group margin-0-10">
+                <label class="">Պահպանման օրերի թիվ</label>
+                @(Html.Kendo().TextBox()
+                .Value("90")
+                .Name("prmExpirationDays")
+                )
+            </div>
+            <button type="submit" class="k-button" onclick="return Search();"><i class="glyphicon glyphicon-search"></i> @Resources.General_Search</button>
+            <button type="submit" class="k-button" onclick="return Clear();"><i class="glyphicon glyphicon-minus"></i> @Resources.General_Clean</button>
+        </div>
+    </div>
+</div>*@
+
+<script type="text/javascript">
+    function Search() {
+        $("#OrganizationStoreExpirations").data("kendoGrid").dataSource.read();
+        $("#OrganizationStoreExpirations").data("kendoGrid").refresh();
+        return false;
+    }
+
+    function Clear() {
+        $("#prmOrganizationId").data("kendoComboBox").select(-1);
+        //$("#prmOrganizationId").val("");
+        $("#OrganizationStoreExpirations").data("kendoGrid").dataSource.read();
+        $("#OrganizationStoreExpirations").data("kendoGrid").refresh();
+        return false;
+    }
+
+    function getParameter() {
+        return {
+            organizationId: $("#prmOrganizationId").val(),
+            calculationDate: $("#prmCalculationDate").val(),
+            expirationDays: $("#prmExpirationDays").val()
+        };
+    }
+</script>
+
+
+
+@(Html.Kendo().Grid<Medicaldrugstore.Models.OrganizationStoreExpirations>()
+                        .Name("OrganizationStoreExpirations")
+                        .Columns(columns =>
+                        {
+                            columns.Bound(model => model.ProductId).Width(140);
+                            columns.Bound(model => model.OrganizationId).Hidden();
+                            columns.Bound(model => model.DrugName);
+                            columns.Bound(model => model.ExpirationDate).Width(225);
+                            //columns.Bound(model => model.Seria).Width(95);
+                            columns.Bound(model => model.ExpirationDateCount).Width(140);
+                            columns.Bound(model => model.Quantity).Width(100);
+                            columns.Bound(model => model.TotalCost).Width(95);
+                        })
+                        .Selectable(s => s.Mode(Kendo.Mvc.UI.GridSelectionMode.Single))
+                        .Pageable(pageable => pageable
+                        .Refresh(true)
+                        .PageSizes(true)
+                        .ButtonCount(5))
+                        .Filterable()
+                        .Scrollable()
+                        .Resizable(resize => resize.Columns(true))
+                        .Reorderable(reorder => reorder.Columns(true))
+                        .Sortable()
+                        .HtmlAttributes(new { style = "height:620px;" })
+                        .DataSource(dataSource => dataSource
+                        .Ajax()
+                        .Read(read => read.Action("ReadOrganizationStoreExpirations", "OrganizationStoreExpirations").Data("getParameter"))
+                        .PageSize(15)
+                        .Model(model =>
+                        {
+                            model.Id(i => i.ProductId);
+                            model.Id(i => i.OrganizationId);
+                        })
+)
+)
+
+@(Html.Kendo().Window().Name("window").Width(550)
+                .Height(370).Draggable()
+                .Resizable().Content("")
+                .Title(Resources.OrganizationStore_Edit_Title)
+                .Modal(true)
+                .Actions(actions => actions.Pin().Close())
+                .Visible(false)
+                .Events(events => events
+                .Close("onClose").Open("onOpen").Refresh("onRefresh"))
+    )
+    <script>
+        function ShowDetails() {
+            var window = $("#window").data("kendoWindow");
+            var grid = $("#OrganizationStoreExpirations").data("kendoGrid");
+            var selectedItem = grid.dataItem(grid.select());
+            if (selectedItem == null) {
+                alert("@Resources.General_NotSelected");
+                return false;
+            }
+            window.content(""),
+            window.title("@Resources.OrganizationStore_Details_Title"),
+            window.refresh({
+                url: "@Url.Action("OrganizationStoreExpirationDetails", "OrganizationStoreExpirations")" + "/" + selectedItem.DrugId
+            });
+            window.center();
+            window.open();
+        }
+
+        function onOpen(e) {
+            kendo.ui.progress(e.sender.element, true);
+        }
+        function onClose(e) {
+            $("#OrganizationStore").data("kendoGrid").dataSource.read();
+            $("#OrganizationStore").data("kendoGrid").refresh();
+        }
+        function onRefresh(e) {
+            kendo.ui.progress(e.sender.element, false);
+        }
+    </script>
+
+

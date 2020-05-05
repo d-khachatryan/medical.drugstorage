@@ -1,0 +1,100 @@
+﻿
+@{
+    ViewBag.Title = Resources.Layout_Nav_Reports8;
+}
+<div class="report create-item">
+    <h4>
+        @Html.Raw(@Resources.Report8_Head)
+    </h4>
+    <div class="col-xs-12 border-box">
+        <p class="col-sm-8">
+            @Html.Raw(Resources.Report8_Text)
+        </p>
+    </div>
+    <div class="margin-10-0 col-lg-5 col-md-6 col-sm-7 col-xs-12 border-box">
+        <fieldset class="form-group">
+            <div class="col-sm-6 margin-10-0">
+                @(Html.Kendo().DatePicker()
+                      .Name("prmStartDate")
+                      .HtmlAttributes(new { placeholder = @Resources.General_Start, @class = "width100", @required = true, @validationMessage = "Դաշտը պարտադիր է" })
+                )
+            </div>
+            <div class="col-sm-6 margin-10-0">
+                @(Html.Kendo().DatePicker()
+                      .Name("prmTerminationDate")
+                      .HtmlAttributes(new { placeholder = @Resources.General_End, @class = "width100", @required = true, @validationMessage = "Դաշտը պարտադիր է" })
+                )
+            </div>
+            <div class="col-sm-12 margin-10-0">
+                @(Html.Kendo().ComboBox()
+                      .Name("prmOrganizationId")
+                      .DataTextField("Text")
+                      .Placeholder(@Resources.Drug_Organization)
+                      .DataValueField("Value")
+                      .Filter(FilterType.StartsWith)
+                      .BindTo(ViewBag.vbOrganizations)
+                      .HtmlAttributes(new { data_value_primitive = true, @class = "width100", @required = true, @validationMessage = "Դաշտը պարտադիր է" })
+                )
+            </div>
+        </fieldset>
+    </div>
+    <div>
+        <span class="errormssg"></span>
+    </div>
+    <div class="clear"></div>
+    <div class="col-lg-5 col-md-6 col-sm-7 col-xs-12 border-box align-right">
+        <button class="k-button margin-right20" id="btnReport">
+            <i class="fa fa-line-chart"></i> @Resources.Report_Get
+        </button>
+    </div>
+</div>
+
+@(Html.Kendo().Window().Name("wndReport")
+                .Draggable().Resizable()
+                .Content("").Modal(true)
+                .Iframe (true)
+                .Actions(actions => actions.Pin().Close())
+                .Visible(false)
+                .Events(events => events
+                .Open("onReportOpen").Refresh("onReportRefresh"))
+)
+
+<script>
+    $(document).ready(function () {
+        $("#btnReport")
+            .click(function (e) {
+                var errTmplt = '<div class="k-widget k-tooltip k-tooltip-validation" style="margin:0.5em; padding:3px 5px;"><span class="fa fa-exclamation-triangle"></span> #=message#<div class="k-callout k-callout-n"></div></div>';
+                var validator = $(".report").kendoValidator({
+                    errorTemplate: errTmplt
+                }).data("kendoValidator");
+                if (!validator.validate()) {
+                    //$("#errormssg").html("<span class='fa fa-exclamation-triangle'></span> @GeneralResources.FieldsRequired");
+                    return false;
+                }
+
+                var window = $("#wndReport").data("kendoWindow");
+            window.content("");
+            window.title("@Resources.Layout_Nav_Reports8");
+
+            var sDate = $("#prmStartDate").val();
+            var tDate = $("#prmTerminationDate").val();
+            var oId = $("#prmOrganizationId").val();
+
+            window.refresh({
+                url: "@Url.Action("Report08", "Report")" + "?startDate=" + sDate + "&terminationDate=" + tDate + "&organizationId=" + oId
+            });
+        window.center();
+        window.maximize().open();
+        return false;
+    });
+    });
+
+    function onReportOpen(e) {
+        kendo.ui.progress(e.sender.element, true);
+    }
+
+
+    function onReportRefresh(e) {
+        kendo.ui.progress(e.sender.element, false);
+    }
+</script>

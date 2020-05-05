@@ -1,0 +1,267 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>@ViewBag.Title</title>
+    <link rel="icon" type="image/png" href="~/Files/Icons/pills-icon.png" />
+    @Styles.Render("~/Content/css")
+    @Styles.Render("~/Content/kendo/2017.1.118/kendo")
+    @Styles.Render("~/Content/custom")
+    @RenderSection("Styles", false)
+
+
+    @Scripts.Render("~/bundles/modernizr")
+    <!--This bundle was moved by the Telerik VS Extensions for compatibility reasons-->
+    @Scripts.Render("~/bundles/jquery")
+    @Scripts.Render("~/bundles/kendo")
+	<script src="@Url.Content("~/Scripts/kendo/2017.1.118/jszip.min.js")"></script>
+</head>
+
+<body class="nav-md">
+    <div class="container body">
+        <div class="main_container">
+            <div class="col-md-3 left_col menu_fixed">
+                <div class="left_col scroll-view">
+                    <div class="navbar nav_title" style="border: 0;">
+                        <a href="@Url.Action("Index", "Home")" class="site_title"><img src="~/Files/Icons/pills-icon.png" /></a>
+                        <a href="@Url.Action("Index", "Home")" class="site_title"><span>ԴԼԿՏՀ</span></a>
+                    </div>
+                    @*<div class="navbar nav_title" style="border: 0;">
+                        <a href="@Url.Action("Index", "Home")" class="site_title"><span>ԴԼԿՏՀ</span></a>
+                    </div>*@
+                    <div class="clearfix"></div>
+                    <!-- menu profile quick info -->
+                    @*@Html.Partial("_LoginPartialInfo")*@
+                    <!-- /menu profile quick info -->
+                    <br />
+                    <!-- sidebar menu -->
+                    <div id="sidebar-menu" class="main_menu_side hidden-print main_menu">
+                        <div class="menu_section">
+                            <h3>Հիմնական մենյու</h3>
+                            <ul class="nav side-menu">
+                                <li>
+                                    <a><i class="fa fa-database"></i> <span class="hide-sm">@Resources.Layout_Nav_Store</span> <span class="fa fa-chevron-down"></span></a>
+                                    <ul class="nav child_menu">
+                                        <li>
+                                            <a>@Resources.General_Entry<span class="fa fa-chevron-down"></span></a>
+                                            <ul class="nav child_menu">
+                                                <li>
+                                                    <a href="@Url.Action("Index", "DrugClasses")">@Resources.Layout_Nav_Store_Products</a>
+                                                </li>
+                                                <li>
+                                                    <a href="@Url.Action("Storage", "Replacements")">@Resources.Layout_Nav_Store_Replacements</a>
+                                                </li>
+                                            </ul>
+                                        </li>
+                                        <li>
+                                            <a>@Resources.General_Exit<span class="fa fa-chevron-down"></span></a>
+                                            <ul class="nav child_menu">
+                                                <li>
+                                                    <a href="@Url.Action("StorageIndex", "Placement")">@Resources.Layout_Nav_Store_Placements</a>
+                                                </li>
+                                                <li>
+                                                    <a href="@Url.Action("Index", "Transfers")">@Resources.Layout_Nav_Store_Transfers</a>
+                                                </li>
+                                                <li>
+                                                    <a href="@Url.Action("Index", "JunkProducts")">@Resources.Layout_Nav_Store_JunkProducts</a>
+                                                </li>
+                                            </ul>
+                                        </li>
+                                        <li>
+                                            <a href="@Url.Action("Index", "StorageStores")">@Resources.Layout_Nav_Store_StoreFlow</a>
+                                        </li>
+                                        <li>
+                                            <a href="@Url.Action("Index", "StorageStoreExpirations")">Պիտանելիություն</a>
+                                        </li>
+                                    </ul>
+                                </li>
+                                <li>
+                                    <a><i class="fa fa-hospital-o"></i> <span class="hide-sm">@Resources.Layout_Nav_DataEntry</span> <span class="fa fa-chevron-down"></span></a>
+                                    <ul class="nav child_menu">
+                                        <li>
+                                            <a>@Resources.General_Entry<span class="fa fa-chevron-down"></span></a>
+                                            <ul class="nav child_menu">
+                                                <li>
+                                                    <a href="@Url.Action("OrganizationIndex", "Placement")">@Resources.Layout_Nav_DataEntry_Placements</a>
+                                                </li>
+                                                <li>
+                                                    <a href="@Url.Action("Destination", "Replacements")">@Resources.Layout_Nav_DataEntry_Replacements_Comfirmation</a>
+                                                </li>
+                                            </ul>
+                                        </li>
+                                        <li>
+                                            <a>@Resources.General_Exit<span class="fa fa-chevron-down"></span></a>
+                                            <ul class="nav child_menu">
+                                                <li>
+                                                    <a href="@Url.Action("Index", "Consumptions")">@Resources.Layout_Nav_DataEntry_Consumptions</a>
+                                                </li>
+                                                <li>
+                                                    <a href="@Url.Action("Source", "Replacements")">@Resources.Layout_Nav_DataEntry_Replacements_Entry</a>
+                                                </li>
+                                                <li>
+                                                    <a href="@Url.Action("Index", "Retransfers")">@Resources.Layout_Nav_DataEntry_Replacements_Retransfers</a>
+                                                </li>
+                                                <li>
+                                                    <a href="@Url.Action("Index", "JunkConsumptions")">@Resources.Layout_Nav_DataEntry_Replacements_JunkConsumptions</a>
+                                                </li>
+                                            </ul>
+                                        </li>
+                                        <li>
+                                            <a href="@Url.Action("Index", "OrganizationStores")">@Resources.Layout_Nav_DataEntry_StoreFlow</a>
+                                        </li>
+                                        <li>
+                                            <a href="@Url.Action("Index", "OrganizationStoreExpirations")">Պիտանելիություն</a>
+                                        </li>
+                                    </ul>
+                                </li>
+                                <li>
+                                    <a><i class="fa fa-line-chart"></i> <span class="hide-sm">@Resources.Layout_Nav_Reports</span> <span class="fa fa-chevron-down"></span></a>
+                                    <ul class="nav child_menu">
+                                        <li><a href="@Url.Action("Index01", "Report")">@Resources.Layout_Nav_Reports1</a></li>
+                                        <li><a href="@Url.Action("Index02", "Report")">@Resources.Layout_Nav_Reports2</a></li>
+                                        <li><a href="@Url.Action("Index03", "Report")">@Resources.Layout_Nav_Reports3</a></li>
+                                        <li><a href="@Url.Action("Index04", "Report")">@Resources.Layout_Nav_Reports4</a></li>
+                                        <li><a href="@Url.Action("Index05", "Report")">@Resources.Layout_Nav_Reports5</a></li>
+                                        <li><a href="@Url.Action("Index06", "Report")">@Resources.Layout_Nav_Reports6</a></li>
+                                        <li><a href="@Url.Action("Index07", "Report")">@Resources.Layout_Nav_Reports7</a></li>
+                                        <li><a href="@Url.Action("Index08", "Report")">@Resources.Layout_Nav_Reports8</a></li>
+                                    </ul>
+                                </li>
+                                <li>
+                                    <a><i class="fa fa-cog"></i> <span class="hide-sm">@Resources.Layout_Nav_Management</span> <span class="fa fa-chevron-down"></span></a>
+                                    <ul class="nav child_menu">
+                                        <li>
+                                            <a>@Resources.Layout_Nav_Management_Catalogs<span class="fa fa-chevron-down"></span></a>
+                                            <ul class="nav child_menu">
+                                                <li>
+                                                    <a href="@Url.Action("Index", "DrugTypes")">@Resources.Layout_Nav_Management_Catalogs_DrugType</a>
+                                                </li>
+                                                <li>
+                                                    <a href="@Url.Action("Index", "DrugCategories")">@Resources.Layout_Nav_Management_Catalogs_DrugCategory</a>
+                                                </li>
+                                                <li>
+                                                    <a href="@Url.Action("Index", "Organizations")">@Resources.Layout_Nav_Management_Catalogs_Organization</a>
+                                                </li>
+                                                <li>
+                                                    <a href="@Url.Action("Index", "ProductTypes")">@Resources.Layout_Nav_Management_Catalogs_ProductType</a>
+                                                </li>
+                                                <li>
+                                                    <a href="@Url.Action("Index", "ProductCategories")">@Resources.Layout_Nav_Management_Catalogs_ProductCategorie</a>
+                                                </li>
+                                                <li>
+                                                    <a href="@Url.Action("Index", "ProductGroups")">@Resources.Layout_Nav_Management_Catalogs_ProductGroup</a>
+                                                </li>
+                                                <li>
+                                                    <a href="@Url.Action("Index", "Manufacturers")">@Resources.Layout_Nav_Management_Catalogs_Manufacturer</a>
+                                                </li>
+                                                <li>
+                                                    <a href="@Url.Action("Index", "Suppliers")">@Resources.Layout_Nav_Management_Catalogs_Supplier</a>
+                                                </li>
+                                                <li>
+                                                    <a href="@Url.Action("Index", "Banks")">@Resources.Layout_Nav_Management_Catalogs_Bank</a>
+                                                </li>
+                                                <li>
+                                                    <a href="@Url.Action("Index", "DispensingTypes")">@Resources.Layout_Nav_Management_Catalogs_DispensingType</a>
+                                                </li>
+                                                <li>
+                                                    <a href="@Url.Action("Index", "UnitTypes")">@Resources.Layout_Nav_Management_Catalogs_UnitType</a>
+                                                </li>
+                                                <li>
+                                                    <a href="@Url.Action("Index", "JunkBase")">Խոտանման փաստաթղթի հիմք</a>
+                                                </li>
+                                                <li>
+                                                    <a href="@Url.Action("Index", "PlacementBase")">Պահանջագրի փաստաթղթի հիմք</a>
+                                                </li>
+                                                <li>
+                                                    <a href="@Url.Action("Index", "ReplacementBase")">Վերադարձի փաստաթղթի հիմք</a>
+                                                </li>
+                                            </ul>
+                                        </li>
+                                        <li>
+                                            <a href="@Url.Action("Index", "Account")">@Resources.Layout_Nav_Management_Catalogs_User</a>
+                                        </li>
+                                        <li>
+                                            <a href="@Url.Action("Supervisor", "Replacements")">@Resources.Layout_Nav_Management_ConfirmReplacement</a>
+                                        </li>
+                                    </ul>
+                                </li>
+                                <li>
+                                    <a><i class="fa fa-comments-o"></i> <span class="hide-sm">@Resources.Layout_Nav_Message</span> <span class="fa fa-chevron-down"></span></a>
+                                    <ul class="nav child_menu">
+                                        <li><a href="@Url.Action("Index", "MessageBoxes")">@Resources.Layout_Nav_Message_Inbox</a></li>
+                                        <li><a href="@Url.Action("SentMessages", "MessageBoxes")">@Resources.Layout_Nav_Message_Outbox</a></li>
+                                    </ul>
+                                </li>
+                                <li>
+                                    <a><i class="fa fa-question-circle-o"></i> <span class="hide-sm">@Resources.Layout_Nav_Help</span> <span class="fa fa-chevron-down"></span></a>
+                                    <ul class="nav child_menu">
+                                        <li><a href="@Url.Action("UnderConstruction", "Home")">@Resources.Layout_Nav_Help_Entry</a></li>
+                                        <li><a href="@Url.Action("UnderConstruction", "Home")">@Resources.Layout_Nav_Help_Store</a></li>
+                                        <li><a href="@Url.Action("UnderConstruction", "Home")">@Resources.Layout_Nav_Help_Reports</a></li>
+                                        <li><a href="@Url.Action("UnderConstruction", "Home")">@Resources.Layout_Nav_Help_Management</a></li>
+                                        <li><a href="@Url.Action("UnderConstruction", "Home")">@Resources.Layout_Nav_Help_Messages</a></li>
+                                    </ul>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                    <!-- /sidebar menu -->
+                    <!-- /menu footer buttons -->
+                    <div class="sidebar-footer hidden-small">
+                        
+                        
+                        <p>&copy; @DateTime.Now.Year</p>
+                    </div>
+                    <!-- /menu footer buttons -->
+                </div>
+            </div>
+            <!-- top navigation -->
+            <div class="top_nav">
+                <div class="nav_menu">
+                    <nav>
+                        <div class="nav toggle">
+                            <a id="menu_toggle"><i class="fa fa-bars"></i></a>
+                            <h3 class="nav_header">@ViewBag.Title</h3>
+                        </div>
+                        <ul class="nav navbar-nav navbar-right">
+                            <li class="">
+                                @Html.Partial("_LoginPartial")
+                            </li>
+                            @*<li class="lang">
+                                <a href="@Url.Action("SetLanguage", "Language", new {name = "hy-am"})">
+                                    <img src="~/Images/Icons/arm-flag.png" width="26" class="img-circle"/>
+                                </a>
+                            </li>
+                            <li class="lang">
+                                <a href="@Url.Action("SetLanguage", "Language", new {name = "en"})">
+                                    <img src="~/Images/Icons/us-flag.png" width="26" class="img-circle"/>
+                                </a>
+                            </li>*@
+                        </ul>
+                    </nav>
+                </div>
+            </div>
+            <!-- /top navigation -->
+            <!-- page content -->
+            <div class="right_col" role="main">
+                @RenderBody()
+            </div>
+            <!-- /page content -->
+            <!-- footer content -->
+            @*<footer>
+                <div class="pull-right">
+                </div>
+                <div class="clearfix"></div>
+            </footer>*@
+            <!-- /footer content -->
+        </div>
+    </div>
+    @Scripts.Render("~/bundles/bootstrap")
+    @Scripts.Render("~/bundles/theme")
+    @Scripts.Render("~/bundles/own")
+    @RenderSection("Scripts", required: false)
+
+</body>
+</html>
+

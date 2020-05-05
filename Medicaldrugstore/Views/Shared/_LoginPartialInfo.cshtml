@@ -1,0 +1,27 @@
+﻿@using Microsoft.AspNet.Identity
+
+@if (Request.IsAuthenticated)
+{
+    <div class="profile">
+        <div class="profile_pic">
+            <img src="~/Images/Icons/user.png" alt="..." class="img-circle profile_img">
+        </div>
+        <div class="profile_info">
+            <span>Welcome,</span>
+            <h2>@User.Identity.GetUserName()</h2>
+        </div>
+    </div>
+}
+else
+{
+    <div class="main_menu_side hidden-print main_menu">
+        <div class="menu_section">
+            <ul class="nav side-menu">
+                <li>
+                    <a href="@Url.Action("Login", "Account", new { id = "loginLink" })"><i class="glyphicon glyphicon-log-in"></i> @Resources.Layout_Login_LogIn</a>
+                </li>
+            </ul>
+        </div>
+    </div>
+}
+

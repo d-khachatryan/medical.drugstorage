@@ -1,0 +1,377 @@
+﻿@model Medicaldrugstore.Models.TransferTemplate
+
+@{
+    Layout = null;
+}
+
+<script>
+    function onSenderSelect(e) {
+        var dataItem = this.dataItem(e.item.index());
+        var idd = dataItem.OrganizationId;
+        var q = $.ajax({
+            url: '@Url.Action("OrganizationInfo", "Transfers")',
+            dataType: "json",
+            type: "GET",
+            data: { id: idd },
+            async: true,
+            success: function (data) {
+                dt = data.Data;
+                rt = true;
+                if (dt != null) {                    
+                    $("#SenderTin").val(dt[0].TinNumber);
+                    $("#SenderName").val(dt[0].OrganizationName);
+                    $("#SenderLocation").val(dt[0].OrganizationLocation);
+                    $("#SenderBankName").val(dt[0].BankName);
+                    $("#SenderSupplyLocation").val(dt[0].DeliveryLocation);
+                    $("#SenderAccountNumber").val(dt[0].BankAccountNumber);
+                    $("#SenderHeadName").val(dt[0].HeadName);
+                    $("#SenderAccountantName").val(dt[0].AccountantName);
+                    $("#SenderResponsibleName").val(dt[0].ResponsibleName);
+                }
+            },
+            error: function (xhr) {
+                dt = xhr;
+                rt = false;
+            }
+        });
+    }
+    function onReceiverSelect(e) {
+        var dataItem = this.dataItem(e.item.index());
+        var idd = dataItem.OrganizationId;
+        var q = $.ajax({
+            url: '@Url.Action("OrganizationInfo", "Transfers")',
+            dataType: "json",
+            type: "GET",
+            data: { id: idd },
+            async: true,
+            success: function (data) {
+                dt = data.Data;
+                rt = true;
+                if (dt != null) {                    
+                    $("#ReceiverTin").val(dt[0].TinNumber);
+                    $("#ReceiverName").val(dt[0].OrganizationName);
+                    $("#ReceiverLocation").val(dt[0].OrganizationLocation);
+                    $("#ReceiverBankName").val(dt[0].BankName);
+                    $("#ReceiverSupplyLocation").val(dt[0].DeliveryLocation);
+                    $("#ReceiverAccountNumber").val(dt[0].BankAccountNumber);
+                    $("#ReceiverHeadName").val(dt[0].HeadName);
+                    $("#ReceiverAccountantName").val(dt[0].AccountantName);
+                    $("#ReceiverResponsibleName").val(dt[0].ResponsibleName);
+                }
+            },
+            error: function (xhr) {
+                dt = xhr;
+                rt = false;
+            }
+        });
+    }
+</script>
+
+@using (Html.BeginForm("SaveTransfer", "Transfers", FormMethod.Post, new { id = "frmTransfer" }))
+    {
+<div class="container" id="frmTransfer" style="max-width:720px;">
+
+    @Html.HiddenFor(model => model.TransferId)
+
+    <fieldset class="margin-10 create-item">
+        <legend> @Resources.Transfer_Sender</legend>
+        <div class="col-sm-12 margin-5-0 border-box">
+            @Html.LabelFor(model => model.SenderOrganizationId, htmlAttributes: new { @class = "control-label" })
+            @(Html.Kendo().ComboBoxFor(model => model.SenderOrganizationId)
+                .DataTextField("OrganizationName")
+                .DataValueField("OrganizationId")
+                .Placeholder("Ընտերլ հիմնարկը ․․․")
+                .Filter(FilterType.StartsWith)
+                .HtmlAttributes(new { style = "width:100%;" })
+                .Events(e =>
+                {
+                    e.Select("onSenderSelect");
+                })
+                .DataSource(source =>
+                {
+                    source.Read(read =>
+                    {
+                        read.Action("GetSenderOrganizations", "Transfers");
+
+                    });
+                })
+            )
+            @Html.ValidationMessageFor(model => model.SenderOrganizationId, "", new { @class = "text-danger" })
+        </div>
+        <div class="col-sm-12 margin-5-0 border-box">
+            <table class="table table-striped details" style="margin-bottom:0;">
+                <tr>
+                    <td class="col-xs-6">@Html.LabelFor(model => model.SenderTin, htmlAttributes: new { @class = "control-label" })</td>
+                    <td class="col-xs-6">
+                        @Html.TextBoxFor(model => model.SenderTin)
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-xs-6">@Html.LabelFor(model => model.SenderLocation, htmlAttributes: new { @class = "control-label" })</td>
+                    <td class="col-xs-6">
+                        @Html.TextBoxFor(model => model.SenderLocation)
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-xs-6">@Html.LabelFor(model => model.SenderSupplyLocation, htmlAttributes: new { @class = "control-label" })</td>
+                    <td class="col-xs-6">
+                        @Html.TextBoxFor(model => model.SenderSupplyLocation)
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-xs-6">@Html.LabelFor(model => model.SenderBankName, htmlAttributes: new { @class = "control-label" })</td>
+                    <td class="col-xs-6">
+                        @Html.TextBoxFor(model => model.SenderBankName)
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-xs-6">@Html.LabelFor(model => model.SenderAccountNumber, htmlAttributes: new { @class = "control-label" })</td>
+                    <td class="col-xs-6">
+                        @Html.TextBoxFor(model => model.SenderAccountNumber)
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-xs-6">@Html.LabelFor(model => model.SenderHeadName, htmlAttributes: new { @class = "control-label" })</td>
+                    <td class="col-xs-6">
+                        @Html.TextBoxFor(model => model.SenderHeadName)
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-xs-6">@Html.LabelFor(model => model.SenderAccountantName, htmlAttributes: new { @class = "control-label" })</td>
+                    <td class="col-xs-6">
+                        @Html.TextBoxFor(model => model.SenderAccountantName)
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-xs-6">@Html.LabelFor(model => model.SenderName, htmlAttributes: new { @class = "control-label" })</td>
+                    <td class="col-xs-6">
+                        @Html.TextBoxFor(model => model.SenderName)
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-xs-6">@Html.LabelFor(model => model.SenderResponsibleName, htmlAttributes: new { @class = "control-label" })</td>
+                    <td class="col-xs-6">
+                        @Html.TextBoxFor(model => model.SenderResponsibleName)
+                    </td>
+                </tr>
+            </table>
+        </div>
+    </fieldset>
+    <fieldset class="margin-10 create-item">
+        <legend>@Resources.Transfer_Receiver</legend>
+        <div class="col-sm-12 margin-5-0 border-box">
+            @Html.LabelFor(model => model.ReceiverOrganizationId, htmlAttributes: new { @class = "control-label" })
+            @(Html.Kendo().ComboBoxFor(model => model.ReceiverOrganizationId)
+                .DataTextField("OrganizationName")
+                .DataValueField("OrganizationId")
+                .Placeholder("Ընտերլ հիմնարկը ․․․")
+                .Filter(FilterType.StartsWith)
+                .HtmlAttributes(new { style = "width:100%;" })
+                .Events(e =>
+                {
+                    e.Select("onReceiverSelect");
+                })
+                .DataSource(source =>
+                {
+                    source.Read(read =>
+                    {
+                        read.Action("GetReceiverOrganizations", "Transfers");
+
+                    });
+                })
+            )
+            @Html.ValidationMessageFor(model => model.ReceiverOrganizationId, "", new { @class = "text-danger" })
+        </div>
+        <div class="col-sm-12 margin-5-0 border-box">
+            <table class="table table-striped details" style="margin-bottom:0;">
+                <tr>
+                    <td class="col-xs-6">@Html.LabelFor(model => model.ReceiverTin, htmlAttributes: new { @class = "control-label" })</td>
+                    <td class="col-xs-6">
+                        @Html.TextBoxFor(model => model.ReceiverTin)
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-xs-6">@Html.LabelFor(model => model.ReceiverLocation, htmlAttributes: new { @class = "control-label" })</td>
+                    <td class="col-xs-6">
+                        @Html.TextBoxFor(model => model.ReceiverLocation)
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-xs-6">@Html.LabelFor(model => model.ReceiverSupplyLocation, htmlAttributes: new { @class = "control-label" })</td>
+                    <td class="col-xs-6">
+                        @Html.TextBoxFor(model => model.ReceiverSupplyLocation)
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-xs-6">@Html.LabelFor(model => model.ReceiverBankName, htmlAttributes: new { @class = "control-label" })</td>
+                    <td class="col-xs-6">
+                        @Html.TextBoxFor(model => model.ReceiverBankName)
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-xs-6">@Html.LabelFor(model => model.ReceiverAccountNumber, htmlAttributes: new { @class = "control-label" })</td>
+                    <td class="col-xs-6">
+                        @Html.TextBoxFor(model => model.ReceiverAccountNumber)
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-xs-6">@Html.LabelFor(model => model.ReceiverHeadName, htmlAttributes: new { @class = "control-label" })</td>
+                    <td class="col-xs-6">
+                        @Html.TextBoxFor(model => model.ReceiverHeadName)
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-xs-6">@Html.LabelFor(model => model.ReceiverAccountantName, htmlAttributes: new { @class = "control-label" })</td>
+                    <td class="col-xs-6">
+                        @Html.TextBoxFor(model => model.ReceiverAccountantName)
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-xs-6">@Html.LabelFor(model => model.ReceiverName, htmlAttributes: new { @class = "control-label" })</td>
+                    <td class="col-xs-6">
+                        @Html.TextBoxFor(model => model.ReceiverName)
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-xs-6">@Html.LabelFor(model => model.ReceiverResponsibleName, htmlAttributes: new { @class = "control-label" })</td>
+                    <td class="col-xs-6">
+                        @Html.TextBoxFor(model => model.ReceiverResponsibleName)
+                    </td>
+                </tr>
+            </table>
+        </div>
+    </fieldset>
+    <fieldset class="margin-10 create-item">
+        <div class="col-sm-12 margin-5-0 border-box">
+            @Html.LabelFor(model => model.BaseDocumentId, htmlAttributes: new { @class = "control-label" })
+            @(Html.Kendo().ComboBoxFor(model => model.BaseDocumentId)
+                .DataTextField("BaseDocumentName")
+                .DataValueField("BaseDocumentId")
+                .Placeholder("Ընտերլ հիմքը ․․․")
+                .Filter(FilterType.StartsWith)
+                .DataSource(source =>
+                {
+                    source.Read(read =>
+                    {
+                        read.Action("GetBaseDocuments", "Transfers");
+
+                    });
+                })
+                .HtmlAttributes(new { data_value_primitive = true })
+            )
+            @Html.ValidationMessageFor(model => model.BaseDocumentId, "", new { @class = "text-danger" })
+        </div>
+        <div class="clear"></div>
+        <div class="col-sm-12 margin-5-0 border-box">
+            @Html.LabelFor(model => model.DealInfo, htmlAttributes: new { @class = "control-label" })
+            @Html.EditorFor(model => model.DealInfo, new { htmlAttributes = new { @class = "form-control" } })
+            @Html.ValidationMessageFor(model => model.DealInfo, "", new { @class = "text-danger" })
+        </div>
+        <div class="clear"></div>
+        <div class="col-sm-12 margin-5-0 border-box">
+            @Html.LabelFor(model => model.Comment, htmlAttributes: new { @class = "control-label" })
+            @Html.TextAreaFor(model => model.Comment, new { @class = "k-textbox" })
+            @Html.ValidationMessageFor(model => model.Comment, "", new { @class = "text-danger" })
+        </div>
+        <div class="clear"></div>
+    </fieldset>    
+    <div>
+        <div class="form-group col-sm-8 margin-10-0 border-box">
+            <span id="errormssg"></span>
+        </div>
+        <div class="form-group col-sm-4 border-box margin-10-0 align-right">
+            <button id="btnConfirmSave" class="k-button"><i class="glyphicon glyphicon-floppy-disk"></i> @Resources.General_Save</button>
+            <button id="btnConfirmCancel" class="k-button"><i class="glyphicon glyphicon-off"></i> @Resources.General_Close</button>
+        </div>
+    </div>
+</div>
+}
+
+<script>
+    $(document).ready(function () {
+        $("#btnConfirmCancel")
+            .click(function () {
+                $(this).closest(".k-window-content").data("kendoWindow").close();
+                return false;
+            });
+
+        $("#btnConfirmSave")
+            .click(function (e) {
+                var errTmplt = '<div class="k-widget k-tooltip k-tooltip-validation" style="margin:0.5em; padding:3px 5px;"><span class="fa fa-exclamation-triangle"></span> #=message#<div class="k-callout k-callout-n"></div></div>';
+                var validator = $("#frmTransfer").kendoValidator({
+                    errorTemplate: errTmplt
+                }).data("kendoValidator");
+                if (!validator.validate()) {
+                    $("#errormssg").html("<span class='fa fa-exclamation-triangle'></span> @GeneralResources.FieldsRequired");
+                    return false;
+                }
+                
+                var item = new Object();
+
+                item.transferId = document.getElementById("TransferId").value;
+
+                item.SenderOrganizationId = document.getElementById("SenderOrganizationId").value;
+                item.SenderTin = document.getElementById("SenderTin").value;
+                item.SenderName = document.getElementById("SenderName").value;
+                item.SenderLocation = document.getElementById("SenderLocation").value;
+                item.SenderBankName = document.getElementById("SenderBankName").value;
+                item.SenderSupplyLocation = document.getElementById("SenderSupplyLocation").value;
+                item.SenderAccountNumber = document.getElementById("SenderAccountNumber").value;
+                item.SenderHeadName = document.getElementById("SenderHeadName").value;
+                item.SenderAccountantName = document.getElementById("SenderAccountantName").value;
+                item.SenderResponsibleName = document.getElementById("SenderResponsibleName").value;
+
+                item.ReceiverOrganizationId = document.getElementById("ReceiverOrganizationId").value;
+                item.ReceiverTin = document.getElementById("ReceiverTin").value;
+                item.ReceiverName = document.getElementById("ReceiverName").value;
+                item.ReceiverLocation = document.getElementById("ReceiverLocation").value;
+                item.ReceiverBankName = document.getElementById("ReceiverBankName").value;
+                item.ReceiverSupplyLocation = document.getElementById("ReceiverSupplyLocation").value;
+                item.ReceiverAccountNumber = document.getElementById("ReceiverAccountNumber").value;
+                item.ReceiverHeadName = document.getElementById("ReceiverHeadName").value;
+                item.ReceiverAccountantName = document.getElementById("ReceiverAccountantName").value;
+                item.ReceiverResponsibleName = document.getElementById("ReceiverResponsibleName").value;
+
+                item.BaseDocumentId = document.getElementById("BaseDocumentId").value;
+                item.DealInfo = document.getElementById("DealInfo").value;
+                item.Comment = document.getElementById("Comment").value;
+
+                var rt = false;
+                var dt;
+                var q = $.ajax({
+                    url: '@Url.Action("SaveTransfer", "Transfers")',
+                    dataType: "json",
+                    type: "POST",
+                    data: JSON.stringify({ transferTemplate: item }),
+                    contentType: "application/json; charset=utf-8",
+                    async: false,
+                    success: function (data) {
+                        dt = data;
+                        rt = true;
+                    },
+                    error: function (xhr) {
+                        dt = xhr;
+                        rt = false;
+                    }
+                });
+
+                if (rt == true) {
+                    if (dt.success != true) {
+                        /*Այստեղ իրականացվում է սերվերից վերադարձված սխալի ցուցադրման գործառույթը:
+                        Անհրաժեշտ է որ alert-ի փոխարեն կարմիր գույնով ցուցադրվի սխալը:
+                        Այդ սխալը պետք է տեղակայված լինի մուտքային վերջին դաշտի և հրահանգների արանքում:*/
+                        $("#errormssg").html(JSON.stringify(dt.responseText));
+                        //alert(JSON.stringify(dt.responseText));
+                    }
+                    else {
+                        $(this).closest(".k-window-content").data("kendoWindow").close();
+                    }
+                }
+                else {
+                    alert(JSON.stringify("Unknown error occured."));
+                }
+                return false;
+
+            });
+    });
+</script>

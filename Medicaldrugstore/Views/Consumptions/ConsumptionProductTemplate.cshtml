@@ -1,0 +1,108 @@
+﻿@using System.Collections.Specialized
+@model Medicaldrugstore.Models.ConsumptionProduct
+
+@{
+    Layout = null;
+}
+@using (Html.BeginForm("SaveConsumptionProduct", "Consumptions", FormMethod.Post, new { id = "frmConsumptionProduct" }))
+{
+<div id="consumptionTemplate">
+
+    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+    @Html.HiddenFor(model => model.ConsumptionProductId)
+    @Html.HiddenFor(model => model.ConsumptionId)
+
+    <div class="form-group margin-5-0">
+        @Html.LabelFor(model => model.ProductId, htmlAttributes: new { @class = "control-label col-sm-3 align-right" })
+        <div class="col-sm-7">
+            @(Html.Kendo().ComboBoxFor(model => model.ProductId)
+                .DataTextField("Text")
+                .DataValueField("Value")
+                .Filter(FilterType.StartsWith)
+                .BindTo(ViewBag.vbProducts)
+                .HtmlAttributes(new { data_value_primitive = true })
+            )
+            <br />
+            <span class="k-invalid-msg vldmsg" data-for="ProductId"></span>
+        </div>
+    </div>
+    <div class="clear"></div>
+    <div class="form-group margin-5-0">
+        @Html.LabelFor(model => model.Quantity, htmlAttributes: new { @class = "control-label col-sm-3 align-right" })
+        <div class="col-sm-7">
+            @Html.EditorFor(model => model.Quantity, new { htmlAttributes = new { @class = "form-control k-textbox" } })
+            <br />
+            @Html.ValidationMessageFor(model => model.Quantity, "", new { @class = "text-danger" })
+        </div>
+    </div>
+    <div class="clear"></div>
+    <div class="form-group margin-10-0">
+        <div class="col-xs-3"></div>
+        <div class="col-xs-7 align-right">
+            <button id="cptConfirmSave" class="k-button"><i class="glyphicon glyphicon-floppy-disk"></i> @Resources.General_Save</button>
+            <button id="cptConfirmCancel" class="k-button"><i class="glyphicon glyphicon-off"></i> @Resources.General_Close</button>
+        </div>
+    </div>
+    <div class="clear"></div>
+</div>
+}
+<script>
+    $(document).ready(function () {
+        $("#cptConfirmCancel")
+            .click(function () {
+                $(this).closest(".k-window-content").data("kendoWindow").close();
+                return false;
+            });
+        $("#cptConfirmSave")
+            .click(function (e) {
+
+                var ProductId = $("#ProductId").data("kendoComboBox").input;
+                var validator = $("#frmConsumptionProduct").kendoValidator().data("kendoValidator");
+                if (!validator.validate()) {
+                    ProductId.addClass("k-invalid");
+                    return false;
+                }
+
+                ProductId.removeClass("k-invalid");
+
+                var item = new Object();
+                item.consumptionProductId = $("#ConsumptionProductId").val();
+                item.consumptionId = '@Model.ConsumptionId';
+                item.productId = $("#ProductId").val();
+                item.quantity = $("#Quantity").val();
+
+                var rt = false;
+                var dt;
+                var q = $.ajax({
+                    url: '@Url.Action("SaveConsumptionProduct", "Consumptions")',
+                    dataType: "json",
+                    type: "POST",
+                    data: JSON.stringify({ consumptionproduct: item }),
+                    contentType: "application/json; charset=utf-8",
+                    async: false,
+                    success: function (data) {
+                        dt = data;
+                        rt = true;
+                    },
+                    error: function (xhr) {
+                        dt = xhr;
+                        rt = false;
+                    }
+                });
+                if (rt == true) {
+                    if (dt.success != true) {
+                        alert(JSON.stringify(dt.responseText));
+                        return false;
+                    }
+                    else {
+                        $(this).closest(".k-window-content").data("kendoWindow").close();
+                        return false;
+                    }
+                }
+                else {
+                    alert(JSON.stringify("Unknown error occured."));
+                    return false;
+                }
+            });
+    });
+</script>

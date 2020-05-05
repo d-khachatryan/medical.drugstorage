@@ -1,0 +1,521 @@
+﻿@model IEnumerable<Medicaldrugstore.Models.Replacement >
+
+@{
+    ViewBag.Title = "Վերադարձի համաձայնեցում";
+}
+@*<div class="toolbar">
+    <button onclick="ConfirmReplacement()" class="k-button">Համաձայնեցնել</button>
+    <button onclick="ReplacementDetails()" class="k-button">@Resources.General_Details</button>
+</div>*@
+<div class="clear"></div>
+<div class="for-Toolbar">
+    @(Html.Kendo().ToolBar()
+    .Name("ToolBar")
+    .Items(items =>
+    {
+        items.Add().Type(CommandType.Button).Togglable(false).Text("Համաձայնեցնել").Id("btnConfirmReplacement").Click("ConfirmReplacement");
+        items.Add().Type(CommandType.Button).Togglable(false).Text(@Resources.General_Details).Id("btnDetails").Click("ReplacementDetails");
+    })
+    )
+    @* Search Panel - Right Slide *@
+    <div class="right-slidePanel">
+        <div class="slidePanel-Content">
+            <div class="slidePanel-btn">
+            </div>
+            <div class="slidePanel-Content-fields create-item">
+                <h4>@Resources.General_Search</h4>
+                <div class="form-group margin-5-0">
+                    @(Html.Kendo().ComboBox()
+                      .Name("prmSrcOrg")
+                      .DataTextField("Text")
+                      .Placeholder(@rsReplacement.SourceOrganizationName)
+                      .DataValueField("Value")
+                      .Filter(FilterType.StartsWith)
+                      .BindTo(ViewBag.vbSourceOrganizations)
+                      .HtmlAttributes(new { data_value_primitive = true, @class = "width100" })
+                    )
+                </div>
+                <div class="form-group margin-5-0">
+                    @(Html.Kendo().ComboBox()
+                          .Name("prmDstOrg")
+                          .DataTextField("Text")
+                          .Placeholder(@rsReplacement.DestinationOrganizationName)
+                          .DataValueField("Value")
+                          .Filter(FilterType.StartsWith)
+                          .BindTo(ViewBag.vbDestinationOrganizations)
+                          .HtmlAttributes(new { data_value_primitive = true, @class = "width100" })
+                    )
+                </div>
+                <div class="form-group margin-5-0">
+                    @(Html.Kendo().ComboBox()
+                      .Name("prmCnfOrg")
+                      .Placeholder(@rsReplacement.ConfirmOrganizationName)
+                      .DataTextField("Text")
+                      .DataValueField("Value")
+                      .Filter(FilterType.StartsWith)
+                      .BindTo(ViewBag.vbConfirmOrganizations)
+                      .HtmlAttributes(new { data_value_primitive = true, @class = "width100" })
+                    )
+                </div>
+                <div class="form-group margin-5-0">
+                    @(Html.Kendo().ComboBox()
+                      .Name("prmRplBase")
+                      .Placeholder(@rsReplacement.ReplacementBaseName)
+                      .DataTextField("Text")
+                      .DataValueField("Value")
+                      .Filter(FilterType.StartsWith)
+                      .BindTo(ViewBag.vbReplacementBases)
+                      .HtmlAttributes(new { data_value_primitive = true, @class = "width100" })
+                    )
+                </div>
+                <div class="form-group margin-10-0">
+                    <label class="control-label" for="prmInitiationStartDate">@rsReplacement.ReplacementBaseDate</label>
+                    <div class="input-search data-period">
+                        @(Html.Kendo().DatePicker()
+                                    .Name("prmStRplBaseDate")
+                                    .HtmlAttributes(new { placeholder = @Resources.General_Start, @class = "width100" })
+                        )
+                        @(Html.Kendo().DatePicker()
+                                    .Name("prmTrRplBaseDate")
+                                    .HtmlAttributes(new { placeholder = @Resources.General_End, @class = "width100" })
+                        )
+                    </div>
+                </div>
+                <div class="form-group margin-5-0">
+                    @(Html.Kendo().ComboBox()
+                      .Name("prmRplStatus")
+                      .Placeholder(@rsReplacement.ReplacementStatusName)
+                      .DataTextField("Text")
+                      .DataValueField("Value")
+                      .Filter(FilterType.StartsWith)
+                      .BindTo(ViewBag.vbReplacementStatuses)
+                      .HtmlAttributes(new { data_value_primitive = true, @class = "width100" })
+                    )
+                </div>
+                <div class="form-group margin-10-0">
+                    <label class="control-label" for="prmInitiationStartDate">@rsReplacement.ReplacementDate</label>
+                    <div class="input-search data-period">
+                        @(Html.Kendo().DatePicker()
+                                    .Name("prmStRplDate")
+                                    .HtmlAttributes(new { placeholder = @Resources.General_Start, @class = "width100" })
+                        )
+                        @(Html.Kendo().DatePicker()
+                                    .Name("prmTrRplDate")
+                                    .HtmlAttributes(new { placeholder = @Resources.General_End, @class = "width100" })
+                        )
+                    </div>
+                </div>
+                <div class="form-group margin-10-0">
+                    <label class="control-label" for="prmInitiationStartDate">@rsReplacement.ConfirmDate</label>
+                    <div class="input-search data-period">
+                        @(Html.Kendo().DatePicker()
+                                    .Name("prmStConfirmDate")
+                                    .HtmlAttributes(new { placeholder = @Resources.General_Start, @class = "width100" })
+                        )
+                        @(Html.Kendo().DatePicker()
+                                    .Name("prmTrConfirmDate")
+                                    .HtmlAttributes(new { placeholder = @Resources.General_End, @class = "width100" })
+                        )
+                    </div>
+                </div>
+                <div class="form-group margin-10-0">
+                    <label class="control-label" for="prmInitiationStartDate">@rsReplacement.ReadyDate</label>
+                    <div class="input-search data-period">
+                        @(Html.Kendo().DatePicker()
+                                    .Name("prmStReadyDate")
+                                    .HtmlAttributes(new { placeholder = @Resources.General_Start, @class = "width100" })
+                        )
+                        @(Html.Kendo().DatePicker()
+                                    .Name("prmTrReadyDate")
+                                    .HtmlAttributes(new { placeholder = @Resources.General_End, @class = "width100" })
+                        )
+                    </div>
+                </div>
+                <div class="form-group btns align-right">
+                    <button type="submit" id="rtSearch" class="k-button" onclick="return Search();"><i class="glyphicon glyphicon-search"></i> @Resources.General_Search</button>
+                    <button type="submit" class="k-button" onclick="return Clear();"><i class="glyphicon glyphicon-minus"></i> @Resources.General_Clean</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+@*<button class="accordion">@Resources.General_Search</button>
+<div class="panel">
+    <div class="maxWidth1170 margin-5 create-item">
+        <div class="col-md-6">
+            <div class="form-group">
+                <label class="">@Replacement.Replacement_SourceOrganization</label>
+                @(Html.Kendo().ComboBox()
+                .Name("prmSrcOrg")
+                .DataTextField("Text")
+                .DataValueField("Value")
+                .Filter(FilterType.StartsWith)
+                .BindTo(ViewBag.vbSourceOrganizations)
+                .HtmlAttributes(new { data_value_primitive = true })
+                )
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="form-group">
+                <label class="">@Replacement.Replacement_DestinationOrganization</label>
+                @(Html.Kendo().ComboBox()
+                .Name("prmDstOrg")
+                .DataTextField("Text")
+                .DataValueField("Value")
+                .Filter(FilterType.StartsWith)
+                .BindTo(ViewBag.vbDestinationOrganizations)
+                .HtmlAttributes(new { data_value_primitive = true })
+                )
+            </div>
+        </div>
+        <div class="clear"></div>
+        <div class="col-md-6">
+            <div class="form-group">
+                <label class="">@Replacement.Replacement_ConfirmOrganization</label>
+                @(Html.Kendo().ComboBox()
+                .Name("prmCnfOrg")
+                .DataTextField("Text")
+                .DataValueField("Value")
+                .Filter(FilterType.StartsWith)
+                .BindTo(ViewBag.vbConfirmOrganizations)
+                .HtmlAttributes(new { data_value_primitive = true })
+                )
+            </div>
+        </div>
+        <div class="col-md-3 col-sm-6">
+            <div class="form-group">
+                <label class="">@Replacement.Replacement_Base</label>
+                @(Html.Kendo().ComboBox()
+                .Name("prmRplBase")
+                .DataTextField("Text")
+                .DataValueField("Value")
+                .Filter(FilterType.StartsWith)
+                .BindTo(ViewBag.vbReplacementBases)
+                .HtmlAttributes(new { data_value_primitive = true })
+                )
+            </div>
+        </div>
+        <div class="col-md-3 col-sm-6">
+            <div class="form-group">
+                <label class="">@Replacement.Replacement_BaseDate</label>
+                <div class="datePeriod">
+                    <div class="col-xs-6">
+                        @(Html.Kendo().DatePicker()
+                                        .Name("prmStRplBaseDate")
+                                        .HtmlAttributes(new { placeholder = @Resources.General_Start })
+                        )
+                    </div>
+                    <div class="col-xs-6">
+                        @(Html.Kendo().DatePicker()
+                                        .Name("prmTrRplBaseDate")
+                                        .HtmlAttributes(new { placeholder = @Resources.General_End })
+                        )
+                    </div>
+                    <div class="clear"></div>
+                </div>
+            </div>
+        </div>
+        <div class="clear"></div>
+        <div class="col-md-3 col-sm-6">
+            <div class="form-group">
+                <label class="">@Replacement.Replacement_ReplacementStatus</label>
+                @(Html.Kendo().ComboBox()
+                .Name("prmRplStatus")
+                .DataTextField("Text")
+                .DataValueField("Value")
+                .Filter(FilterType.StartsWith)
+                .BindTo(ViewBag.vbReplacementStatuses)
+                .HtmlAttributes(new { data_value_primitive = true })
+                )
+            </div>
+        </div>
+        <div class="col-md-3 col-sm-6">
+            <div class="form-group">
+                <label class="">@Replacement.Replacement_Date</label>
+                <div class="datePeriod">
+                    <div class="col-xs-6">
+                        @(Html.Kendo().DatePicker()
+                .Name("prmStRplDate")
+                .HtmlAttributes(new { placeholder = @Resources.General_Start })
+                        )
+                    </div>
+                    <div class="col-xs-6">
+                        @(Html.Kendo().DatePicker()
+                .Name("prmTrRplDate")
+                .HtmlAttributes(new { placeholder = @Resources.General_End })
+                        )
+                    </div>
+                    <div class="clear"></div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3 col-sm-6">
+            <div class="form-group">
+                <label class="">@Replacement.Replacement_ConfirmDate</label>
+                <div class="datePeriod">
+                    <div class="col-xs-6">
+                        @(Html.Kendo().DatePicker()
+                .Name("prmStConfirmDate")
+                .HtmlAttributes(new { placeholder = @Resources.General_Start })
+                        )
+                    </div>
+                    <div class="col-xs-6">
+                        @(Html.Kendo().DatePicker()
+                .Name("prmTrConfirmDate")
+                .HtmlAttributes(new { placeholder = @Resources.General_End })
+                        )
+                    </div>
+                    <div class="clear"></div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3 col-sm-6">
+            <div class="form-group">
+                <label class="">@Replacement.Replacement_ReadyDate</label>
+                <div class="datePeriod">
+                    <div class="col-xs-6">
+                        @(Html.Kendo().DatePicker()
+                .Name("prmStReadyDate")
+                .HtmlAttributes(new { placeholder = @Resources.General_Start })
+                        )
+                    </div>
+                    <div class="col-xs-6">
+                        @(Html.Kendo().DatePicker()
+                .Name("prmTrReadyDate")
+                .HtmlAttributes(new { placeholder = @Resources.General_End })
+                        )
+                    </div>
+                    <div class="clear"></div>
+                </div>
+            </div>
+        </div>
+        <div class="clear"></div>
+        <div class="align-right col-xs-12">
+            <button type="submit" class="k-button" onclick="return Search();"><i class="glyphicon glyphicon-search"></i> @Resources.General_Search</button>
+            <button type="submit" class="k-button" onclick="return Clear();"><i class="glyphicon glyphicon-minus"></i> @Resources.General_Clean</button>
+        </div>
+    </div>
+</div>*@
+
+<script type="text/javascript">
+
+    $(document)
+        .ready(function () {
+            currentReplacementIndex = -1;
+        });
+
+    function Clear() {
+        $("#prmSrcOrg").data("kendoComboBox").select(-1);
+        $("#prmDstOrg").data("kendoComboBox").select(-1);
+        $("#prmCnfOrg").data("kendoComboBox").select(-1);
+        $("#prmRplBase").data("kendoComboBox").select(-1);
+        $("#prmStRplBaseDate").val("");
+        $("#prmTrRplBaseDate").val("");
+        $("#prmRplStatus").data("kendoComboBox").select(-1);
+        $("#prmStRplDate").val("");
+        $("#prmTrRplDate").val("");
+        $("#prmStConfirmDate").val("");
+        $("#prmTrConfirmDate").val("");
+        $("#prmStReadyDate").val("");
+        $("#prmTrReadyDate").val("");
+
+        $("#Replacement").data("kendoGrid").dataSource.read();
+        return false;
+    }
+
+    function Search() {
+        $("#Replacement").data("kendoGrid").dataSource.read();
+        return false;
+    }
+
+    function getParameter() {
+        return {
+            srcOrgID: $("#prmSrcOrg").val(),
+            dstOrgID: $("#prmDstOrg").val(),
+            cnfOrgID: $("#prmCnfOrg").val(),
+            rplBaseID: $("#prmRplBase").val(),
+            stRplBaseDate: $("#prmStRplBaseDate").val(),
+            trRplBaseDate: $("#prmTrRplBaseDate").val(),
+            rplStatusID: $("#prmRplStatus").val(),
+            stRplDate: $("#prmStRplDate").val(),
+            trRplDate: $("#prmTrRplDate").val(),
+            stConfirmDate: $("#prmStConfirmDate").val(),
+            trConfirmDate: $("#prmTrConfirmDate").val(),
+            stReadyDate: $("#prmStReadyDate").val(),
+            trReadyDate: $("#prmTrReadyDate").val(),
+        };
+    }
+</script>
+
+
+
+
+        @(Html.Kendo().Grid<Medicaldrugstore.Models.Replacement >()
+      .Name("Replacement")
+      .Columns(columns =>
+      {
+          columns.ForeignKey(p => p.SourceOrganizationId, (List<SelectListItem>) ViewBag.vbOrganizations, "Value", "Text");
+          columns.ForeignKey(p => p.ConfirmOrganizationId, (List<SelectListItem>) ViewBag.vbOrganizations, "Value", "Text");
+          columns.ForeignKey(p => p.DestinationOrganizationId, (List<SelectListItem>) ViewBag.vbOrganizations, "Value", "Text");
+          columns.Bound(model => model.ReplacementId).Hidden();
+          columns.ForeignKey(p => p.ReplacementStatusId, (List<SelectListItem>) ViewBag.vbReplacementStatuses, "Value", "Text");
+          columns.Bound(model => model.ReplacementDate).Width(145);
+          columns.Bound(model => model.ConfirmDate).Width(165);
+          columns.Bound(model => model.ReadyDate).Width(132);
+          columns.Bound(model => model.ProvisionDate).Width(132);
+          columns.Bound(model => model.ReceiveDate).Width(145);
+
+      })
+      .Editable(editable =>
+      {
+          editable.Mode(GridEditMode.InLine);
+      })
+      .Selectable(s => s.Mode(Kendo.Mvc.UI.GridSelectionMode.Single))
+      .Pageable()
+      .ClientDetailTemplateId("replacementProductTemplate")
+      .Scrollable()
+      .Sortable()
+      .Resizable(resize => resize.Columns(true))
+      .Reorderable(reorder => reorder.Columns(true))
+      .DataSource(dataSource => dataSource
+          .Ajax()
+          .Read(read => read.Action("ReadSupervisorReplacements", "Replacements").Data("getParameter"))
+          .Sort(sort => sort.Add("ReplacementId").Descending())
+          .PageSize(15)
+          .Model(model =>
+          {
+              model.Id(p => p.ReplacementId);
+              model.Field(p => p.ReplacementDate).Editable(false);
+              model.Field(p => p.ReceiveDate).Editable(false);
+              model.Field(p => p.ReadyDate).Editable(false);
+              model.Field(p => p.SourceOrganizationId).Editable(false);
+              model.Field(p => p.ConfirmOrganizationId).Editable(false);
+              model.Field(p => p.DestinationOrganizationId).Editable(false);
+              model.Field(p => p.ReplacementSum).Editable(false);
+              model.Field(p => p.ReplacementStatusId).Editable(false);
+          }
+          )
+)
+        )
+
+        @(Html.Kendo().Window().Name("wndConfirmReplacement")
+                .Width(300).Height(120)
+                .Draggable().Resizable()
+                .Content("").Modal(true)
+                .Actions(actions => actions.Pin().Close())
+                .Visible(false)
+                .Events(events => events
+                .Close("onConfirmReplacementClose").Open("onConfirmReplacementOpen").Refresh("onConfirmReplacementRefresh"))
+              )
+
+@(Html.Kendo().Window().Name("wndReplacementDetails")
+                .Width(600).Height(520)
+                .Draggable().Resizable()
+                .Content("").Modal(true)
+                .Actions(actions => actions.Pin().Close())
+                .Visible(false)
+                .Events(events => events
+                .Open("onConfirmReplacementOpen").Refresh("onConfirmReplacementRefresh"))
+)
+
+
+<script>
+        function onReplacementDataBound(e) {
+            if (currentReplacementIndex != -1) {
+                var row = $(this.tbody).find("tr.k-master-row:eq(" + currentReplacementIndex + ")");
+                this.expandRow(row);
+            }
+        }
+
+        function onReplacementDetailInit(e) {
+            currentReplacementIndex = $(e.masterRow).index(".k-master-row");
+            var selectedItem = this.dataItem(e.masterRow);
+            RPID = selectedItem.ReplacementId;
+        }
+
+        function ConfirmReplacement() {
+            var window = $("#wndConfirmReplacement").data("kendoWindow");
+            var grid = $("#Replacement").data("kendoGrid");
+            var selectedItem = grid.dataItem(grid.select());
+            if (selectedItem == null) {
+                alert("@Resources.General_NotSelected");
+                return false;
+            }
+            if (selectedItem.ReplacementStatusId != 1) {
+                alert("«Համաձայնեցում» կարելի է տալ այն գրառմանը, որն ունի «Ներկայացված» կարգավիճակ:");
+                return false;
+            }
+            window.content("");
+            window.title("Վերադարձի համաձայնեցում");
+            window.refresh({
+                url: "@Url.Action("ConfirmReplacement", "Replacements")" + "/" + selectedItem.ReplacementId
+            });
+            window.center();
+            window.open();
+            return false;
+        }
+
+    function ReplacementDetails() {
+        var window = $("#wndReplacementDetails").data("kendoWindow");
+        var grid = $("#Replacement").data("kendoGrid");
+        var selectedItem = grid.dataItem(grid.select());
+        if (selectedItem == null) {
+            alert("@Resources.General_NotSelected");
+            return false;
+        }
+        window.content("");
+        window.title("@rsReplacement.DetailsTitle");
+        window.refresh({
+            url: "@Url.Action("ReplacementDetails", "Replacements")" + "/" + selectedItem.ReplacementId
+        });
+    window.center();
+    window.open();
+    return false;
+    }
+
+        function onConfirmReplacementOpen(e) {
+            kendo.ui.progress(e.sender.element, true);
+        }
+
+        function onConfirmReplacementClose(e) {
+            $("#Replacement").data("kendoGrid").dataSource.read();
+            $("#Replacement").data("kendoGrid").refresh();
+        }
+
+        function onConfirmReplacementRefresh(e) {
+            kendo.ui.progress(e.sender.element, false);
+        }
+        </script>
+
+        <script id="replacementProductTemplate" type="text/kendo-tmpl">
+
+            @(Html.Kendo().Grid<Medicaldrugstore.Models.ReplacementProduct>()
+              .Name("ReplacementProduct_#=ReplacementId#")
+              .Columns(columns =>
+              {
+                  columns.Bound(p => p.ReplacementProductId).Hidden();
+                  columns.Bound(o => o.ReplacementId).Hidden();
+                  columns.ForeignKey(o => o.ProductId, (List<SelectListItem>) ViewBag.vbProducts, "Value", "Text");
+                  columns.Bound(o => o.Quantity);
+                  columns.Bound(o => o.ItemQuantity);
+                  columns.Bound(o => o.UnitCost);
+                  columns.Bound(o => o.TotalCost);
+              })
+              .DataSource(dataSource => dataSource
+                  .Ajax()
+                  .PageSize(5)
+                  .Read(read => read.Action("ReadReplacementProducts", "Replacements", new { id = "#=ReplacementId#" }))
+                  .Model(model =>
+                  {
+                      model.Id(p => p.ReplacementProductId);
+                  }
+                  )
+              )
+              .Scrollable()
+              .Pageable()
+              .Sortable()
+              .ToClientTemplate()
+            )
+        </script>
+
+

@@ -1,0 +1,67 @@
+﻿@using Medicaldrugstore.Models
+@model LoginViewModel
+@{
+    Layout = "~/Views/Shared/_Layout-Login.cshtml";
+    ViewBag.Title = Resources.Login_Title;
+}
+<div class="Login-head">
+    @Html.Raw(Resources.Login_Head)
+</div>
+    <fieldset class="login-fields">
+        <legend>
+            @Html.Raw(Resources.Login_AuthUsers)
+        </legend>
+        <section id="loginForm">
+            @using (Html.BeginForm("Login", "Account", new { ReturnUrl = ViewBag.ReturnUrl }, FormMethod.Post, new {role = "form" }))
+            {
+                @Html.AntiForgeryToken()
+                @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                <div class="form-group">
+                    @Html.LabelFor(m => m.UserName, new { @class = "control-label" })
+                    @Html.TextBoxFor(m => m.UserName, new { @class = "form-control" })
+                    @Html.ValidationMessageFor(m => m.UserName, "", new { @class = "text-danger" })
+                </div>
+                <div class="clear"></div>
+                <div class="form-group">
+                    @Html.LabelFor(m => m.Password, new { @class = "control-label" })
+                    @Html.PasswordFor(m => m.Password, new { @class = "form-control" })
+                    @Html.ValidationMessageFor(m => m.Password, "", new { @class = "text-danger" })
+                </div>
+                <div class="form-group">
+                    @Html.ActionLink(Resources.Login_ForgetPassword, "ForgotPassword")
+                </div>
+                <div class="form-group">
+                    @Html.CheckBoxFor(m => m.RememberMe)
+                    @Html.LabelFor(m => m.RememberMe)
+                </div>
+                <div class="form-group">
+                    <input type="submit" value="@Resources.Login_Title" class="btn btn-info" />
+                </div>
+            }
+        </section>
+    </fieldset>
+<fieldset class="login-info">
+    <legend>
+    </legend>
+    @Html.Raw(Resources.Login_Article)
+</fieldset>
+<div class="login-logos">
+    <div class="container">
+        <div>
+            <div class="float-left margin-10">
+                <a href="https://www.usaid.gov/armenia" target="_blank"><img src="~/Images/Pics/usaid.jpg" height="70" /></a>
+            </div>
+            <div class="float-left margin-10">
+                <a href="http://nih.am/" target="_blank"><img src="~/Images/Pics/nih.jpg" height="70"/></a>
+            </div>
+            <div class="float-left margin-10">
+                <a href="http://moh.am/" target="_blank"><img src="~/Images/Pics/moh.jpg" height="70"/></a>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+    
+}

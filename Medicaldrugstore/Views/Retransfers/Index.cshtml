@@ -1,0 +1,447 @@
+﻿@model IEnumerable<Medicaldrugstore.Models.Transfer>
+
+@{
+    ViewBag.Title = Resources.ReTransfer_Title;
+}
+<div class="clear"></div>
+<div class="for-Toolbar">
+    @(Html.Kendo().ToolBar()
+    .Name("ToolBar")
+    .Items(items =>
+    {
+        items.Add().Type(CommandType.Button).Togglable(false).Text(@Resources.Transfer_New).Id("btnNew").Click("CreateRetransfer");
+        items.Add().Type(CommandType.Button).Togglable(false).Text(@Resources.Transfer_DeliverReady).Id("btnDeliverReady").Click("RepresentRetransfer");
+        items.Add().Type(CommandType.Button).Togglable(false).Text(@Resources.General_Details).Id("btnDetails").Click("ShowDetails");
+    })
+    )
+    @* Search Panel - Right Slide *@
+    <div class="right-slidePanel">
+        <div class="slidePanel-Content">
+            <div class="slidePanel-btn">
+            </div>
+            <div class="slidePanel-Content-fields create-item">
+                <h4>@Resources.General_Search</h4>
+                <div class="form-group margin-5-0">
+                    @(Html.Kendo().ComboBox()
+                      .Name("prmBaseDocumentId")
+                      .DataTextField("Text")
+                      .Placeholder(@Resources.Transfer_BaseDoc)
+                      .DataValueField("Value")
+                      .Filter(FilterType.StartsWith)
+                      .BindTo(ViewBag.vbBaseDocuments)
+                      .HtmlAttributes(new { data_value_primitive = true, @class = "width100" })
+                    )
+                </div>
+                <div class="form-group margin-5-0">
+                    @(Html.Kendo().ComboBox()
+                          .Name("prmSenderOrganizationId")
+                          .DataTextField("Text")
+                          .Placeholder(@Resources.Retransfer_SenderOrganization)
+                          .DataValueField("Value")
+                          .Filter(FilterType.StartsWith)
+                          .BindTo(ViewBag.vbOrganizations)
+                          .HtmlAttributes(new { data_value_primitive = true, @class = "width100" })
+                    )
+                </div>
+                <div class="form-group margin-10-0">
+                    <label class="control-label" for="prmInitiationStartDate">@Resources.General_DatePeriod</label>
+                    <div class="input-search data-period">
+                        @(Html.Kendo().DatePicker()
+                                    .Name("prmStartRetransferDate")
+                                    .HtmlAttributes(new { placeholder = @Resources.General_Start, @class = "width100" })
+                        )
+                        @(Html.Kendo().DatePicker()
+                                    .Name("prmTerminationRetransferDate")
+                                    .HtmlAttributes(new { placeholder = @Resources.General_End, @class = "width100" })
+                        )
+                    </div>
+                </div>
+                <div class="form-group margin-5-0">
+                    @(Html.Kendo().ComboBox()
+                      .Name("prmReceiverOrganizationId")
+                      .Placeholder(@Resources.Retransfer_ReceiverOrganization)
+                      .DataTextField("Text")
+                      .DataValueField("Value")
+                      .Filter(FilterType.StartsWith)
+                      .BindTo(ViewBag.vbOrganizations)
+                      .HtmlAttributes(new { data_value_primitive = true, @class = "width100" })
+                    )
+                </div>
+                <div class="form-group btns align-right">
+                    <button type="submit" id="rtSearch" class="k-button" onclick="return Search();"><i class="glyphicon glyphicon-search"></i> @Resources.General_Search</button>
+                    <button type="submit" class="k-button" onclick="return Clear();"><i class="glyphicon glyphicon-minus"></i> @Resources.General_Clean</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script type="text/javascript">
+
+    $(document).ready(function () {
+        currentTransferIndex = -1;
+    });
+
+    function Clear() {
+        $("#prmBaseDocumentId").data("kendoComboBox").select(-1);
+        $("#prmSenderOrganizationId").data("kendoComboBox").select(-1);
+        $("#prmReceiverOrganizationId").data("kendoComboBox").select(-1);
+        $("#prmStartRetransferDate").val("");
+        $("#prmTerminationRetransferDate").val("");
+        $("#Retransfer").data("kendoGrid").dataSource.read();
+        $("#Retransfer").data("kendoGrid").refresh();
+        return false;
+    }
+
+    function Search() {
+        $("#Retransfer").data("kendoGrid").dataSource.read();
+        $("#Retransfer").data("kendoGrid").refresh();
+        return false;
+    }
+
+    function getParameter() {
+        return {
+            basedocumentId: $("#prmBaseDocumentId").val(),
+            senderOrganizationId: $("#prmSenderOrganizationId").val(),
+            receiverOrganizationId: $("#prmReceiverOrganizationId").val(),
+            startRetransferDate: $("#prmStartRetransferDate").val(),
+            terminationRetransferDate: $("#prmTerminationRetransferDate").val()
+        };
+    }
+
+    function onRetransferDataBound(e) {
+        $(".k-grid-Update, .Update_Icon").find("span").addClass("glyphicon glyphicon-pencil");
+        $(".k-grid-Delete, .Delete_Icon").find("span").addClass("glyphicon glyphicon-trash");
+        if (currentTransferIndex != -1) {
+            var row = $(this.tbody).find("tr.k-master-row:eq(" + currentTransferIndex + ")");
+            this.expandRow(row);
+        }
+    }
+
+    function onRetransferDetailExpand(e) {
+        currentTransferIndex = $(e.masterRow).index(".k-master-row");
+        var selectedItem = this.dataItem(e.masterRow);
+        RID = selectedItem.RetransferId;
+        RSID = selectedItem.RetransferStatusId;
+        this.collapseRow(this.tbody.find(' > tr.k-master-row').not(e.masterRow));
+    }
+
+</script>
+
+
+@(Html.Kendo().Grid<Medicaldrugstore.Models.Retransfer>()
+      .Name("Retransfer")
+      .Events(events => events.DataBound("onRetransferDataBound").DetailExpand("onRetransferDetailExpand"))
+      .Columns(columns =>
+      {
+          columns.Bound(model => model.RetransferId).Hidden();
+          columns.Bound(model => model.RetransferDate).Width(110);
+          columns.ForeignKey(p => p.BaseDocumentId, (List<SelectListItem>) ViewBag.vbBaseDocuments, "Value", "Text").Width(130);
+          columns.ForeignKey(p => p.SenderOrganizationId, (List<SelectListItem>) ViewBag.vbOrganizations, "Value", "Text");
+          columns.ForeignKey(p => p.ReceiverOrganizationId, (List<SelectListItem>) ViewBag.vbOrganizations, "Value", "Text");
+          columns.ForeignKey(p => p.RetransferStatusId, (List<SelectListItem>) ViewBag.vbRetransferStatuses, "Value", "Text").Width(168);
+          columns.Bound(model => model.RetransferTotal).Width(121);
+          columns.Command(commands =>
+          {
+              commands.Custom("Update").Text(" ").Click("UpdateRetransfer");
+              commands.Custom("Delete").Text(" ").Click("DeleteRetransfer");
+          }).Title(Resources.General_Commands).Width(130);
+      })
+      .Selectable(s => s.Mode(Kendo.Mvc.UI.GridSelectionMode.Single))
+      .Pageable()
+      .ClientDetailTemplateId("template")
+      .Filterable()
+      .Scrollable()
+      .Sortable()
+      .Resizable(resize => resize.Columns(true))
+      .Reorderable(reorder => reorder.Columns(true))
+      //.HtmlAttributes(new { style = "height:620px;" })
+      .DataSource(dataSource => dataSource
+          .Ajax()
+          .Read(read => read.Action("ReadRetransfers", "Retransfers").Data("getParameter"))
+          .Sort(sort => sort.Add("RetransferId").Descending())
+          .PageSize(15)
+          .Model(model => model.Id(p => p.RetransferId))
+      ))
+
+
+@(Html.Kendo().Window().Name("wndRetransfer")
+                //.Width(1000).Height(600)
+                .Draggable().Resizable()
+                .Content("").Modal(true)
+                .Actions(actions => actions.Pin().Close())
+                .Visible(false)
+                .Events(events => events
+                .Close("onRetransferClose").Open("onRetransferOpen").Refresh("onRetransferRefresh"))
+)
+
+@(Html.Kendo().Window().Name("wndRepresentRetransfer")
+                .Width(397).Height(100)
+                .Draggable().Resizable()
+                .Content("").Modal(true)
+                .Actions(actions => actions.Pin().Close())
+                .Visible(false)
+                .Events(events => events
+                .Close("onRetransferClose").Open("onRetransferOpen").Refresh("onRetransferRefresh"))
+)
+
+@(Html.Kendo().Window().Name("wndDetail")
+                .Width(700).Height(600)
+                .Draggable().Resizable()
+                .Content("").Modal(true)
+                .Actions(actions => actions.Pin().Close())
+                .Visible(false)
+                .Events(events => events
+                .Open("onRetransferOpen"))
+)
+
+
+<script>
+    $("#wndRetransfer").kendoWindow({
+        width: "800px",
+        height: "92%"
+    });
+
+
+    function CreateRetransfer() {
+        var window = $("#wndRetransfer").data("kendoWindow");
+        window.content("");
+        window.title("@Resources.Retransfer_Entry");
+
+        window.refresh({
+            url: "@Url.Action("RetransferTemplate", "Retransfers")" + "/" + 0
+        });
+        window.center();
+        window.open();
+        return false;
+    }
+
+    function UpdateRetransfer(e) {
+        var row = $(e.target).closest("tr");
+        var grid = $("#Retransfer").data("kendoGrid");
+        var dataItem = grid.dataItem(row);
+
+        if (dataItem.RetransferStatusId != null) {
+            alert("@Resources.General_NoSubjectToEditing");
+            return false;
+        }
+
+        var window = $("#wndRetransfer").data("kendoWindow");
+        window.content("");
+        window.title("@Resources.General_Edit");
+        window.refresh({
+            url: "@Url.Action("RetransferTemplate", "Retransfers")" + "/" + dataItem.RetransferId
+        });
+        window.center();
+        window.open();
+        return false;
+    }
+
+    function DeleteRetransfer(e) {
+        var row = $(e.target).closest("tr");
+        var grid = $("#Retransfer").data("kendoGrid");
+        var dataItem = grid.dataItem(row);
+        if (dataItem.RetransferStatusId != null) {
+            alert("@Resources.General_NoSubjectToDelete");
+            return false;
+        }
+        var r = confirm("@Resources.General_TransferRemovalConfirm");
+        if (r == false) {
+            return false;
+        }
+        var rt = false;
+        var dt;
+        var q = $.ajax({
+            url: '@Url.Action("DeleteRetransfer", "Retransfers")',
+            dataType: "json",
+            type: "GET",
+            data: {
+                id: dataItem.RetransferId
+            },
+            async: false,
+            success: function (data) {
+                dt = data;
+                rt = true;
+            },
+            error: function (xhr) {
+                dt = xhr;
+                rt = false;
+            }
+        });
+        if (rt == true) {
+            $("#Retransfer").data("kendoGrid").dataSource.read();
+            $("#Retransfer").data("kendoGrid").refresh();
+        }
+        else {
+            alert(dt);
+            return false;
+        }
+        return false;
+    }
+
+    function RepresentRetransfer(e) {
+        var grid = $("#Retransfer").data("kendoGrid");
+        var selectedItem = grid.dataItem(grid.select());
+        if (selectedItem == null) {
+            alert("@Resources.General_NotSelected");
+            return false;
+        }
+        if (selectedItem.RetransferStatusId != null) {
+            alert("@Html.Raw(Resources.Transfer_RepresentAlert)");
+            return false;
+        }
+        var window = $("#wndRepresentRetransfer").data("kendoWindow");
+        window.content("");
+        window.title("@Resources.Transfer_Represent");
+        window.refresh({
+            url: "@Url.Action("RepresentRetransfer", "Retransfers")" + "/" + selectedItem.RetransferId
+        });
+        window.center();
+        window.open();
+        return false;
+    }
+
+    function ShowDetails() {
+        var window = $("#wndDetail").data("kendoWindow");
+        var grid = $("#Retransfer").data("kendoGrid");
+        var selectedItem = grid.dataItem(grid.select());
+        if (selectedItem == null) {
+            alert("@Resources.General_NotSelected");
+            return false;
+        }
+        window.content("");
+        window.refresh({
+            url: "@Url.Action("RetransferDetails", "Retransfers")" + "/" + selectedItem.RetransferId
+        });
+        window.center();
+        window.title("@Resources.Transfer_Details_Title");
+        window.open();
+        return false;
+    }
+
+    function onRetransferOpen(e) {
+        kendo.ui.progress(e.sender.element, true);
+    }
+
+    function onRetransferClose(e) {
+        $("#Retransfer").data("kendoGrid").dataSource.read();
+        $("#Retransfer").data("kendoGrid").refresh();
+    }
+
+    function onRetransferRefresh(e) {
+        kendo.ui.progress(e.sender.element, false);
+    }
+
+</script>
+
+<script id="template" type="text/kendo-tmpl">
+    @(Html.Kendo().TabStrip()
+              .Name("tabstrip_#=RetransferId#")
+              .SelectedIndex(0)
+              .Animation(animation => animation.Open(open => open.Fade(FadeDirection.In)))
+              .Items(items =>
+              {
+                  items.Add().Text(Resources.Transfer_Placement).Content(@<text>
+        @(Html.Kendo().Grid<Medicaldrugstore.Models.Replacement>()
+                  .Name("Replacement_#=RetransferId#")
+                  .Columns(columns =>
+                  {
+                      columns.Bound(model => model.ReplacementId).Hidden();
+                      columns.Bound(model => model.ReplacementDate).Width(150);
+                      columns.ForeignKey(p => p.ReplacementStatusId, (List<SelectListItem>) ViewBag.vbReplacementStatuses, "Value", "Text");
+                      columns.Bound(model => model.ReadyDate).Width(197);
+                      columns.Bound(o => o.IsRetransfer).ClientTemplate("<input type='checkbox' \\#= IsRetransfer ? checked='checked' :'' \\# />")
+                            .HtmlAttributes(new { style = "text-align: center" })
+                            .Width(80)
+                            .EditorTemplateName("IsRetransfer");
+                      columns.Command(commands =>
+                      {
+                          commands.Custom("JoinReplacement_#=RetransferId#").Text(" ").Click("JoinReplacement").HtmlAttributes(new { @class = "Attache_Icon" });
+                      }).Title(Resources.General_Commands).Width(105).HtmlAttributes(new { style = "text-align: center" });
+                  })
+                  .DataSource(dataSource => dataSource
+                      .Ajax()
+                      .PageSize(5)
+                      .Read(read => read.Action("ReadReplacements", "Retransfers", new { id = "#=RetransferId#" }))
+                      .Model(model =>
+                      {
+                          model.Id(p => p.ReplacementId);
+                          model.Field(p => p.ReplacementId).Editable(false);
+                          model.Field(p => p.ReplacementDate).Editable(false);
+                          model.Field(p => p.ReplacementStatusId).Editable(false);
+                      }
+                      )
+                  )
+                  .Scrollable()
+                  .Resizable(resize => resize.Columns(true))
+                  .Reorderable(reorder => reorder.Columns(true))
+                  .Pageable()
+                  .Events(e => e.DataBound("onRowBound"))
+                  .Sortable()
+                  .ToClientTemplate()
+        )
+                </text>
+                      );
+              })
+              .ToClientTemplate())
+</script>
+
+
+@(Html.Kendo().Window().Name("wndJoinReplacement")
+                .Width(400).Height(80)
+                .Draggable().Resizable()
+                .Content("").Modal(true)
+                .Actions(actions => actions.Pin().Close())
+                .Visible(false)
+                .Events(events => events
+                .Close("onReplacementClose").Open("onReplacementOpen").Refresh("onReplacementRefresh"))
+)
+
+<script>
+
+    function JoinReplacement(e) {
+
+        if (RSID == 1) {
+            alert("@Resources.Transfer_JoinAlert");
+            return false;
+        }
+
+        var gridName = "#Replacement_" + RID;
+        var row = $(e.target).closest("tr");
+        var grid = $(gridName).data("kendoGrid");
+        var dataItem = grid.dataItem(row);
+
+        var window = $("#wndJoinReplacement").data("kendoWindow");
+        window.content("");
+        window.title("@Resources.General_ChangeStatus");
+        window.refresh({
+            url: '@Url.Action("JoinReplacement", "Retransfers")?rpid=' + dataItem.ReplacementId + '&rid=' + RID
+        });
+        window.center();
+        window.open();
+        return false;
+    }
+
+    function onReplacementOpen(e) {
+        kendo.ui.progress(e.sender.element, true);
+    }
+
+    function onReplacementClose(e) {
+        var gridName = "#Replacement_" + RID;
+        $(gridName).data("kendoGrid").dataSource.read();
+        $(gridName).data("kendoGrid").refresh();
+        $("#Retransfer").data("kendoGrid").dataSource.read();
+        $("#Retransfer").data("kendoGrid").refresh();
+    }
+
+    function onReplacementRefresh(e) {
+        kendo.ui.progress(e.sender.element, false);
+    }
+
+</script>
+
+
+
+
+
+

@@ -1,0 +1,89 @@
+﻿@model Medicaldrugstore.Models.ReplacementBase
+
+@{
+    Layout = null;
+}
+
+<div class="create-item">
+
+    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+    @Html.HiddenFor(model => model.ReplacementBaseId)
+
+    <div class="form-group margin-5-0">
+        @Html.LabelFor(model => model.ReplacementBaseCode, htmlAttributes: new { @class = "control-label col-sm-3 border-box align-right" })
+        <div class="col-sm-9 border-box">
+            @Html.EditorFor(model => model.ReplacementBaseCode, new { htmlAttributes = new { @class = "k-textbox" } })
+        </div>
+    </div>
+
+    <div class="clear"></div>
+
+    <div class="form-group margin-5-0">
+        @Html.LabelFor(model => model.ReplacementBaseName, htmlAttributes: new { @class = "control-label col-sm-3 border-box align-right" })
+        <div class="col-sm-9 border-box">
+            @Html.EditorFor(model => model.ReplacementBaseName, new { htmlAttributes = new { @class = "k-textbox" } })
+        </div>
+    </div>
+
+    <div class="clear"></div>
+
+    <div class="form-group margin-5-0">
+        <div class="col-xs-12 border-box align-right">
+            <button id="dtSave" class="k-button"><i class="glyphicon glyphicon-floppy-disk"></i> @Resources.General_Save</button>
+            <button id="dtCancel" class="k-button"><i class="glyphicon glyphicon-off"></i> @Resources.General_Close</button>
+        </div>
+    </div>
+    <div class="clear"></div>
+</div>
+
+<script>
+
+    $(document).ready(function () {
+
+        $("#dtCancel")
+            .click(function () {
+                $(this).closest(".k-window-content").data("kendoWindow").close();
+            });
+        $("#dtSave")
+            .click(function (e) {
+
+                var item = new Object();
+                item.ReplacementBaseId = $("#ReplacementBaseId").val();
+                item.ReplacementBaseCode = $("#ReplacementBaseCode").val();
+                item.ReplacementBaseName = $("#ReplacementBaseName").val();
+
+                var rt = false;
+                var dt;
+                var q = $.ajax({
+                    url: '@Url.Action("SaveReplacementBase", "ReplacementBase")',
+                    dataType: "json",
+                    type: "POST",
+                    data: JSON.stringify({ replacementBase: item }),
+                    contentType: "application/json; charset=utf-8",
+                    async: false,
+                    success: function (data) {
+                        dt = data;
+                        rt = true;
+                    },
+                    error: function (xhr) {
+                        dt = xhr;
+                        rt = false;
+                    }
+                });
+                if (rt == true) {
+                    if (dt != "1") {
+                        alert(JSON.stringify(dt));
+                    }
+                    else {
+                        if ($(this).closest(".k-window-content").data("kendoWindow"))
+                            $(this).closest(".k-window-content").data("kendoWindow").close();
+                    }
+                }
+                else {
+                    alert(dt);
+                    return false;
+                }
+
+            });
+    });
+</script>

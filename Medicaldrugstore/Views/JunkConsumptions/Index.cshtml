@@ -1,0 +1,334 @@
+﻿@model IEnumerable<Medicaldrugstore.Models.JunkConsumptionDetail>
+
+@{
+    ViewBag.Title = Resources.JunkConsumption_Title;
+}
+<div class="clear"></div>
+<div class="for-Toolbar">
+    @(Html.Kendo().ToolBar()
+    .Name("ToolBar")
+    .Items(items =>
+    {
+        items.Add().Type(CommandType.Button).Togglable(false).Text("Նոր գրառում").Id("btnNew").Click("CreateJunkConsumption");
+        items.Add().Type(CommandType.Button).Togglable(false).Text("Խոտանել").Id("btnJunkConsumption").Click("RepresentJunkConsumption");
+        items.Add().Type(CommandType.Button).Togglable(false).Text(@Resources.General_Details).Id("btnDetails").Click("JunkConsumptionDetail");
+    })
+    )
+    @* Search Panel - Right Slide *@
+    <div class="right-slidePanel">
+        <div class="slidePanel-Content">
+            <div class="slidePanel-btn">
+            </div>
+            <div class="slidePanel-Content-fields create-item">
+                <h4>@Resources.General_Search</h4>
+                <div class="form-group margin-10-0">
+                    <label class="control-label" for="prmInitiationStartDate">@Resources.General_DatePeriod</label>
+                    <div class="input-search data-period">
+                        @(Html.Kendo().DatePicker()
+                                    .Name("prmStartDate")
+                                    .HtmlAttributes(new { placeholder = @Resources.General_Start, @class = "width100" })
+                        )
+                        @(Html.Kendo().DatePicker()
+                                    .Name("prmTerminationDate")
+                                    .HtmlAttributes(new { placeholder = @Resources.General_End, @class = "width100" })
+                        )
+                    </div>
+                </div>
+                <div class="form-group margin-5-0">
+                    @(Html.Kendo().ComboBox()
+                          .Name("prmOrganizationId")
+                          .DataTextField("Text")
+                          .Placeholder("Պահեստ")
+                          .DataValueField("Value")
+                          .Filter(FilterType.StartsWith)
+                          .BindTo(ViewBag.vbOrganizations)
+                          .HtmlAttributes(new { data_value_primitive = true, @class = "width100" })
+                    )
+                </div>
+                <div class="form-group margin-5-0">
+                    @(Html.Kendo().ComboBox()
+                      .Name("prmProductId")
+                      .Placeholder("Ապրանք")
+                      .DataTextField("Text")
+                      .DataValueField("Value")
+                      .Filter(FilterType.StartsWith)
+                      .BindTo(ViewBag.vbProducts)
+                      .HtmlAttributes(new { data_value_primitive = true, @class = "width100" })
+                    )
+                </div>
+                <div class="form-group btns align-right">
+                    <button type="submit" id="rtSearch" class="k-button" onclick="return Search();"><i class="glyphicon glyphicon-search"></i> @Resources.General_Search</button>
+                    <button type="submit" class="k-button" onclick="return Clear();"><i class="glyphicon glyphicon-minus"></i> @Resources.General_Clean</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script type="text/javascript">
+    $("#prmOrganizationId").width(641).kendoComboBox();
+    $("#prmProductId").width(269).kendoComboBox();
+    $("#prmStartDate, #prmTerminationDate").width(125).DatePicker();
+</script>
+
+
+<script type="text/javascript">
+
+    $(document)
+        .ready(function () {
+        });
+
+    function Clear() {
+        $("#prmOrganizationId").data("kendoComboBox").select(-1);
+        $("#prmStartDate").val("");
+        $("#prmTerminationDate").val("");
+        $("#prmProductId").data("kendoComboBox").select(-1);
+        $("#JunkConsumption").data("kendoGrid").dataSource.read();
+        return false;
+    }
+
+    function Search() {
+        $("#JunkConsumption").data("kendoGrid").dataSource.read();
+        return false;
+    }
+
+    function getParameter() {
+        return {
+            startDate: $("#prmStartDate").val(),
+            terminationDate: $("#prmTerminationDate").val(),
+            organizationId: $("#prmOrganizationId").val(),
+            productId: $("#prmProductId").val()
+        };
+    }
+</script>
+
+
+
+
+@(Html.Kendo().Grid<Medicaldrugstore.Models.JunkConsumptionDetail>()
+      .Name("JunkConsumption")
+      .Events(events => events.DataBound("onJunkConsumptionDataBound"))
+      .Columns(columns =>
+      {
+          columns.Bound(model => model.JunkConsumptionId).Hidden();
+          columns.Bound(model => model.OrganizationName);
+          columns.Bound(model => model.JunkConsumptionDate).Width(146);
+          columns.Bound(model => model.ProductName);
+          columns.Bound(model => model.Quantity).Width(113);
+          columns.Bound(model => model.JunkConsumptionStatusName).Width(140);
+          columns.Bound(model => model.JunkBaseName).Width(158);
+          columns.Command(commands =>
+          {
+              commands.Custom("Update").Text(" ").Click("UpdateJunkConsumption");
+              commands.Custom("Delete").Text(" ").Click("DeleteJunkConsumption");
+          }).Title(Resources.General_Commands).Width(130);
+      })
+      .Selectable(s => s.Mode(Kendo.Mvc.UI.GridSelectionMode.Single))
+      .Pageable()
+      .Scrollable()
+      .Sortable()
+      .Resizable(resize => resize.Columns(true))
+      .Reorderable(reorder => reorder.Columns(true))
+      .DataSource(dataSource => dataSource
+          .Ajax()
+          .Read(read => read.Action("ReadJunkConsumptions", "JunkConsumptions").Data("getParameter"))
+          .PageSize(15)
+          .Sort(sort => sort.Add("JunkConsumptionId").Descending())
+          .Model(model =>
+          {
+              model.Id(p => p.JunkConsumptionId);
+          }
+          )
+)
+)
+
+@(Html.Kendo().Window().Name("wndJunkConsumption")
+                     .Width(600).Height(250)
+                     .Draggable().Resizable()
+                     .Content("").Modal(true)
+                     .Actions(actions => actions.Pin().Close())
+                     .Visible(false)
+                     .Events(events => events
+                     .Close("onCloseJunkConsumption").Open("onOpenJunkConsumption").Refresh("onRefreshJunkConsumption"))
+)
+
+@(Html.Kendo().Window().Name("wndJunkConsumptionDetail")
+                    .Width(600).Height(470)
+                    .Draggable().Resizable()
+                    .Content("").Modal(true)
+                    .Actions(actions => actions.Pin().Close())
+                    .Visible(false)
+                    .Events(events => events
+                    .Open("onOpenJunkConsumption").Refresh("onRefreshJunkConsumption"))
+)
+
+<script>
+
+    function onJunkConsumptionDataBound(e) {
+        $(".k-grid-Update, .Update_Icon").find("span").addClass("glyphicon glyphicon-pencil");
+        $(".k-grid-Delete, .Delete_Icon").find("span").addClass("glyphicon glyphicon-trash");
+    }
+
+    function CreateJunkConsumption() {
+        var window = $("#wndJunkConsumption").data("kendoWindow");
+        window.content("");
+        window.title("Նոր գրառում");
+        window.refresh({
+            url: "@Url.Action("JunkConsumptionTemplate", "JunkConsumptions")" + "?junkConsumptionId=" + 0
+        });
+        window.center();
+        window.open();
+        return false;
+    }
+
+    function UpdateJunkConsumption(e) {
+        var row = $(e.target).closest("tr");
+        var grid = $("#JunkConsumption").data("kendoGrid");
+        var dataItem = grid.dataItem(row);
+        if (dataItem.JunkConsumptionStatusId != null) {
+            alert("@Resources.General_NoSubjectToEditing");
+            return false;
+        }
+        var window = $("#wndJunkConsumption").data("kendoWindow");
+        window.content("");
+        window.title("@Resources.General_Edit");
+        window.refresh({
+            url: "@Url.Action("JunkConsumptionTemplate", "JunkConsumptions")" + "?junkConsumptionId=" + dataItem.JunkConsumptionId
+        });
+        window.center();
+        window.open();
+        return false;
+    }
+
+    function DeleteJunkConsumption(e) {
+        var row = $(e.target).closest("tr");
+        var grid = $("#JunkConsumption").data("kendoGrid");
+        var dataItem = grid.dataItem(row);
+        if (dataItem.JunkConsumptionStatusId != null) {
+            alert("@Resources.General_NoSubjectToDelete");
+            return false;
+        }
+        var r = confirm("@Resources.General_Delete_Question");
+        if (r == false) {
+            return false;
+        }
+        var rt = false;
+        var dt;
+        var q = $.ajax({
+            url: '@Url.Action("DeleteJunkConsumption", "JunkConsumptions")',
+            dataType: "json",
+            type: "GET",
+            data: {
+                id: dataItem.JunkConsumptionId
+            },
+            async: false,
+            success: function (data) {
+                dt = data;
+                rt = true;
+            },
+            error: function (xhr) {
+                dt = xhr;
+                rt = false;
+            }
+        });
+
+        if (rt == true) {
+            if (dt.success != true) {
+                alert(JSON.stringify(dt.responseText));
+            }
+            else {
+                $("#JunkConsumption").data("kendoGrid").dataSource.read();
+            }
+        }
+        else {
+            alert(JSON.stringify("Unknown error occured."));
+        }
+        return false;
+    }
+
+    function RepresentJunkConsumption() {
+
+        var grid = $("#JunkConsumption").data("kendoGrid");
+        var selectedItem = grid.dataItem(grid.select());
+
+        if (selectedItem == null) {
+            alert("@Resources.General_NotSelected");
+            return false;
+        }
+
+        if (selectedItem.JunkConsumptionStatusId != null) {
+            alert("Ապրանքն արդեն խոտանված է:");
+            return false;
+        }
+
+        var r = confirm("Իսկապե՞ս ցանկանում եք խոտանել ապրանքը:");
+        if (r == false) {
+            return false;
+        }
+
+        var rt = false;
+        var dt;
+
+        var q = $.ajax({
+            url: '@Url.Action("RepresentJunkConsumption", "JunkConsumptions")',
+            dataType: "json",
+            type: "GET",
+            data: {
+                junkConsumptionId: selectedItem.JunkConsumptionId
+            },
+            async: false,
+            success: function (data) {
+                dt = data;
+                rt = true;
+            },
+            error: function (xhr) {
+                dt = xhr;
+                rt = false;
+            }
+        });
+
+        if (rt == true) {
+            if (dt.success != true) {
+                alert(JSON.stringify(dt.responseText));
+            }
+            else {
+                $("#JunkConsumption").data("kendoGrid").dataSource.read();
+            }
+        }
+        else {
+            alert(JSON.stringify("Unknown error occured."));
+        }
+        return false;
+    }
+
+    function JunkConsumptionDetail() {
+        var window = $("#wndJunkConsumptionDetail").data("kendoWindow");
+        var grid = $("#JunkConsumption").data("kendoGrid");
+        var selectedItem = grid.dataItem(grid.select());
+        if (selectedItem == null) {
+            alert("@Resources.General_NotSelected");
+            return false;
+        }
+        window.content("");
+        window.title("Մանրամասն տվյալներ");
+        window.refresh({
+            url: "@Url.Action("JunkConsumptionDetails", "JunkConsumptions")" + "/" + selectedItem.JunkConsumptionId
+        });
+        window.center();
+        window.open();
+    }
+
+    function onOpenJunkConsumption(e) {
+        kendo.ui.progress(e.sender.element, true);
+    }
+    function onCloseJunkConsumption(e) {
+        $("#JunkConsumption").data("kendoGrid").dataSource.read();
+    }
+    function onRefreshJunkConsumption(e) {
+        kendo.ui.progress(e.sender.element, false);
+    }
+
+</script>
+
+
+

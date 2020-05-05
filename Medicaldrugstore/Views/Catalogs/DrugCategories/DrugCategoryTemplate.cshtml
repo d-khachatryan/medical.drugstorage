@@ -1,0 +1,113 @@
+﻿@model Medicaldrugstore.Models.DrugCategory
+
+@{
+    Layout = null;
+}
+
+<div class="create-item" id="drugCat">
+
+    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+    @Html.HiddenFor(model => model.DrugCategoryId)
+     
+    <div class="form-group margin-10-0">
+        @Html.LabelFor(model => model.DrugCategoryCode, htmlAttributes: new { @class = "control-label col-sm-5 border-box align-right" })
+        <div class="col-sm-7 border-box">
+            @Html.EditorFor(model => model.DrugCategoryCode, new { htmlAttributes = new { @class = "k-textbox" } })
+            @Html.ValidationMessageFor(model => model.DrugCategoryCode, "", new { @class = "text-danger" })
+        </div>
+    </div>
+
+    <div class="clear"></div>
+
+    <div class="form-group margin-10-0">
+        @Html.LabelFor(model => model.DrugCategoryName, htmlAttributes: new { @class = "control-label col-sm-5 border-box align-right" })
+        <div class="col-sm-7 border-box">
+            @Html.EditorFor(model => model.DrugCategoryName, new { htmlAttributes = new { @class = "k-textbox" } })
+            @Html.ValidationMessageFor(model => model.DrugCategoryName, "", new { @class = "text-danger" })
+        </div>
+    </div>
+
+    <div class="clear"></div>
+
+    <div class="form-group margin-10-0">
+        @Html.LabelFor(model => model.UnitItemQuantity, htmlAttributes: new {@class = "control-label col-sm-5 border-box align-right" })
+        <div class="col-sm-7 border-box">
+            @Html.EditorFor(model => model.UnitItemQuantity, new {htmlAttributes = new {@class = "k-textbox"}})
+            @Html.ValidationMessageFor(model => model.UnitItemQuantity, "", new {@class = "text-danger"})
+        </div>
+    </div>
+
+    <div class="clear"></div>
+
+    <div class="form-group margin-20-0">
+        <div class="col-xs-5 border-box"></div>
+        <div class="col-xs-7 border-box align-right">
+            <button id="dtSave" class="k-button"><i class="glyphicon glyphicon-floppy-disk"></i> @Resources.General_Save</button>
+            <button id="dtCancel" class="k-button"><i class="glyphicon glyphicon-off"></i> @Resources.General_Close</button>
+        </div>
+    </div>
+    <div class="clear"></div>
+</div>
+
+<script>
+
+    $(document).ready(function () {
+
+        $("#dtCancel")
+            .click(function () {
+                if ($(this).closest(".k-window-content").data("kendoWindow"))
+                    $(this).closest(".k-window-content").data("kendoWindow").close();
+            });
+        $("#dtSave")
+            .click(function (e) {
+                var errTmplt = '<div class="k-widget k-tooltip k-tooltip-validation" style="margin:0.5em; padding:3px 5px;"><span class="fa fa-exclamation-triangle"></span> #=message#<div class="k-callout k-callout-n"></div></div>';
+                var validator = $("#drugCat").kendoValidator({
+                    errorTemplate: errTmplt
+                }).data("kendoValidator");
+                if (!validator.validate()) {
+                    //$("#errormssg").html("<span class='fa fa-exclamation-triangle'></span> @GeneralResources.FieldsRequired");
+                    return false;
+                }
+
+                var item = new Object();
+                item.DrugCategoryId = $("#DrugCategoryId").val();
+                item.DrugCategoryCode = $("#DrugCategoryCode").val();
+                item.DrugCategoryName = $("#DrugCategoryName").val();
+                item.UnitItemQuantity = $("#UnitItemQuantity").val();
+
+
+                var rt = false;
+                var dt;
+                var q = $.ajax({
+                    url: '@Url.Action("SaveDrugCategory", "DrugCategories")',
+                    dataType: "json",
+                    type: "POST",
+                    data: JSON.stringify({ drugCategory: item }),
+                    contentType: "application/json; charset=utf-8",
+                    async: false,
+                    success: function (data) {
+                        dt = data;
+                        rt = true;
+                    },
+                    error: function (xhr) {
+                        dt = xhr;
+                        rt = false;
+                    }
+                });
+                if (rt == true) {
+                    if (dt != "1") {
+                        alert(JSON.stringify(dt));
+                    }
+                    else {
+                        if ($(this).closest(".k-window-content").data("kendoWindow"))
+                            $(this).closest(".k-window-content").data("kendoWindow").close();
+                    }
+                }
+                else {
+                    alert(dt);
+                    return false;
+                }
+
+            });
+    });
+</script>

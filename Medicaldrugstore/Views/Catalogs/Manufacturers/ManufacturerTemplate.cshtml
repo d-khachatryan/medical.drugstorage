@@ -1,0 +1,99 @@
+﻿@model Medicaldrugstore.Models.Manufacturer
+
+@{
+    Layout = null;
+}
+
+<div class="create-item" id="manufacturer">
+    @Html.HiddenFor(model => model.ManufacturerId)
+     
+    <div class="form-group margin-10-0">
+        @Html.LabelFor(model => model.ManufacturerCode, htmlAttributes: new { @class = "control-label col-sm-3 border-box align-right" })
+        <div class="col-sm-9 border-box">
+            @Html.Kendo().TextBoxFor(model => model.ManufacturerCode)
+            @Html.ValidationMessageFor(model => model.ManufacturerCode, "", new { @class = "text-danger" })
+        </div>
+    </div>
+
+    <div class="clear"></div>
+
+    <div class="form-group margin-10-0">
+        @Html.LabelFor(model => model.ManufacturerName, htmlAttributes: new { @class = "control-label col-sm-3 border-box align-right" })
+        <div class="col-sm-9 border-box">
+            @Html.Kendo().TextBoxFor(model => model.ManufacturerName)
+            @Html.ValidationMessageFor(model => model.ManufacturerName, "", new { @class = "text-danger" })
+        </div>
+    </div>
+
+    <div class="clear"></div>
+
+    <div class="form-group margin-20-0">
+        <div class="col-xs-3 border-box"></div>
+        <div class="col-xs-9 border-box align-right">
+            <button id="dtSave" class="k-button"><i class="glyphicon glyphicon-floppy-disk"></i> @Resources.General_Save</button>
+            <button id="dtCancel" class="k-button"><i class="glyphicon glyphicon-off"></i> @Resources.General_Close</button>
+        </div>
+    </div>
+    <div class="clear"></div>
+</div>
+
+<script>
+
+    $(document).ready(function () {
+
+        $("#dtCancel")
+            .click(function () {
+                if ($(this).closest(".k-window-content").data("kendoWindow"))
+                    $(this).closest(".k-window-content").data("kendoWindow").close();
+            });
+        $("#dtSave")
+            .click(function (e) {
+                var errTmplt = '<div class="k-widget k-tooltip k-tooltip-validation" style="margin:0.5em; padding:3px 5px;"><span class="fa fa-exclamation-triangle"></span> #=message#<div class="k-callout k-callout-n"></div></div>';
+                var validator = $("#manufacturer").kendoValidator({
+                    errorTemplate: errTmplt
+                }).data("kendoValidator");
+                if (!validator.validate()) {
+                    //$("#errormssg").html("<span class='fa fa-exclamation-triangle'></span> @GeneralResources.FieldsRequired");
+                    return false;
+                }
+                var item = new Object();
+                item.ManufacturerId = $("#ManufacturerId").val();
+                item.ManufacturerCode = $("#ManufacturerCode").val();
+                item.ManufacturerName = $("#ManufacturerName").val();
+
+
+                var rt = false;
+                var dt;
+                var q = $.ajax({
+                    url: '@Url.Action("SaveManufacturer", "Manufacturers")',
+                    dataType: "json",
+                    type: "POST",
+                    data: JSON.stringify({ manufacturer: item }),
+                    contentType: "application/json; charset=utf-8",
+                    async: false,
+                    success: function (data) {
+                        dt = data;
+                        rt = true;
+                    },
+                    error: function (xhr) {
+                        dt = xhr;
+                        rt = false;
+                    }
+                });
+                if (rt == true) {
+                    if (dt != "1") {
+                        alert(JSON.stringify(dt));
+                    }
+                    else {
+                        if ($(this).closest(".k-window-content").data("kendoWindow"))
+                            $(this).closest(".k-window-content").data("kendoWindow").close();
+                    }
+                }
+                else {
+                    alert(dt);
+                    return false;
+                }
+
+            });
+    });
+</script>

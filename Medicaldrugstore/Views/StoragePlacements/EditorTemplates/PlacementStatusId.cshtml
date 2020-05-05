@@ -1,0 +1,13 @@
+﻿@{
+    Layout = null;
+}
+
+
+@(Html.Kendo().ComboBox()
+                    .Name("PlacementStatusId")
+                    .DataTextField("Text")
+                    .DataValueField("Value")
+                    .Filter(FilterType.StartsWith)
+                    .BindTo(ViewBag.vbStatuses)
+                    .HtmlAttributes(new { data_value_primitive = true })
+)

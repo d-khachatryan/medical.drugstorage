@@ -1,0 +1,83 @@
+﻿@model Medicaldrugstore.Models.Confirmation 
+
+@{
+    Layout = null;
+}
+
+@using (Html.BeginForm("Confirm", "Replacements", FormMethod.Post, new { id = "frmConfirmation" }))
+{
+<div class="create-item">
+
+    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+    @Html.HiddenFor(model => model.ReplacementId)
+
+    <div class="form-group margin-5-0 create-item">
+        @Html.LabelFor(model => model.ConfirmDate, htmlAttributes: new { @class = "control-label" })
+        @Html.EditorFor(model => model.ConfirmDate, new { htmlAttributes = new { @class = "" } })
+        <span class="k-invalid-msg" data-for="ConfirmDate"></span>
+    </div>
+    <div class="clear"></div>
+    <div class="form-group margin-10-0">
+        <div class="align-right">
+            <button id="cfmSave" class="k-button"><i class="glyphicon glyphicon-floppy-disk"></i> @Resources.General_Save</button>
+            <button id="cfmCancel" class="k-button"><i class="glyphicon glyphicon-off"></i> @Resources.General_Close</button>
+        </div>
+    </div>
+    <div class="clear"></div>
+</div>
+}
+
+<script>
+    $(document).ready(function () {
+        $("#cfmCancel")
+            .click(function () {
+                $(this).closest(".k-window-content").data("kendoWindow").close();
+                return false;
+            });
+        $("#cfmSave")
+            .click(function (e) {
+
+                var validator = $("#frmConfirmation").kendoValidator().data("kendoValidator");
+                if (!validator.validate()) {
+                    return false;
+                }
+
+                var item = new Object();
+                item.replacementId = '@Model.ReplacementId';
+                item.confirmDate = document.getElementById("ConfirmDate").value;
+
+                var rt = false;
+                var dt;
+                var q = $.ajax({
+                    url: '@Url.Action("Confirm", "Replacements")',
+                    dataType: "json",
+                    type: "POST",
+                    data: JSON.stringify({ confirmation: item }),
+                    contentType: "application/json; charset=utf-8",
+                    async: false,
+                    success: function (data) {
+                        dt = data;
+                        rt = true;
+                    },
+                    error: function (xhr) {
+                        dt = xhr;
+                        rt = false;
+                    }
+                });
+                if (rt == true) {
+                    if (dt != "1") {
+                        alert(JSON.stringify(dt));
+                        return false;
+                    }
+                    else {
+                        $(this).closest(".k-window-content").data("kendoWindow").close();
+                        return false;
+                    }
+                }
+                else {
+                    alert(JSON.stringify(dt));
+                    return false;
+                }
+            });
+    });
+</script>

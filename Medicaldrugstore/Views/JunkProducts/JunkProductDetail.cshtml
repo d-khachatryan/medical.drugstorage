@@ -1,0 +1,84 @@
+﻿@model Medicaldrugstore.Models.JunkProductDetail
+
+
+@{
+    Layout = null;
+}
+
+
+<div id="content">
+    <table class="table table-striped details">
+        <tr>
+            <td class="col-xs-5">@Html.DisplayNameFor(model => model.OrganizationCode)</td>
+            <td class="col-xs-7">@Html.DisplayFor(model => model.OrganizationCode)</td>
+        </tr>
+        <tr>
+            <td class="col-xs-5">@Html.DisplayNameFor(model => model.OrganizationName)</td>
+            <td class="col-xs-7">@Html.DisplayFor(model => model.OrganizationName)</td>
+        </tr>
+        <tr>
+            <td class="col-xs-5">@Html.DisplayNameFor(model => model.ProductName)</td>
+            <td class="col-xs-7">@Html.DisplayFor(model => model.ProductName)</td>
+        </tr>
+        <tr>
+            <td class="col-xs-5">@Html.DisplayNameFor(model => model.JunkProductDate)</td>
+            <td class="col-xs-7">@Html.DisplayFor(model => model.JunkProductDate)</td>
+        </tr>
+        <tr>
+            <td class="col-xs-5">@Html.DisplayNameFor(model => model.StorageName)</td>
+            <td class="col-xs-7">@Html.DisplayFor(model => model.StorageName)</td>
+        </tr>
+        <tr>
+            <td class="col-xs-5">@Html.DisplayNameFor(model => model.Quantity)</td>
+            <td class="col-xs-7">@Html.DisplayFor(model => model.Quantity)</td>
+        </tr>
+        <tr>
+            <td class="col-xs-5">@Html.DisplayNameFor(model => model.ItemQuantity)</td>
+            <td class="col-xs-7">@Html.DisplayFor(model => model.ItemQuantity)</td>
+        </tr>
+        <tr>
+            <td class="col-xs-5">@Html.DisplayNameFor(model => model.UnitCost)</td>
+            <td class="col-xs-7">@Html.DisplayFor(model => model.UnitCost)</td>
+        </tr>
+        <tr>
+            <td class="col-xs-5">@Html.DisplayNameFor(model => model.TotalCost)</td>
+            <td class="col-xs-7">@Html.DisplayFor(model => model.TotalCost)</td>
+        </tr>
+        <tr>
+            <td class="col-xs-5">@Html.DisplayNameFor(model => model.JunkProductStatusName)</td>
+            <td class="col-xs-7">@Html.DisplayFor(model => model.JunkProductStatusName)</td>
+        </tr>
+        <tr>
+            <td class="col-xs-5">@Html.DisplayNameFor(model => model.JunkBaseName)</td>
+            <td class="col-xs-7">@Html.DisplayFor(model => model.JunkBaseName)</td>
+        </tr>
+    </table>
+</div>
+
+<div class="form-group col-sm-12 border-box margin-10-0 align-right">
+    <button id="junkProductDetailExport" class="k-button"><i class="glyphicon glyphicon-download-alt"></i> Արտահանել</button>
+</div>
+
+<script>
+    $(document).ready(function () {
+        $("#junkProductDetailExport")
+            .click(function () {
+                var draw = kendo.drawing;
+                draw.drawDOM($("#content"), {
+                    avoidLinks: true,
+                    paperSize: "A4"
+                })
+                .then(function (root) {
+                    return draw.exportPDF(root);
+                })
+                .done(function (data) {
+                    kendo.saveAs({
+                        dataURI: data,
+                        fileName: '@Model.JunkProductId'
+                    });
+                    return false;
+                });
+            });
+    }
+)
+</script>

@@ -1,0 +1,307 @@
+﻿@model Medicaldrugstore.Models.DrugTemplate
+@{
+    Layout = null;
+}
+@using (Html.BeginForm("SaveDrug", "DrugClasses", FormMethod.Post, new { id = "frmDrugInput" }))
+{
+<div class="container create-item">
+    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+    
+    @Html.HiddenFor(model => model.DrugClassId)
+    @Html.HiddenFor(model => model.Quantity)
+
+    <div class="col-sm-6 border-box">
+        <div class="form-group">
+            @Html.LabelFor(model => model.DrugId, htmlAttributes: new { @class = "control-label" })
+            @Html.Kendo().NumericTextBoxFor(model => model.DrugId).Decimals(0).Format("#")
+            <span class="k-invalid-msg vldmsg" data-for="DrugId"></span>
+        </div>
+    </div>
+    <div class="col-sm-6 border-box">
+        <div class="form-group">
+            @Html.LabelFor(model => model.Seria, new { @class = "control-label" })
+            @Html.EditorFor(model => model.Seria, new { htmlAttributes = new { @class = "form-control" } })
+            <span class="k-invalid-msg vldmsg" data-for="Seria"></span>
+        </div>
+    </div>
+    <div class="clear"></div>
+    <div class="col-sm-4 border-box">
+        <div class="form-group">
+           @Html.LabelFor(model => model.ExpirationDate, htmlAttributes: new { @class = "control-label" })
+           @Html.EditorFor(model => model.ExpirationDate, new { htmlAttributes = new { @class = "form-control" } })
+           <span class="k-invalid-msg vldmsg" data-for="ExpirationDate"></span>
+        </div>
+    </div>
+    <div class="col-sm-4 border-box">
+        <div class="form-group">
+            @Html.LabelFor(model => model.UnitTypeId, htmlAttributes: new { @class = "control-label" })
+            @(Html.Kendo().ComboBoxFor(model => model.UnitTypeId)
+                .DataTextField("Text")
+                .DataValueField("Value")
+                .Filter(FilterType.StartsWith)
+                .BindTo(ViewBag.vbUnitTypes)
+                .HtmlAttributes(new { data_value_primitive = true })
+            )
+            <span class="k-invalid-msg vldmsg" data-for="UnitTypeId"></span>
+        </div>
+    </div>
+    <div class="col-sm-4 border-box">
+        <div class="form-group">
+            @Html.LabelFor(model => model.UnitCost, htmlAttributes: new { @class = "control-label" })
+            @Html.Kendo().NumericTextBoxFor(model => model.UnitCost).Decimals(0).Format("#")
+            <span class="k-invalid-msg vldmsg" data-for="UnitCost"></span>
+        </div>
+    </div>
+    <div class="clear"></div>
+    <div class="col-sm-12 border-box">
+        <div class="form-group">
+            <label class="control-label">Ձեռքբերող կազմակերպություն</label>
+            @(Html.Kendo().ComboBoxFor(model => model.OrganizationId)
+              .DataTextField("Text")
+              .DataValueField("Value")
+              .Filter(FilterType.StartsWith)
+              .BindTo(ViewBag.vbOrganizations)
+              .HtmlAttributes(new { data_value_primitive = true })
+            )
+            <span class="k-invalid-msg vldmsg" data-for="OrganizationId"></span>
+        </div>
+    </div>
+    @*--<div class="col-sm-6 border-box">
+        <div class="form-group">
+            <label class="control-label">Հիմնական պահեստ</label>
+            @(Html.Kendo().ComboBoxFor(model => model.StoreOrganizationId)
+                .DataTextField("Text")
+                .DataValueField("Value")
+                .Filter(FilterType.StartsWith)
+                .BindTo(ViewBag.vbOrganizations)
+                .HtmlAttributes(new { data_value_primitive = true })
+            )
+            <span class="k-invalid-msg vldmsg" data-for="StoreOrganizationId"></span>
+        </div>
+    </div>--*@
+    <div class="clear"></div>
+    <div class="col-sm-6 border-box">
+        <div class="form-group">
+            @Html.LabelFor(model => model.DrugSourceId, htmlAttributes: new { @class = "control-label" })
+            @(Html.Kendo().ComboBoxFor(model => model.DrugSourceId)
+                .DataTextField("Text")
+                .DataValueField("Value")
+                .Filter(FilterType.StartsWith)
+                .BindTo(ViewBag.vbDrugSources)
+                .HtmlAttributes(new { data_value_primitive = true })
+            )
+            <span class="k-invalid-msg vldmsg" data-for="DrugSourceId"></span>
+        </div>
+    </div>
+    <div class="col-sm-6 border-box">
+        <div class="form-group">
+            @Html.LabelFor(model => model.SupplierId, htmlAttributes: new { @class = "control-label" })
+            @(Html.Kendo().ComboBoxFor(model => model.SupplierId)
+                .DataTextField("Text")
+                .DataValueField("Value")
+                .Filter(FilterType.StartsWith)
+                .BindTo(ViewBag.vbSuppliers)
+                .HtmlAttributes(new { data_value_primitive = true })
+            )
+            <span class="k-invalid-msg vldmsg" data-for="SupplierId"></span>
+        </div>
+    </div>
+    <div class="clear"></div>
+    <div class="col-sm-6 border-box">
+        <div class="form-group">
+            @Html.LabelFor(model => model.CountryId, htmlAttributes: new { @class = "control-label" })
+            @(Html.Kendo().ComboBoxFor(model => model.CountryId)
+                .DataTextField("Text")
+                .DataValueField("Value")
+                .Filter(FilterType.StartsWith)
+                .BindTo(ViewBag.vbCountries)
+                .HtmlAttributes(new { data_value_primitive = true })
+            )
+            <span class="k-invalid-msg vldmsg" data-for="CountryId"></span>
+        </div>
+    </div>
+    <div class="col-sm-6 border-box">
+        <div class="form-group">
+            @Html.LabelFor(model => model.Manufacturer, htmlAttributes: new { @class = "control-label" })
+            @Html.EditorFor(model => model.Manufacturer, new { htmlAttributes = new { @class = "form-control" } })
+            <span class="k-invalid-msg vldmsg" data-for="Manufacturer"></span>
+        </div>
+    </div>
+    <div class="clear"></div>
+    <div class="col-sm-12 border-box">
+        <div class="form-group">
+            @Html.LabelFor(model => model.Description, new { @class = "control-label" })
+            @Html.EditorFor(model => model.Description, new { htmlAttributes = new { @class = "form-control" } })
+            <span class="k-invalid-msg vldmsg" data-for="Description"></span>
+        </div>
+    </div>
+    <div class="clear"></div>
+    <div class="col-sm-12 border-box">
+        <div class="form-group">
+            @Html.LabelFor(model => model.Products, new { @class = "control-label" })
+            @(Html.Kendo().Grid<Medicaldrugstore.Models.Product>()
+                       .Name("Product")
+                       .Columns(columns =>
+                       {
+                           columns.Bound(model => model.ProductId).Hidden();
+                           columns.Bound(model => model.DrugId).Hidden();
+                           columns.Bound(model => model.RegistrationDate);
+                           columns.ForeignKey(model => model.StorageId, (List<SelectListItem>) ViewBag.vbStorages, "Value", "Text").EditorTemplateName("StorageId");
+                           columns.Bound(model => model.Quantity);
+                           columns.Command(commands =>
+                           {
+                               commands.Destroy().Text(" ");
+                           }).Title(" ").Width(70);
+                       })
+                           .ToolBar(toolbar =>
+                           {
+                               toolbar.Create().Text("Նոր");
+                           })
+                           .Editable(editable => editable.Mode(GridEditMode.InCell))
+                           .DataSource(dataSource => dataSource
+                               .Ajax()
+                               .Batch(true)
+                               .PageSize(5)
+                               .Read(read => read.Action("ReadProducts", "DrugClasses", new { id = @Model.DrugId }))
+                           .Model(model =>
+                           {
+                               model.Id(p => p.DrugId);
+                           }
+                           )
+                           )
+        .Scrollable()
+        .Resizable(resize => resize.Columns(true))
+        .Reorderable(reorder => reorder.Columns(true))
+        //.Pageable()
+        .Sortable()
+            )
+        </div>
+    </div>
+    <div class="clear"></div>
+    <div class="col-sm-12 border-box">
+        <div class="col-sm-6 border-box">
+            <span id="errormssg"></span>
+        </div>
+        <div class="col-sm-6 border-box form-group margin-10-0 align-right">
+            <button id="dtSave" class="k-button"><i class="glyphicon glyphicon-floppy-disk"></i> @Resources.General_Save</button>
+            <button id="dtCancel" class="k-button"><i class="glyphicon glyphicon-off"></i> @Resources.General_Close</button>
+        </div>
+    </div>
+    <div class="clear"></div>
+</div>
+}
+
+<script>
+    $(document).ready(function () {
+        $("#dtCancel")
+            .click(function () {
+                $(this).closest(".k-window-content").data("kendoWindow").close();
+                return false;
+            });
+        $("#dtSave")
+            .click(function (e) {
+                var errTmplt = '<div class="k-widget k-tooltip k-tooltip-validation" style="margin:0.5em; padding:3px 5px;"><span class="fa fa-exclamation-triangle"></span> #=message#<div class="k-callout k-callout-n"></div></div>';
+                var validator = $("#frmDrugInput").kendoValidator({
+                    errorTemplate: errTmplt
+                }).data("kendoValidator");
+                if (!validator.validate()) {
+                    $("#errormssg").html("<span class='fa fa-exclamation-triangle'></span> @GeneralResources.FieldsRequired");
+                    return false;
+                }
+
+
+                var item = new Object();
+
+                item.DrugClassId = '@Model.DrugClassId';
+                item.Quantity = '@Model.Quantity';
+                @*item.ImageUrl = '@Model.ImageUrl';*@
+
+                item.DrugId = $("#DrugId").val();
+                item.Seria = $("#Seria").val();
+                item.ExpirationDate = $("#ExpirationDate").val();
+                item.UnitTypeId = $("#UnitTypeId").val();
+                item.UnitCost = $("#UnitCost").val();
+                item.OrganizationId = $("#OrganizationId").val();
+                item.StoreOrganizationId = '@Model.StoreOrganizationId';
+                item.DrugSourceId = $("#DrugSourceId").val();
+                item.SupplierId = $("#SupplierId").val();
+                item.CountryId = $("#CountryId").val();
+                item.Manufacturer = $("#Manufacturer").val();
+                item.Description = $("#Description").val();
+
+
+                var productGrid = $("#Product").data("kendoGrid"), parameterMap = productGrid.dataSource.transport.parameterMap;
+                var currentProductData = productGrid.dataSource.data();
+                var rProducts = [];
+                for (var i = 0; i < currentProductData.length; i++) {
+                    var itm = new Object();
+                    if (currentProductData[i].isNew()) {
+                        itm.ProductId = currentProductData[i].ProductId;
+                        itm.DrugId = currentProductData[i].DrugId;
+                        itm.RegistrationDate = currentProductData[i].RegistrationDate;
+                        itm.StorageId = currentProductData[i].StorageId;
+                        itm.Quantity = currentProductData[i].Quantity;
+                        itm.RecordStatus = String(1);
+                        rProducts.push(itm);
+                    } else if (currentProductData[i].dirty) {
+                        itm.ProductId = currentProductData[i].ProductId;
+                        itm.DrugId = currentProductData[i].DrugId;
+                        itm.RegistrationDate = currentProductData[i].RegistrationDate;
+                        itm.StorageId = currentProductData[i].StorageId;
+                        itm.Quantity = currentProductData[i].Quantity;
+                        itm.RecordStatus = String(2);
+                        rProducts.push(itm);
+                    }
+                }
+                for (var i = 0; i < productGrid.dataSource._destroyed.length; i++) {
+                    var itm = new Object();
+                    itm.ProductId = productGrid.dataSource._destroyed[i].ProductId;
+                    itm.DrugId = productGrid.dataSource._destroyed[i].DrugId;
+                    itm.RegistrationDate = productGrid.dataSource._destroyed[i].RegistrationDate;
+                    itm.StorageId = productGrid.dataSource._destroyed[i].StorageId;
+                    itm.Quantity = productGrid.dataSource._destroyed[i].Quantity;
+                    itm.RecordStatus = String(3);
+                    rProducts.push(itm);
+                }
+                item.Products = rProducts;
+
+                var rt = false;
+                var dt;
+                var q = $.ajax({
+                    url: '@Url.Action("SaveDrug", "DrugClasses")',
+                    dataType: "json",
+                    type: "POST",
+                    data: JSON.stringify({ drugTemplate: item }),
+                    contentType: "application/json; charset=utf-8",
+                    async: false,
+                    success: function (data) {
+                        dt = data;
+                        rt = true;
+                    },
+                    error: function (xhr) {
+                        dt = xhr;
+                        rt = false;
+                    }
+                });
+
+                if (rt == true) {
+                    if (dt.success != true) {
+                        /*Այստեղ իրականացվում է սերվերից վերադարձված սխալի ցուցադրման գործառույթը:
+                        Անհրաժեշտ է որ alert-ի փոխարեն կարմիր գույնով ցուցադրվի սխալը:
+                        Այդ սխալը պետք է տեղակայված լինի մուտքային վերջին դաշտի և հրահանգների արանքում:*/
+                        alert(JSON.stringify(dt.responseText));
+                    }
+                    else {
+                        $(this).closest(".k-window-content").data("kendoWindow").close();
+                    }
+                }
+                else {
+                    alert(JSON.stringify("Unknown error occured."));
+                }
+                return false;
+
+            });
+    });
+</script>
+
+

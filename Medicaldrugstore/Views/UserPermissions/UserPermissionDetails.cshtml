@@ -1,0 +1,27 @@
+﻿@model Medicaldrugstore.Models.vwUserPermission
+
+@{
+    Layout = null;
+}
+
+<div>
+    <table class="table table-striped details">
+        <tr>
+            <td class="col-xs-3">@Html.DisplayNameFor(model => model.UserName)</td>
+            <td class="bold col-xs-9">@Html.DisplayFor(model => model.UserName)</td>
+        </tr>
+        <tr>
+            <td class="col-xs-3">@Html.DisplayNameFor(model => model.LevelName)</td>
+            <td class="col-xs-9">@Html.DisplayFor(model => model.LevelName)</td>
+        </tr>
+        <tr>
+            <td class="col-xs-3">@Html.DisplayNameFor(model => model.ItemCode)</td>
+            <td class="col-xs-9">@Html.DisplayFor(model => model.ItemCode)</td>
+        </tr>
+        <tr>
+            <td class="col-xs-3">@Html.DisplayNameFor(model => model.ItemName)</td>
+            <td class="col-xs-9">@Html.DisplayFor(model => model.ItemName)</td>
+        </tr>
+    </table>
+</div>
+

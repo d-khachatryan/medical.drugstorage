@@ -1,0 +1,19 @@
+﻿@model Medicaldrugstore.Models.DrugType
+
+@{
+    Layout = null;
+}
+
+<div>
+    <table class="table table-striped details">
+        <tr>
+            <td class="col-xs-6">@Html.DisplayNameFor(model => model.DrugTypeCode)</td>
+            <td class="bold col-xs-6">@Html.DisplayFor(model => model.DrugTypeCode)</td>
+        </tr>
+        <tr>
+            <td class="col-xs-6">@Html.DisplayNameFor(model => model.DrugTypeName)</td>
+            <td class="col-xs-6">@Html.DisplayFor(model => model.DrugTypeName)</td>
+        </tr>
+    </table>
+</div>
+

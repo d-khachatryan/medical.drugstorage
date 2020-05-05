@@ -1,0 +1,211 @@
+﻿@model IEnumerable<Medicaldrugstore.Models.ReplacementBase>
+@using Kendo.Mvc.UI
+
+
+@{
+    ViewBag.Title = "Վերադարձի փաստաթղթի հիմք";
+}
+<div class="clear"></div>
+<div class="for-Toolbar">
+    @(Html.Kendo().ToolBar()
+    .Name("ToolBar")
+    .Items(items =>
+    {
+        items.Add().Type(CommandType.Button).Togglable(false).Text(@Resources.General_NewRecord).Id("btnNew").Click("CreateReplacementBase");
+        items.Add().Type(CommandType.Button).Togglable(false).Text(@Resources.General_Details).Id("btnDetails").Click("ShowDetails");
+    })
+    )
+    @* Search Panel - Right Slide *@
+    <div class="right-slidePanel">
+        <div class="slidePanel-Content">
+            <div class="slidePanel-btn">
+            </div>
+            <div class="slidePanel-Content-fields create-item">
+                <h4>@Resources.General_Search</h4>
+                <div class="form-group margin-5-0">
+                    <input id="prmReplacementBaseCode" class="k-textbox" placeholder="Կոդ" />
+                </div>
+                <div class="form-group margin-5-0">
+                    <input id="prmReplacementBaseName" class="k-textbox" placeholder="Հիմք" />
+                </div>
+                <div class="form-group btns align-right">
+                    <button type="submit" id="rtSearch" class="k-button" onclick="return Search();"><i class="glyphicon glyphicon-search"></i> @Resources.General_Search</button>
+                    <button type="submit" class="k-button" onclick="return Clear();"><i class="glyphicon glyphicon-minus"></i> @Resources.General_Clean</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script type="text/javascript">
+    function Search() {
+        $("#ReplacementBase").data("kendoGrid").dataSource.read();
+        $("#ReplacementBase").data("kendoGrid").refresh();
+        return false;
+    }
+
+    function Clear() {
+        $("#prmReplacementBaseCode").val("");
+        $("#prmReplacementBaseName").val("");
+        $("#ReplacementBase").data("kendoGrid").dataSource.read();
+        return false;
+    }
+
+    function getParameter() {
+        return {
+            replacementBaseCode: $("#prmReplacementBaseCode").val(),
+            replacementBaseName: $("#prmReplacementBaseName").val()
+        };
+    }
+</script>
+
+
+
+
+@(Html.Kendo().Grid<Medicaldrugstore.Models.ReplacementBase>()
+                        .Name("ReplacementBase")
+                        .Columns(columns =>
+                        {
+                            columns.Bound(model => model.ReplacementBaseCode).Width(80);
+                            columns.Bound(model => model.ReplacementBaseName);
+                            columns.Command(commands =>
+                            {
+                                commands.Custom("Update").Text(" ").Click("UpdateReplacementBase");
+                                commands.Custom("Delete").Text(" ").Click("DeleteReplacementBase");
+                            }).Title(Resources.General_Commands).Width(130);
+                        })
+                        .Selectable(s => s.Mode(Kendo.Mvc.UI.GridSelectionMode.Single))
+                        .Events(e => e.DataBound("onRowBound"))
+                        .Pageable(pageable => pageable
+                        .Refresh(true)
+                        .PageSizes(true)
+                        .ButtonCount(5))
+                        .Scrollable()
+                        .Resizable(resize => resize.Columns(true))
+                        .Reorderable(reorder => reorder.Columns(true))
+                        .Sortable()
+                        .HtmlAttributes(new { style = "height:620px;" })
+                        .DataSource(dataSource => dataSource
+                        .Ajax()
+                        .Read(read => read.Action("ReadReplacementBase", "ReplacementBase").Data("getParameter"))
+                        .PageSize(15)
+                        .Model(model => model.Id(p => p.ReplacementBaseId))
+)
+)
+
+
+@(Html.Kendo().Window().Name("window").Width(550)
+            .Height(120).Draggable()
+            .Resizable().Content("")
+            .Title(".....")
+            .Modal(true)
+            .Actions(actions => actions.Pin().Close())
+            .Visible(false)
+            .Events(events => events
+            .Close("onClose").Open("onOpen").Refresh("onRefresh"))
+)
+
+@(Html.Kendo().Window().Name("crtWindow").Width(450)
+            .Height(150).Draggable()
+            .Resizable().Content("")
+            .Title(Resources.General_NewRecord)
+            .Modal(true)
+            .Actions(actions => actions.Pin().Close())
+            .Visible(false)
+            .Events(events => events
+            .Close("onClose").Open("onOpen").Refresh("onRefresh"))
+)
+<script>
+    function CreateReplacementBase() {
+        var window = $("#crtWindow").data("kendoWindow");
+        window.content("");
+        window.title("@Resources.General_NewRecord");
+
+        window.refresh({
+            url: "@Url.Action("OpenCreateReplacementBaseView", "ReplacementBase")"
+        });
+    window.center();
+    window.open();
+    return false;
+    }
+
+    function UpdateReplacementBase(e) {
+        var window = $("#crtWindow").data("kendoWindow");
+        var row = $(e.target).closest("tr");
+        var grid = $("#ReplacementBase").data("kendoGrid");
+        var dataItem = grid.dataItem(row);
+        window.content("");
+        window.title("@Resources.General_Edit");
+        window.refresh({
+            url: "@Url.Action("OpenUpdateReplacementBaseView", "ReplacementBase")" + "/" + dataItem.ReplacementBaseId
+        });
+    window.center();
+    window.open();
+    return false;
+    }
+
+    function DeleteReplacementBase(e) {
+        var row = $(e.target).closest("tr");
+        var grid = $("#ReplacementBase").data("kendoGrid");
+        var dataItem = grid.dataItem(row);
+        var r = confirm("@Resources.General_Delete_Question");
+        if (r == false) {
+            return false;
+        }
+        var rt = false;
+        var dt;
+        var q = $.ajax({
+            url: '@Url.Action("DeleteReplacementBase", "ReplacementBase")',
+            dataType: "json",
+            type: "GET",
+            data: {
+                id: dataItem.ReplacementBaseId
+            },
+            async: false,
+            success: function(data) {
+                dt = data;
+                rt = true;
+            },
+            error: function(xhr) {
+                dt = xhr;
+                rt = false;
+            }
+        });
+        if (rt == true) {
+            $("#ReplacementBase").data("kendoGrid").dataSource.read();
+            $("#ReplacementBase").data("kendoGrid").refresh();
+        } else {
+            alert(dt);
+            return false;
+        }
+        return false;
+    }
+
+    function ShowDetails() {
+        var window = $("#window").data("kendoWindow");
+        var grid = $("#ReplacementBase").data("kendoGrid");
+        var selectedItem = grid.dataItem(grid.select());
+        if (selectedItem == null) {
+            alert("@Resources.General_NotSelected");
+            return false;
+        }
+        window.content("");
+        window.title("Հիմքի տվյալներ");
+        window.refresh({
+            url: "@Url.Action("ReplacementBaseDetails", "ReplacementBase")" + "/" + selectedItem.ReplacementBaseId
+        });
+        window.center();
+        window.open();
+    }
+
+    function onOpen(e) {
+        kendo.ui.progress(e.sender.element, true);
+    }
+    function onClose() {
+        $("#ReplacementBase").data("kendoGrid").dataSource.read();
+        $("#ReplacementBase").data("kendoGrid").refresh();
+    }
+    function onRefresh(e) {
+        kendo.ui.progress(e.sender.element, false);
+    }
+</script>

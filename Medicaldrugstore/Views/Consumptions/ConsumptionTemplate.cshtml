@@ -1,0 +1,211 @@
+﻿@model Medicaldrugstore.Models.ConsumptionTemplate
+
+@{
+    Layout = null;
+}
+   <div class="create-item" id="frmConsumption">
+        @Html.HiddenFor(model => model.ConsumptionId)
+       <div class="col-sm-12 border-box">
+           <div class="form-group">
+               @Html.LabelFor(model => model.OrganizationId, htmlAttributes: new { @class = "control-label" })
+               @(Html.Kendo().ComboBoxFor(model => model.OrganizationId)
+                    .DataTextField("OrganizationName")
+                 .DataValueField("OrganizationId")
+                 .Placeholder("Select category...")
+                 .Filter(FilterType.StartsWith)
+                 .DataSource(source =>
+                 {
+                     source.Read(read =>
+                     {
+                         read.Action("GetOrganizations", "Consumptions");
+                     });
+                 })
+                  .HtmlAttributes(new { data_value_primitive = true })
+               )
+               @Html.ValidationMessageFor(model => model.OrganizationId, "", new { @class = "text-danger" })
+           </div>
+       </div>
+       <div class="col-sm-6 border-box">
+           <div class="form-group">
+               @Html.LabelFor(model => model.ConsumptionDate, htmlAttributes: new { @class = "control-label" })
+               @Html.Kendo().DatePickerFor(model => model.ConsumptionDate)
+               @Html.ValidationMessageFor(model => model.ConsumptionDate, "", new { @class = "text-danger" })
+           </div>
+       </div>
+       <div class="col-sm-6 border-box">
+           <div class="form-group">
+               @Html.LabelFor(model => model.TerminationDate, htmlAttributes: new { @class = "control-label col-sm-4 align-right" })
+               @Html.Kendo().DatePickerFor(model => model.TerminationDate)
+               @Html.ValidationMessageFor(model => model.TerminationDate, "", new { @class = "text-danger" })
+           </div>
+       </div>
+       <div class="col-sm-12 border-box">
+           <div class="form-group">
+               <label>Ծախսված ապրանքներ</label>
+               @(Html.Kendo().Grid<Medicaldrugstore.Models.ConsumptionProduct>()
+                                  .Name("ConsumptionProduct")
+                                  .Columns(columns =>
+                                  {
+                                      columns.Bound(model => model.ConsumptionProductId).Hidden();
+                                      columns.Bound(model => model.ConsumptionId).Hidden();
+                                      columns.ForeignKey(model => model.ProductId, (List<SelectListItem>)ViewBag.vbProducts, "Value", "Text").EditorTemplateName("Product");
+                                      columns.Bound(model => model.Quantity).Width(80);
+                                      columns.Command(commands =>
+                                      {
+                                          commands.Destroy().Text(" ");
+                                      }).Title(" ").Width(65);
+                                  })
+                                  .ToolBar(toolbar =>
+                                  {
+                                      toolbar.Create().Text("Նոր");
+                                  })
+                                  .Editable(editable => editable.Mode(GridEditMode.InCell))
+                                      .DataSource(dataSource => dataSource
+                                          .Ajax()
+                                          .Batch(true)
+                                          .PageSize(5)
+                                          .Read(read => read.Action("ReadConsumptionProducts", "Consumptions", new { id = @Model.ConsumptionId }))
+                                          .Model(model =>
+                                          {
+                                              model.Id(p => p.ConsumptionProductId);
+                                          }
+                                          )
+                                      )
+                                      .Scrollable()
+                                      .Resizable(resize => resize.Columns(true))
+                                      .Reorderable(reorder => reorder.Columns(true))
+                                      .Pageable()
+                                      .Sortable()
+            )
+           </div>
+       </div>
+
+
+
+        @*<div class="col-sm-12 border-box" style="margin-top:15px;">
+                <ul class="nav nav-tabs">
+                    <li class="active">
+                        <a data-toggle="tab" href="#tbConsumptionProduct">Ծախսված ապրանքներ</a>
+                    </li>
+                </ul>
+                <div class="tab-content">
+                    <div id="tbConsumptionProduct" class="tab-pane fade in active">
+                        
+                    </div>
+                </div>
+            </div>*@
+
+
+
+
+        @*@Այստեղ պետք է ցուցադրվի սխալի հաղորդագրությունը:*@
+
+       <div class="form-group col-sm-8 margin-10-0 border-box">
+           <span id="errormssg"></span>
+       </div>
+       <div class="form-group col-sm-4 border-box margin-10-0 align-right">
+           <button id="consumptionSave" class="k-button"><i class="glyphicon glyphicon-floppy-disk"></i> @Resources.General_Save</button>
+           <button id="consumptionCancel" class="k-button"><i class="glyphicon glyphicon-off"></i> @Resources.General_Close</button>
+       </div>
+    </div>
+
+<script>
+    $(document).ready(function () {
+        $("#consumptionCancel")
+            .click(function () {
+                $(this).closest(".k-window-content").data("kendoWindow").close();
+                return false;
+            });
+        $("#consumptionSave")
+            .click(function (e) {
+                var errTmplt = '<div class="k-widget k-tooltip k-tooltip-validation" style="margin:0.5em; padding:3px 5px;"><span class="fa fa-exclamation-triangle"></span> #=message#<div class="k-callout k-callout-n"></div></div>';
+                var validator = $("#frmConsumption").kendoValidator({
+                    errorTemplate: errTmplt
+                }).data("kendoValidator");
+                if (!validator.validate()) {
+                    $("#errormssg").html("<span class='fa fa-exclamation-triangle'></span> @GeneralResources.FieldsRequired");
+                    return false;
+                }
+
+                var item = new Object();
+                item.consumptionId = $("#ConsumptionId").val();
+                item.organizationId = $("#OrganizationId").val();
+                item.consumptionDate = $("#ConsumptionDate").val();
+                item.terminationDate = $("#TerminationDate").val();
+
+
+                var productGrid = $("#ConsumptionProduct").data("kendoGrid"), parameterMap = productGrid.dataSource.transport.parameterMap;
+                var currentProductData = productGrid.dataSource.data();
+                var rProduct = [];
+                for (var i = 0; i < currentProductData.length; i++) {
+                    var itm = new Object();
+                    if (currentProductData[i].isNew()) {
+                        itm.ConsumptionProductId = currentProductData[i].ConsumptionProductId;
+                        itm.ConsumptionId = currentProductData[i].ConsumptionId;
+                        itm.ProductId = currentProductData[i].ProductId;
+                        itm.Quantity = currentProductData[i].Quantity;
+                        itm.RecordStatus = String(1);
+                        rProduct.push(itm);
+                    } else if (currentProductData[i].dirty) {
+                        itm.ConsumptionProductId = currentProductData[i].ConsumptionProductId;
+                        itm.ConsumptionId = currentProductData[i].ConsumptionId;
+                        itm.ProductId = currentProductData[i].ProductId;
+                        itm.Quantity = currentProductData[i].Quantity;
+                        itm.RecordStatus = String(2);
+                        rProduct.push(itm);
+                    }
+                }
+                for (var i = 0; i < productGrid.dataSource._destroyed.length; i++) {
+                    var itm = new Object();
+                    itm.ConsumptionProductId = productGrid.dataSource._destroyed[i].ConsumptionProductId;
+                    itm.ConsumptionId = productGrid.dataSource._destroyed[i].ConsumptionId;
+                    itm.ProductId = productGrid.dataSource._destroyed[i].ProductId;
+                    itm.Quantity = productGrid.dataSource._destroyed[i].Quantity;
+                    itm.RecordStatus = String(3);
+                    rProduct.push(itm);
+                }
+                item.ConsumptionProducts = rProduct;
+
+
+
+
+
+                var rt = false;
+                var dt;
+                var q = $.ajax({
+                    url: '@Url.Action("SaveConsumption", "Consumptions")',
+                    dataType: "json",
+                    type: "POST",
+                    data: JSON.stringify({ consumptionTemplate: item }),
+                    contentType: "application/json; charset=utf-8",
+                    async: false,
+                    success: function (data) {
+                        dt = data;
+                        rt = true;
+                    },
+                    error: function (xhr) {
+                        dt = xhr;
+                        rt = false;
+                    }
+                });
+
+
+                if (rt == true) {
+                    if (dt.success != true) {
+                        /*Այստեղ իրականացվում է սերվերից վերադարձված սխալի ցուցադրման գործառույթը:
+                        Անհրաժեշտ է որ alert-ի փոխարեն կարմիր գույնով ցուցադրվի սխալը:
+                        Այդ սխալը պետք է տեղակայված լինի մուտքային վերջին դաշտի և հրահանգների արանքում:*/
+                        alert(JSON.stringify(dt.responseText));
+                    }
+                    else {
+                        $(this).closest(".k-window-content").data("kendoWindow").close();
+                    }
+                }
+                else {
+                    alert(JSON.stringify("Unknown error occured."));
+                }
+                return false;
+
+            });
+    });
+</script>

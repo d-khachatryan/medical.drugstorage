@@ -1,0 +1,29 @@
+﻿@model Medicaldrugstore.Models.PlacementStatus
+
+@{
+    Layout = null;
+}
+
+<div class="container-full create-item">
+
+    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+
+    <div class="form-group margin-5-0">
+        @Html.LabelFor(model => model.PlacementStatusCode, htmlAttributes: new { @class = "control-label col-sm-5 align-right" })
+        <div class="col-sm-5">
+            @Html.EditorFor(model => model.PlacementStatusCode, new { htmlAttributes = new { @class = "k-textbox" } })
+            <br />
+            @Html.ValidationMessageFor(model => model.PlacementStatusCode, "", new { @class = "text-danger" })
+        </div>
+    </div>
+    <div class="clear"></div>
+    <div class="form-group margin-5-0">
+        @Html.LabelFor(model => model.PlacementStatusName, htmlAttributes: new { @class = "control-label col-sm-5 align-right" })
+        <div class="col-sm-5">
+            @Html.EditorFor(model => model.PlacementStatusName, new { htmlAttributes = new { @class = "form-control" } })
+            <br />
+            @Html.ValidationMessageFor(model => model.PlacementStatusName, "", new { @class = "text-danger" })
+        </div>
+    </div>
+    <div class="clear"></div>
+</div>

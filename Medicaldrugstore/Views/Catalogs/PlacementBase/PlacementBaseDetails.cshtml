@@ -1,0 +1,20 @@
+﻿@model Medicaldrugstore.Models.PlacementBase
+
+@{
+    Layout = null;
+}
+
+<div>
+    <table class="table table-striped details">
+        <tr>
+            <td class="col-xs-6">@Html.DisplayNameFor(model => model.PlacementBaseCode)</td>
+            <td class="bold col-xs-6">@Html.DisplayFor(model => model.PlacementBaseCode)</td>
+        </tr>
+        <tr>
+            <td class="col-xs-6">@Html.DisplayNameFor(model => model.PlacementBaseName)</td>
+            <td class="col-xs-6">@Html.DisplayFor(model => model.PlacementBaseName)</td>
+        </tr>
+    </table>
+</div>
+
+

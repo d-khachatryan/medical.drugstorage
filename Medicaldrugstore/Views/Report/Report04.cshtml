@@ -1,0 +1,20 @@
+﻿@{
+    Layout = "ReportLayout.cshtml";
+}
+    @{
+        var uriReportSource = new UriReportSource() { Uri = "Report04.trdp" };
+        uriReportSource.Parameters.Add(new Telerik.Reporting.Parameter("StartDate", ViewBag.StartDate));
+        uriReportSource.Parameters.Add(new Telerik.Reporting.Parameter("TerminationDate", ViewBag.TerminationDate));
+        uriReportSource.Parameters.Add(new Telerik.Reporting.Parameter("MarzId", ViewBag.MarzId));
+    }
+
+    @(Html.TelerikReporting().ReportViewer()
+        .Id("reportViewer1")
+        .ServiceUrl(Url.Content("/api/reports"))
+        .ReportSource(uriReportSource)
+        .ViewMode(ViewMode.Interactive)
+        .ScaleMode(ScaleMode.Specific)
+        .Scale(1.0)
+        .PersistSession(false)
+        .PrintMode(PrintMode.AutoSelect)
+    )

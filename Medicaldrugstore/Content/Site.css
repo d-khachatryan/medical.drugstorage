@@ -1,0 +1,712 @@
+﻿/*body {
+    padding-top: 50px;
+    padding-bottom: 20px;
+    color: #646464;
+
+}*/
+
+/* Set padding to keep content from hitting the edges */
+/*.body-content {
+    padding-left: 15px;
+    padding-right: 15px;
+}*/
+
+/* Override the default bootstrap behavior where horizontal description lists 
+   will truncate terms that are too long to fit in the left column 
+*/
+/*.dl-horizontal dt {
+    white-space: normal;
+}*/
+
+/* Set width on the form input elements since they're 100% wide by default 
+input,
+select,
+textarea {
+    max-width: 280px;
+}
+
+*/
+
+/*Grid*/
+th.k-header {
+    overflow: visible !important; 
+    white-space: normal !important; 
+    vertical-align: top !important;
+}
+
+.k-header .k-link {
+            text-align: center;
+        }
+
+
+.align-right {
+    text-align: right;
+}
+
+.for-checkbox{
+    padding-top:6px;
+}
+
+.nav_header {
+    float:right; 
+    margin-top:0;
+}
+
+.page-header-title {
+    font-size: 24px;
+    /*color: #F46A1C;*/
+}
+
+div.k-edit-form-container {
+        width: auto;
+}
+
+a.k-button:hover, a.k-button:focus {
+    border-color: #dbdbdb;
+}
+
+.k-button-icontext .k-icon {
+    margin: 0 !important;
+}
+
+.k-grid tbody td>.k-grid-delete {
+    margin-bottom: 0 !important;
+    margin-top: 0 !important;
+}
+
+.k-grid tbody .k-button {
+        min-width: 45px !important;
+        width: 45px;
+    }
+
+.k-grid .k-header .k-button {
+        min-width: initial;
+        width: initial;
+    }
+
+.k-dropdown-wrap .k-input, .k-picker-wrap .k-input {
+    height: initial !important;
+}
+
+.k-toolbar .k-button {
+    border-color:#777;
+}
+
+.k-toolbar .k-button:visited {
+    color:#fff;
+}
+
+.width80 {
+    width: 80px !important;
+}
+
+label {
+    font-weight: normal;
+}
+
+fieldset
+{
+    border: 1px solid #d5d5d5;
+    padding: 10px;
+    background-color: #fafafa;	
+}
+
+.toolbar, .toolbar-fixed {
+    border: 1px solid #d5d5d5;
+    padding: 5px;
+    background-color: #fafafa;
+    margin-bottom: -1px;
+    margin-top: -1px;
+}
+
+.toolbar-fixed {
+    display: none;
+}
+
+legend
+{
+      border: none;
+      width: auto;
+      color: darkcyan;
+      font-size: 16px;
+      font-weight: bold;
+      padding: 0 10px;
+      margin: 0 auto 0 0;
+}
+
+/*  Navbar  */
+/*.navbar-brand {
+    padding: 0 3px;
+}*/
+
+/*.navbar-inverse {
+    background-color: darkcyan;
+    border-bottom: 2px solid #F46A1C;
+}*/
+
+/*.navbar-inverse .navbar-nav > .open > a, .navbar-inverse .navbar-nav > .open > a:hover, .navbar-inverse .navbar-nav > .open > a:focus {
+    background-color: #F46A1C;
+    color: #fff;
+}*/
+
+/*.navbar-inverse .navbar-nav > li > a, 
+ul.login li form a {
+    color: #CFD1D3;
+}*/
+
+/* Own Styles */
+/* Theme */
+/*html body, h1, h2, h3, h4, h5, h6, .h1, .h2, .h3, .h4, .h5, .h6 {
+    font-family: Tahoma, Verdana, Segoe, sans-serif;
+}*/
+
+.bold {
+    font-weight: bold;
+}
+
+html > body .float-left {
+    float: left;
+}
+
+.border-box {
+    box-sizing:border-box !important;
+}
+
+.float-right {
+    float: right
+}
+
+.width100 {
+    width: 100% !important;
+}
+
+.clear {
+    clear: both
+}
+
+.margin-0-10 {
+    margin: 0 10px;
+}
+
+.padding-left-0 {
+    padding-left: 0;
+}
+
+.padding-right-0 {
+    padding-right: 0;
+}
+
+.padding-left-5 {
+    padding-left: 5px;
+}
+
+.padding-right-5 {
+    padding-right: 5px;
+}
+
+.padding-left-10 {
+    padding-left: 10px;
+}
+
+.padding-right-10 {
+    padding-right: 10px;
+}
+
+.padding-5-0 {
+    padding: 5px 0;
+}
+
+.margin-5-0 {
+    margin: 5px 0;
+}
+
+.margin-0-5 {
+    margin: 0 5px;
+}
+
+.margin-5 {
+    margin: 5px;
+}
+
+
+.margin-10-0 {
+    margin: 10px 0;
+}
+
+.margin-20-0 {
+    margin: 20px 0;
+}
+
+.margin-10 {
+    margin: 10px;
+}
+
+.margin-20 {
+    margin: 20px;
+}
+
+.margin-right20 {
+    margin-right:20px;
+}
+
+.maxWidth1170 {
+    max-width: 1170px;
+    /*margin:0 0 0 auto;*/
+}
+
+/* Foother */
+.sidebar-footer p {
+    text-align:center;
+}
+/*footer.fixed-bottom-right {
+    position: fixed;
+    bottom: 0;
+    right: 0;
+    background-color: #646464;
+    background-color: rgba(100, 100, 100, 0.5);
+    color: #fff;
+    max-height: 45px;
+    padding: 13px
+}
+
+footer.navbar-fixed-bottom p {
+    text-align: right;
+}*/
+
+.icon-ok {
+    color:#10C4B2;
+}
+
+.icon-wrong {
+    color:#F46A1C;
+}
+/* Nav Bar*/
+
+/*.dropdown-header {
+    display: block;
+    padding: 3px 20px;
+    font-weight: bold;
+    font-size: 14px;
+    line-height: 1.428571429;
+    background-color: darkcyan;
+    color: #fff;
+}*/
+
+/*.multi-column-dropdown li a:hover,
+.dropdown-menu li a:hover,
+.dropdown-menu li a:focus {
+	text-decoration: none;
+	color: #fff;
+	background-color: #999;
+}*/
+ 
+/*@media (max-width: 767px) {
+	.dropdown-menu.multi-column {
+	    -moz-min-width: 240px !important;
+	    -ms-min-width: 240px !important;
+	    -o-min-width: 240px !important;
+	    -webkit-min-width: 240px !important;
+	    min-width: 240px !important;
+		overflow-x: hidden;
+	}
+}*/
+
+/*.dropdown-submenu {
+    position: relative;
+}*/
+
+/*.dropdown-submenu>.dropdown-menu {
+    top: 0;
+    left: 100%;
+    margin-top: -6px;
+    margin-left: -1px;
+}
+
+.dropdown-submenu:hover>.dropdown-menu {
+    display: block;
+}
+
+.dropdown-submenu>a:after {
+    display: block;
+    content: " ";
+    float: right;
+    width: 0;
+    height: 0;
+    border-color: transparent;
+    border-style: solid;
+    border-width: 5px 0 5px 5px;
+    border-left-color: #ccc;
+    margin-top: 5px;
+    margin-right: -10px;
+}
+
+.dropdown-submenu:hover>a:after {
+    border-left-color: #fff;
+}
+
+.dropdown-submenu.pull-left {
+    float: none;
+}
+
+.dropdown-submenu.pull-left>.dropdown-menu {
+    left: -100%;
+    margin-left: 10px;
+}
+
+.nav li.lang a {
+    padding: 12px 3px;
+}*/
+
+/*    Login      */
+li.lang a, li.lang a:hover {
+    padding-left: 10px;
+    padding-right:10px;
+}
+
+ul.login li a, ul.login li a:hover {
+    padding: 15px 5px;
+    text-decoration: none;
+    color: #ffffff;
+    transition: color 0.2s ease-in-out 0s;
+    line-height: 20px;
+    display: block;
+    position: relative;
+    float: left;
+}
+
+/*  Detalis   */
+table.details tr td:first-child {
+    font-weight: bold;
+    color: darkcyan;
+    text-align: right;
+}
+
+/*   Grid.MVC  */
+/*.table tbody > tr > td.gridmvc-lastcol {
+    padding-left: 3px;
+    padding-right: 3px;
+}*/
+
+/* Crteate Pages*/
+.create-item input.k-textbox,
+.create-item .k-combobox,
+.create-item .k-widget:not(.k-invalid-msg),
+.create-item .k-input, 
+.create-item .k-textbox{
+    width: 100%;
+}
+
+#drugTemplate input.k-textbox,
+#drugTemplate .k-combobox,
+#drugTemplate .k-widget,
+#drugTemplate .k-input, 
+#drugTemplate .k-textbox{
+    width: 100%;
+}
+
+#consumptionTemplate input.k-textbox,
+#consumptionTemplate .k-combobox,
+#consumptionTemplate .k-widget,
+#consumptionTemplate .k-input, 
+#consumptionTemplate .k-textbox{
+    width: 310px;
+}
+
+/*Message*/
+.message-box textarea {
+    max-width: 100%;
+}
+
+/* Seach Accordeon*/
+/* Style the buttons that are used to open and close the accordion panel */
+button.accordion {
+    background-color: #eee;
+    color: #777;
+    cursor: pointer;
+    padding: 10px;
+    font-weight: bold;
+    width: 100%;
+    text-align: left;
+    border: none;
+    outline: none;
+    -webkit-transition: 0.4s;
+    -moz-transition: 0.4s;
+    -ms-transition: 0.4s;
+    -o-transition: 0.4s;
+    transition: 0.4s;
+}
+
+/* Add a background color to the button if it is clicked on (add the .active class with JS), and when you move the mouse over it (hover) */
+button.accordion.active, button.accordion:hover {
+    background-color: #ddd;
+}
+
+/* Style the accordion panel. Note: hidden by default */
+div.panel {
+    background-color: white;
+    /*display: none;*/
+    border: 1px solid #eee;
+    -ms-border-radius: 0;
+    border-radius: 0;
+    -webkit-box-shadow: none;
+    -ms-box-shadow: none;
+    /*box-shadow: none;*/
+    margin-bottom: 0;
+    padding: 0;
+    max-height: 0;
+    overflow: hidden;
+    -webkit-transition: 0.6s ease-in-out;
+    -moz-transition: 0.6s ease-in-out;
+    -ms-transition: 0.6s ease-in-out;
+    -o-transition: 0.6s ease-in-out;
+    transition: 0.6s ease-in-out;
+    -ms-opacity: 0;
+    opacity: 0;
+}
+
+/* The "show" class is added to the accordion panel when the user clicks on one of the buttons. This will show the panel content */
+div.panel.show {
+    display: block !important;
+    -ms-opacity: 1;
+    opacity: 1;
+    max-height: 500px;
+    padding: 5px 0;
+}
+
+button.accordion:after {
+    content: '\02795'; /* Unicode character for "plus" sign (+) */
+    font-size: 13px;
+    color: #777;
+    float: left;
+    margin-left: 5px;
+    margin-right: 5px;
+}
+
+button.accordion.active:after {
+    content: "\2796"; /* Unicode character for "minus" sign (-) */
+}
+
+.datePeriod {
+    padding:0;
+    position:relative;
+}
+
+.datePeriod > div:first-child {
+    padding-left:0;
+    padding-right:5px;
+    margin-left:0;
+}
+
+.datePeriod > div:nth-child(2) {
+    padding-right:0;
+    padding-left:5px;
+    margin-right:0;
+}
+
+
+/* Toolbar buttons*/
+/*.right_col {
+    background-image: url('../Images/Pics/login-bg.png');
+    background-repeat: no-repeat;
+}*/
+
+.toolbar .k-button, .toolbar-fixed .k-button {
+    background-color: #dcdcdc;
+    background-color: rgba(220 , 220, 220, 0.8);
+    border: 1px solid #c1c1c1;
+    color: #6f6f6f;
+}
+
+/* Login */
+.login_menu p {
+    color:#ECF0F1;
+    padding:10px;
+}
+.Login-head {
+    padding: 0 20px;
+    font-size: 19px;
+    text-align: center;
+    margin: 20px 0;
+    font-weight: bold;
+}
+
+.login-fields, .login-info {
+    background-color: initial;
+    margin-bottom: 20px;
+    padding: 0 10px;
+    /*text-align: center*/
+}
+
+.login-fields legend {
+    /*padding: 0 20px;*/
+    font-size: 14px;
+    font-weight: normal;
+}
+
+#loginForm {
+    max-width: 400px;
+    margin: 0 auto;
+    padding-top: 10px; 
+}
+
+.login-info {
+    padding: 0 10px 10px 10px;
+    font-size: 15px; 
+}
+
+.login-info legend{
+    background-image: url('../Images/Pics/drug-twins.jpg');
+    background-repeat: no-repeat;
+    height: 42px;
+    width: 75px;
+}
+
+.login-logos .container > div {
+    margin: 0 auto;
+}
+
+.Login-footer {
+    margin-top: 20px;
+    color: #79bdb7;
+    text-align: center;
+    font-weight: bold;
+    font-size: 14px;
+}
+
+/*Home*/
+
+.home-body {
+    padding: 0 20px;
+    line-height: 150%;
+}
+
+.home-body b{
+    color: darkcyan;
+}
+
+/*Reports*/
+.report h4 {
+    line-height: 140%;
+    text-align: center;
+    padding: 20px;
+    color: darkcyan;
+}
+
+.report p {
+    padding-right: 0;
+    margin: 30px 0;
+    font-size: 16px;
+}
+
+
+/*Validation*/
+.create-item div.k-invalid-msg {
+    color:#787878;
+    padding:2px 3px;
+    /*position:absolute;
+    top:0;
+    right:20%;*/
+    font-size:12px;
+    /*background-color: rgba(255, 228, 77, 0.3);*/
+    border:none;
+}
+
+/*.k-invalid {
+    border:1px solid red !important;
+}
+
+.k-valid {
+    border:1px solid green !important;
+}*/
+
+.nav-sm .nav.side-menu li a span.hide-sm {
+    display:none;
+}
+
+
+/*Right-slidePanel*/
+.right_col {
+    overflow: hidden;
+}
+
+.for-Toolbar {
+    position:relative;
+}
+
+.right-slidePanel{
+    position:absolute;
+    top:5px;
+    right:-300px;
+    z-index:1000;
+}
+
+.right-slidePanel .slidePanel-Content{
+    background-color:rgba(100, 100, 100, 0.8);
+    width:280px; 
+    position:relative;
+
+}
+
+.right-slidePanel .slidePanel-btn{
+    height:30px;
+    width:30px;
+    position:absolute;
+    top:0;
+    left:-55px;
+    background-color:#fff;
+    border:1px solid #dbdbdb;
+    font-size:18px;
+    padding:3px 0 0 4px;
+    color:#898989;
+    cursor:pointer;
+}
+
+.right-slidePanel .slidePanel-btn:hover{
+    background-color:#10C4B2;
+    color:#fff;
+}
+
+.right-slidePanel .slidePanel-Content-fields {
+    padding:10px;
+    min-height:150px;
+    overflow-y: auto;
+
+}
+
+.right-slidePanel .slidePanel-Content-fields .data-period .k-datepicker{
+    margin-bottom:3px;
+}
+
+.right-slidePanel .slidePanel-Content-fields .btns{
+    margin-top:20px;
+}
+
+.right-slidePanel .slidePanel-Content-fields h4 {
+    margin:0 0 10px 0;
+    color:#fff;
+    font-size:16px;
+    text-align:center;
+    border-bottom:1px solid #fff;
+    padding-bottom:3px;
+}
+
+.right-slidePanel .slidePanel-Content-fields label{
+    color:#fff;
+}
+
+#errormssg {
+    color: brown;
+}
+
+table[role=grid] tbody tr .k-edit-cell input{
+    color:#666;
+}
+
+table[role=grid] tbody tr:hover {
+    color:#fff;
+}
+
+/*Editor tool*/
+.k-tool .k-tool-icon {
+    color: #fff;
+}

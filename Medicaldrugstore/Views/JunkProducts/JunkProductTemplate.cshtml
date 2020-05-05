@@ -1,0 +1,231 @@
+﻿@model Medicaldrugstore.Models.JunkProductTemplate
+
+
+@{
+    Layout = null;
+}
+
+
+<script>
+
+    function onSelect(e) {
+        var dataItem = this.dataItem(e.item.index());
+        var organizationId = dataItem.OrganizationId;
+        $.ajax({
+            url: '@Url.Action("GetStorages", "JunkProducts")',
+            dataType: "json",
+            type: "GET",
+            data: { id: organizationId },
+            async: true,
+            success: function (result) {
+                $('#StorageId').data('kendoComboBox').select(-1);
+                $('#StorageId').data('kendoComboBox').dataSource.data(result);
+            }
+        });
+    }
+
+</script>
+
+@*@using (Html.BeginForm("SaveJunkProduct", "JunkProducts", FormMethod.Post, new { id = "frmJunkproduct" }))
+{*@
+    <div id="frmJunkProduct" class="container-full create-item">
+
+        @Html.HiddenFor(model => model.JunkProductId)
+
+        <div class="form-group margin-5-0">
+            @Html.LabelFor(model => model.JunkProductDate, new { @class = "control-label col-sm-4 border-box align-right" })
+            <div class="col-sm-8 border-box">
+                @Html.Kendo().DatePickerFor(model => model.JunkProductDate)
+                <span class="k-invalid-msg vldmsg" data-for="JunkProductDate"></span>
+            </div>
+        </div>
+        <div class="clear"></div>
+
+        <div class="form-group margin-5-0">
+            @Html.LabelFor(model => model.OrganizationId, htmlAttributes: new { @class = "control-label col-sm-4 border-box align-right" })
+            <div class="col-sm-8 border-box">
+                @(Html.Kendo().ComboBoxFor(model => model.OrganizationId)
+                 .DataTextField("OrganizationName")
+                 .DataValueField("OrganizationId")
+                 .Placeholder("Ընտրել...")
+                 .Filter(FilterType.StartsWith)
+                 .DataSource(source =>
+                 {
+                     source.Read(read =>
+                     {
+                         read.Action("GetOrganizations", "JunkProducts");
+                     });
+                 })
+                 .Events(e =>
+                 {
+                     e.Select("onSelect");
+                 })
+                  .HtmlAttributes(new { data_value_primitive = true })
+                )
+                <span class="k-invalid-msg vldmsg" data-for="OrganizationId"></span>
+            </div>
+        </div>
+        <div class="clear"></div>
+
+        <div class="form-group margin-5-0">
+            @Html.LabelFor(model => model.ProductId, htmlAttributes: new { @class = "control-label col-sm-4 border-box align-right" })
+            <div class="col-sm-8 border-box">
+                @(Html.Kendo().ComboBoxFor(model => model.ProductId)
+                .DataTextField("ProductName")
+                .DataValueField("ProductId")
+                .Placeholder("Ընտրել...")
+                .Filter(FilterType.StartsWith)
+                .DataSource(source =>
+                  {
+                      source.Read(read =>
+                      {
+                          read.Action("GetProducts", "JunkProducts");
+                      });
+                  })
+                 .HtmlAttributes(new { data_value_primitive = true })
+                )
+                <span class="k-invalid-msg vldmsg" data-for="ProductId"></span>
+            </div>
+        </div>
+        <div class="clear"></div>
+
+        <div class="form-group margin-5-0">
+            @Html.LabelFor(model => model.StorageId, htmlAttributes: new { @class = "control-label col-sm-4 border-box align-right" })
+            <div class="col-sm-8 border-box">
+                @(Html.Kendo().ComboBoxFor(model => model.StorageId)
+                .DataTextField("StorageName")
+                .DataValueField("StorageId")
+                .Placeholder("Ընտրել...")
+                .Filter(FilterType.Contains)
+                .DataSource(source =>
+                {
+                    source.Read(read =>
+                    {
+                        read.Action("GetStorages", "JunkProducts", new { id = @Model.OrganizationId });
+
+                    });
+                })
+                .HtmlAttributes(new { data_value_primitive = true })
+                )
+                <span class="k-invalid-msg vldmsg" data-for="StorageId"></span>
+            </div>
+        </div>
+        <div class="clear"></div>
+
+        <div class="form-group margin-5-0">
+            @Html.LabelFor(model => model.Quantity, htmlAttributes: new { @class = "control-label col-sm-4 border-box align-right" })
+            <div class="col-sm-8 border-box">
+                @Html.Kendo().IntegerTextBoxFor(model => model.Quantity)
+                <span class="k-invalid-msg vldmsg" data-for="Quantity"></span>
+            </div>
+        </div>
+        <div class="clear"></div>
+
+        <div class="form-group margin-5-0">
+            @Html.LabelFor(model => model.JunkBaseId, htmlAttributes: new { @class = "control-label col-sm-4 border-box align-right" })
+            <div class="col-sm-8 border-box">
+                @(Html.Kendo().ComboBoxFor(model => model.JunkBaseId)
+                .DataTextField("JunkBaseName")
+                .DataValueField("JunkBaseId")
+                .Placeholder("Ընտրել...")
+                .Filter(FilterType.StartsWith)
+                .DataSource(source =>
+                {
+                    source.Read(read =>
+                    {
+                        read.Action("GetJunkBases", "JunkProducts");
+
+                    });
+                })
+                .HtmlAttributes(new { data_value_primitive = true })
+                )
+                <span class="k-invalid-msg vldmsg" data-for="JunkBaseId"></span>
+            </div>
+        </div>
+        <div class="clear"></div>
+
+        @*@Այստեղ պետք է ցուցադրվի սխալի հաղորդագրությունը:*@
+
+        <div class="form-group margin-10-0">
+            <div class="col-sm-7 border-box">
+                <span id="errormssg"></span>
+            </div>
+            <div class="col-sm-5 border-box align-right">
+                <button id="junkProductTemplateSave" class="k-button"><i class="glyphicon glyphicon-floppy-disk"></i> @Resources.General_Save</button>
+                <button id="junkProductTemplateCancel" class="k-button"><i class="glyphicon glyphicon-off"></i> @Resources.General_Close</button>
+            </div>
+        </div>
+        <div class="clear"></div>
+
+    </div>
+@*}*@
+
+
+<script>
+
+    $(document).ready(function () {
+
+        $("#junkProductTemplateCancel")
+            .click(function () {
+                $(this).closest(".k-window-content").data("kendoWindow").close();
+                return false;
+            });
+
+        $("#junkProductTemplateSave")
+            .click(function (e) {
+                var errTmplt = '<div class="k-widget k-tooltip k-tooltip-validation" style="margin:0.5em; padding:3px 5px;"><span class="fa fa-exclamation-triangle"></span> #=message#<div class="k-callout k-callout-n"></div></div>';
+                var validator = $("#frmJunkProduct").kendoValidator({
+                    errorTemplate: errTmplt
+                }).data("kendoValidator");
+                if (!validator.validate()) {
+                    //$("#errormssg").html("<span class='fa fa-exclamation-triangle'></span> @GeneralResources.FieldsRequired");
+                    return false;
+                }
+
+                var item = new Object();
+                item.JunkProductId = '@Model.JunkProductId';
+                item.ProductId = document.getElementById("ProductId").value;
+                item.OrganizationId = document.getElementById("OrganizationId").value;
+                item.JunkProductDate = document.getElementById("JunkProductDate").value;
+                item.StorageId = document.getElementById("StorageId").value;
+                item.Quantity = document.getElementById("Quantity").value;
+                item.JunkBaseId = document.getElementById("JunkBaseId").value;
+
+                var rt = false;
+                var dt;
+                var q = $.ajax({
+                    url: '@Url.Action("SaveJunkProduct", "JunkProducts")',
+                    dataType: "json",
+                    type: "POST",
+                    data: JSON.stringify({ junkProductTemplate: item }),
+                    contentType: "application/json; charset=utf-8",
+                    async: false,
+                    success: function (data) {
+                        dt = data;
+                        rt = true;
+                    },
+                    error: function (xhr) {
+                        dt = xhr;
+                        rt = false;
+                    }
+                });
+
+                if (rt == true) {
+                    if (dt.success != true) {
+                        $("#errormssg").html(JSON.stringify(dt.responseText));
+                        /*Այստեղ իրականացվում է սերվերից վերադարձված սխալի ցուցադրման գործառույթը:
+                        Անհրաժեշտ է որ alert-ի փոխարեն կարմիր գույնով ցուցադրվի սխալը:
+                        Այդ սխալը պետք է տեղակայված լինի մուտքային վերջին դաշտի և հրահանգների արանքում:*/
+                        //alert(JSON.stringify(dt.responseText));
+                    }
+                    else {
+                        $(this).closest(".k-window-content").data("kendoWindow").close();
+                    }
+                }
+                else {
+                    alert(JSON.stringify("Unknown error occured."));
+                }
+                return false;
+            });
+    });
+</script>

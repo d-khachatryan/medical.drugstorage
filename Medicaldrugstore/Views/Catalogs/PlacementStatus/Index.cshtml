@@ -1,0 +1,133 @@
+﻿@model IEnumerable<Medicaldrugstore.Models.PlacementStatus>
+@using Kendo.Mvc.UI
+
+@{
+    ViewBag.Title = Resources.Status_Title;
+}
+
+<fieldset class="margin-10-0">
+    <legend class="page-header-title">@Resources.Status_Title</legend>
+    <fieldset class="">
+        <legend class="">@Resources.General_Search</legend>
+        <div class="form-inline">
+            <div class="form-group">
+                <label class="">@Resources.Status_Code</label>
+                <input id="prmStatusCode" class="k-textbox" />
+            </div>
+            <div class="form-group">
+                <label class="">@Resources.Status_Name</label>
+                <input id="prmStatusName" class="k-textbox" />
+            </div>
+            <button type="submit" class="k-button" onclick="return Search();"><i class="glyphicon glyphicon-search"></i> @Resources.General_Search</button>
+            <button type="submit" class="k-button" onclick="return Clear();"><i class="glyphicon glyphicon-minus"></i> @Resources.General_Clean</button>
+        </div>
+    </fieldset>
+
+    <script type="text/javascript">
+        function Search() {
+            $("#Status").data("kendoGrid").dataSource.read();
+            $("#Status").data("kendoGrid").refresh();
+            return false;
+        }
+        function Clear() {
+            $("#prmStatusCode").val("");
+            $("#prmStatusName").val("");
+            $("#Status").data("kendoGrid").dataSource.read();
+            $("#Status").data("kendoGrid").refresh();
+            return false;
+        }
+        function getParameter() {
+            return {
+                statusCode: $("#prmStatusCode").val(),
+                statusName: $("#prmStatusName").val()
+            };
+        }
+    </script>
+
+</fieldset>
+
+
+@(Html.Kendo().Grid<Medicaldrugstore.Models.PlacementStatus>()
+                        .Name("Status")
+                        .Columns(columns =>
+                        {
+                            columns.Bound(model => model.PlacementStatusCode).Width(80);
+                            columns.Bound(model => model.PlacementStatusName);
+                            columns.Command(commands =>
+                            {
+                                commands.Edit().Text(" ").CancelText(Resources.General_Close).UpdateText(Resources.General_Save);
+                                commands.Destroy().Text(" ");
+                            }).Title(Resources.General_Commands).Width(116);
+                        })
+                        .ToolBar(toolbar =>
+                        {
+                            toolbar.Create().Text(Resources.General_NewRecord);
+                            toolbar.Custom().Name("showDetails").Text(Resources.General_Details).Url("#").HtmlAttributes(new { onclick = "ShowDetails();" });
+                        })
+                        .Editable(editable =>
+                        {
+                            editable.Mode(GridEditMode.PopUp).TemplateName("MainTemplate").Window(w => w.Title(Resources.Status_Title).Width(580));
+                            editable.DisplayDeleteConfirmation(Resources.General_Delete_Record);
+                        })
+                        .Selectable(s => s.Mode(Kendo.Mvc.UI.GridSelectionMode.Single))
+                        .Pageable(pageable => pageable
+                        .Refresh(true)
+                        .PageSizes(true)
+                        .ButtonCount(5))
+                        .Filterable()
+                        .Scrollable()
+                        .Resizable(resize => resize.Columns(true))
+                        .Reorderable(reorder => reorder.Columns(true))
+                        .Sortable()
+                        .HtmlAttributes(new { style = "height:620px;" })
+                        .DataSource(dataSource => dataSource
+                        .Ajax()
+                        .Read(read => read.Action("ReadStatuses", "Status").Data("getParameter"))
+                        .Create(read => read.Action("CreateStatus", "Status"))
+                        .Update(read => read.Action("UpdateStatus", "Status"))
+                        .Destroy(read => read.Action("DestroyStatus", "Status"))
+                        .PageSize(15)
+                        .Model(model => model.Id(p => p.PlacementStatusId))
+)
+)
+
+
+@(Html.Kendo().Window().Name("window").Width(550)
+            .Height(120).Draggable()
+            .Resizable().Content("")
+            .Title(Resources.Status_Title)
+            .Modal(true)
+            .Actions(actions => actions.Pin().Close())
+            .Visible(false)
+            .Events(events => events
+            .Close("onClose").Open("onOpen").Refresh("onRefresh"))
+)
+<script>
+    function ShowDetails() {
+        var window = $("#window").data("kendoWindow");
+        var grid = $("#Status").data("kendoGrid");
+        var selectedItem = grid.dataItem(grid.select());
+        if (selectedItem == null) {
+            alert("@Resources.General_NotSelected");
+            return false;
+        }
+        window.content("");
+        window.title("@Resources.Status_Details_Title");
+        window.refresh({
+            url: "@Url.Action("StatusDetails", "Status")" + "/" + selectedItem.StatusId
+        });
+        window.center();
+        window.open();
+    }
+
+    function onOpen(e) {
+        kendo.ui.progress(e.sender.element, true);
+    }
+    function onClose() {
+        $("#Status").data("kendoGrid").dataSource.read();
+        $("#Status").data("kendoGrid").refresh();
+    }
+    function onRefresh(e) {
+        kendo.ui.progress(e.sender.element, false);
+    }
+</script>

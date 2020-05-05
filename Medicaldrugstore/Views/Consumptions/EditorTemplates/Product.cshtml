@@ -1,0 +1,13 @@
+﻿@{
+    Layout = null;
+}
+
+@(Html.Kendo().ComboBox()
+                    .Name("ProductId")
+                    .DataTextField("Text")
+                    .DataValueField("Value")
+                    .Filter(FilterType.StartsWith)
+                    .BindTo(ViewBag.vbProducts)
+                    .HtmlAttributes(new { data_value_primitive = true/*, style = "width:300px" */})
+)
+

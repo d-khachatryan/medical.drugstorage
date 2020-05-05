@@ -1,0 +1,211 @@
+﻿@model IEnumerable<Medicaldrugstore.Models.MessageBox>
+
+@{
+    ViewBag.Title = Resources.MessageBox_Title;
+}
+
+@section Styles {
+    <style>
+        .customClass1 {
+            font-weight: bold;
+        }
+
+        #textarea{
+            padding:15px 10px;
+        }
+    </style>
+}
+<div class="form-inline margin-10-0">
+    <div class="form-group">
+        <label class="">@Resources.MessageBox_Sender</label>
+        @(Html.Kendo().ComboBox()
+              .Name("prmUserId")
+              .DataTextField("Text")
+              .DataValueField("Value")
+              .Filter(FilterType.StartsWith)
+              .BindTo(ViewBag.vbUsers)
+              .HtmlAttributes(new { data_value_primitive = true })
+        )
+    </div>
+    <button type="submit" class="k-button" onclick="return Search();"><i class="glyphicon glyphicon-search"></i> @Resources.MessageBox_CheckMessage</button>
+</div>
+
+<script type="text/javascript">
+    function Search() {
+        $("#MessageBox").data("kendoGrid").dataSource.read();
+        $("#MessageBox").data("kendoGrid").refresh();
+        return false;
+    }
+    function getParameter() {
+        return {
+            userId: $("#prmUserId").val(),
+        };
+    }
+</script>
+<div class="col-md-6" style="padding:0">
+    @(Html.Kendo().ToolBar()
+    .Name("ToolBar")
+    .Items(items =>
+    {
+        items.Add().Template("<button class=\"k-button\" onclick=\"return SendNewMessage(); \"><i class=\"fa fa-paper-plane-o\"></i> Ուղարկել նոր հաղորդագրություն</button>");
+    })
+    )
+    @(Html.Kendo().Grid<Medicaldrugstore.Models.MessageBox>()
+      .Name("MessageBox")
+      .Columns(columns =>
+      {
+          columns.Bound(c => c.MessageDate).Width(90);
+          columns.Bound(c => c.MessageTitle);
+          columns.Bound(c => c.SenderUserName).Width(145);
+
+          //columns.Bound(c => c.MessageContent);
+          columns.Command(commands =>
+          {
+              commands.Destroy().Text(" ");
+          }).Title(" ").Width(65);
+      })
+      //.ToolBar(toolbar =>
+      //{
+      //    toolbar.Create().Text(Resources.MessageBox_NewMessage);
+      //})
+      //.Editable(editable =>
+      //{
+      //    editable.Mode(GridEditMode.PopUp).TemplateName("MainTemplate").Window(w => w.Title(Resources.MessageBox_NewMessage).Width(640));
+      //    //editable.DisplayDeleteConfirmation(Resources.General_Delete_Record);
+      //})
+      .Selectable(s => s.Mode(GridSelectionMode.Single))
+      .Scrollable()
+      .Sortable()
+      .Pageable(pageable => pageable
+                        .Refresh(true)
+                        .PageSizes(true)
+                        .ButtonCount(5))
+      .Events(events => events.Change("onChange").DataBound("onDataBound"))
+      .DataSource(dataSource => dataSource
+          .Ajax()
+          .Read(read => read.Action("ReadMessageBoxes", "MessageBoxes").Data("getParameter"))
+          //.Create(create => create.Action("CreateMessageBox", "MessageBoxes"))
+          .Destroy(destroy => destroy.Action("DestroyMessageBox", "MessageBoxes"))
+          .Model(model => model.Id(p => p.MessageId))
+      )
+    )
+</div>
+<div class="col-md-6"  style="padding:0">
+    <div class="k-toolbar k-widget k-toolbar-resizable" style="height:39px">
+    </div>
+    <div id="MessageBox-Right" class="k-widget k-grid k-editable">
+        <div class="k-grid-header" style="padding-right: 17px;">
+            <div class="k-grid-header-wrap k-auto-scrollable">
+                <table role="grid">
+                    <colgroup>
+                        <col style="width:100%">
+                        <col>
+                    </colgroup>
+                    <thead role="rowgroup">
+                        <tr role="row">
+                            <th class="k-header">
+                                <a class="k-link">@Resources.General_Messages</a>
+                            </th>
+                        </tr>
+                    </thead>
+                </table>
+            </div>
+        </div>
+        <div class="k-grid-content">
+            <div class="message-box" style="margin:7px;">
+                <div id="textarea"></div>
+            </div>        
+        </div>
+        <div class="k-pager-wrap k-grid-pager k-widget k-floatwrap" style="height:28px" data-role="pager">
+        </div>
+    </div>
+</div>
+
+@(Html.Kendo().Window().Name("wndSnedMssg")
+                        .Width(800).Height(470)
+                        .Draggable().Resizable()
+                        .Content("").Modal(true)
+                        .Actions(actions => actions.Pin().Close())
+                        .Visible(false)
+                        .Events(events => events
+                        .Close("onCloseSendMssg").Open("onOpenSendMssg").Refresh("onRefreshSendMssg"))
+)
+
+
+<script type="text/javascript">
+    function SendNewMessage() {
+        var window = $("#wndSnedMssg").data("kendoWindow");
+        window.content("");
+        window.title("Նոր հաղորդագրություն");
+        window.refresh({
+            url: "@Url.Action("OpenMessageBoxes", "MessageBoxes")"
+        });
+    window.center();
+    window.open();
+    return false;
+    }
+
+    function onChange(arg) {
+        var grid = $("#MessageBox").data("kendoGrid");
+        var selectedItem = grid.dataItem(grid.select());
+        $("#textarea").html(selectedItem.MessageContent);
+
+        var messageId = selectedItem.MessageId;
+        var rt = false;
+        var dt;
+        var q = $.ajax({
+            url: '@Url.Action("SelectMessageBox", "MessageBoxes")',
+            dataType: "json",
+            type: "GET",
+            //contentType: 'application/x-www-form-urlencoded; charset=utf-8',
+            data: { mId: messageId },
+            async: false,
+            //processData: true,
+            //cache: false,
+            success: function (data) {
+                dt = data;
+                rt = true;
+            },
+            error: function (xhr) {
+                dt = xhr;
+                rt = false;
+            }
+        });
+        var currentRecords = grid.dataSource.view();
+
+        for (var i = 0; i < currentRecords.length; i++) {
+            if (currentRecords[i].MessageId == messageId) {
+                grid.tbody.find("tr[data-uid='" + currentRecords[i].uid + "']").removeClass("customClass1") // add the css class
+                //            .siblings()
+                //            .removeClass("k-state-selected");
+            }
+        }
+    }
+
+    function onDataBound(e) {
+        
+        var grid = this;
+        var currentRecords = grid.dataSource.view();
+        for (var i = 0; i < currentRecords.length; i++) {
+            if (currentRecords[i].MessageStatus == 1) {
+                //this.className += " customClass1";
+                grid.tbody.find("tr[data-uid='" + currentRecords[i].uid + "']").addClass("customClass1") // add the css class
+                //            .siblings()
+                //            .removeClass("k-state-selected");
+            }
+        }
+        $("#MessageBox-Right .k-grid-content").height($("#MessageBox .k-grid-content").height());
+    }
+
+
+    function onOpenSendMssg(e) {
+        kendo.ui.progress(e.sender.element, true);
+    }
+    function onCloseSendMssg(e) {
+        $("#MessageBox").data("kendoGrid").dataSource.read();
+    }
+    function onRefreshSendMssg(e) {
+        kendo.ui.progress(e.sender.element, false);
+    }
+</script>
+

@@ -1,0 +1,330 @@
+﻿@model IEnumerable<Medicaldrugstore.Models.JunkProductDetail>
+
+@{
+    ViewBag.Title = Resources.JunkProduct_Title;
+}
+<div class="clear"></div>
+<div class="for-Toolbar">
+    @(Html.Kendo().ToolBar()
+    .Name("ToolBar")
+    .Items(items =>
+    {
+        items.Add().Type(CommandType.Button).Togglable(false).Text("Նոր գրառում").Id("btnNew").Click("CreateJunkProduct");
+        items.Add().Type(CommandType.Button).Togglable(false).Text("Խոտանել").Id("btnJunk").Click("RepresentJunkProduct");
+        items.Add().Type(CommandType.Button).Togglable(false).Text("Դիտել").Id("btnDetails").Click("JunkProductDetail");
+    })
+    )
+    @* Search Panel - Right Slide *@
+    <div class="right-slidePanel">
+        <div class="slidePanel-Content">
+            <div class="slidePanel-btn">
+            </div>
+            <div class="slidePanel-Content-fields create-item">
+                <h4>@Resources.General_Search</h4>
+                <div class="form-group margin-10-0">
+                    <label class="control-label" for="prmInitiationStartDate">@Resources.General_DatePeriod</label>
+                    <div class="input-search data-period">
+                        @(Html.Kendo().DatePicker()
+                                    .Name("prmStartDate")
+                                    .Format("yyyy-MM-dd")
+                                    .HtmlAttributes(new { placeholder = @Resources.General_Start, @class = "width100" })
+                        )
+                        @(Html.Kendo().DatePicker()
+                                    .Name("prmTerminationDate")
+                                    .Format("yyyy-MM-dd")
+                                    .HtmlAttributes(new { placeholder = @Resources.General_End, @class = "width100" })
+                        )
+                    </div>
+                </div>
+                <div class="form-group margin-5-0">
+                    @(Html.Kendo().ComboBox()
+                  .Name("prmOrganizationId")
+                  .Placeholder("Հիմնական պահեստ")
+                  .DataTextField("Text")
+                  .DataValueField("Value")
+                  .Filter(FilterType.StartsWith)
+                  .BindTo(ViewBag.vbOrganizations)
+                  .HtmlAttributes(new { data_value_primitive = true, @class = "width100" })
+                    )
+                </div>
+                <div class="form-group margin-5-0">
+                    @(Html.Kendo().ComboBox()
+                  .Name("prmProductId")
+                  .DataTextField("Text")
+                  .Placeholder("Ապրանք")
+                  .DataValueField("Value")
+                  .Filter(FilterType.StartsWith)
+                  .BindTo(ViewBag.vbProducts)
+                  .HtmlAttributes(new { data_value_primitive = true, @class = "width100" })
+                    )
+                </div>
+                <div class="form-group btns align-right">
+                    <button type="submit" id="rtSearch" class="k-button" onclick="return Search();"><i class="glyphicon glyphicon-search"></i> @Resources.General_Search</button>
+                    <button type="submit" class="k-button" onclick="return Clear();"><i class="glyphicon glyphicon-minus"></i> @Resources.General_Clean</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script type="text/javascript">
+
+    $(document)
+        .ready(function () {
+        });
+
+    function Clear() {
+        $("#prmOrganizationId").data("kendoComboBox").select(-1);
+        $("#prmStartDate").val("");
+        $("#prmTerminationDate").val("");
+        $("#prmProductId").data("kendoComboBox").select(-1);
+        $("#JunkProduct").data("kendoGrid").dataSource.read();
+        return false;
+    }
+
+    function Search() {
+        $("#JunkProduct").data("kendoGrid").dataSource.read();
+        return false;
+    }
+
+    function getParameter() {
+        return {
+            startDate: $("#prmStartDate").val(),
+            terminationDate: $("#prmTerminationDate").val(),
+            organizationId: $("#prmOrganizationId").val(),
+            productId: $("#prmProductId").val()
+        };
+    }
+</script>
+
+
+@(Html.Kendo().Grid<Medicaldrugstore.Models.JunkProductDetail>()
+      .Name("JunkProduct")
+      .Events(events => events.DataBound("onJunkProductDataBound"))
+      .Columns(columns =>
+      {
+          columns.Bound(model => model.JunkProductId).Hidden();
+          columns.Bound(model => model.OrganizationName).Width(175);
+          columns.Bound(model => model.StorageName).Width(144);
+          columns.Bound(model => model.JunkProductDate).Width(165);
+          columns.Bound(model => model.ProductName).Width(144);
+          columns.Bound(model => model.Quantity).Width(113);
+          columns.Bound(model => model.JunkProductStatusName).Width(140);
+          columns.Bound(model => model.JunkBaseName).Width(158);
+          columns.Command(commands =>
+          {
+              commands.Custom("Update").Text(" ").Click("UpdateJunkProduct");
+              commands.Custom("Delete").Text(" ").Click("DeleteJunkProduct");
+          }).Title(Resources.General_Commands).Width(130);
+      })
+      .Selectable(s => s.Mode(Kendo.Mvc.UI.GridSelectionMode.Single))
+      .Pageable()
+      .Filterable()
+      .Scrollable()
+      .Sortable()
+      .Resizable(resize => resize.Columns(true))
+      .Reorderable(reorder => reorder.Columns(true))
+      .DataSource(dataSource => dataSource
+          .Ajax()
+          .Read(read => read.Action("ReadJunkProducts", "JunkProducts").Data("getParameter"))
+          .PageSize(15)
+          .Sort(sort => sort.Add("JunkProductId").Descending())
+          .Model(model =>
+          {
+              model.Id(p => p.JunkProductId);
+          }
+          )
+)
+)
+
+@(Html.Kendo().Window().Name("wndJunkProduct")
+                        .Width(600).Height(260)
+                        .Draggable().Resizable()
+                        .Content("").Modal(true)
+                        .Actions(actions => actions.Pin().Close())
+                        .Visible(false)
+                        .Events(events => events
+                        .Close("onCloseJunkProduct").Open("onOpenJunkProduct").Refresh("onRefreshJunkProduct"))
+)
+
+@(Html.Kendo().Window().Name("wndJunkProductDetail")
+                        .Width(800).Height(470)
+                        .Draggable().Resizable()
+                        .Content("").Modal(true)
+                        .Actions(actions => actions.Pin().Close())
+                        .Visible(false)
+                        .Events(events => events
+                        .Open("onOpenJunkProduct").Refresh("onRefreshJunkProduct"))
+)
+
+<script>
+
+    function onJunkProductDataBound(e) {
+        $(".k-grid-Update, .Update_Icon").find("span").addClass("glyphicon glyphicon-pencil");
+        $(".k-grid-Delete, .Delete_Icon").find("span").addClass("glyphicon glyphicon-trash");
+    }
+
+    function CreateJunkProduct() {
+        var window = $("#wndJunkProduct").data("kendoWindow");
+        window.content("");
+        window.title("Նոր գրառում");
+        window.refresh({
+            url: "@Url.Action("JunkProductTemplate", "JunkProducts")" + "?junkProductId=" + 0
+        });
+        window.center();
+        window.open();
+        return false;
+    }
+
+    function UpdateJunkProduct(e) {
+        var row = $(e.target).closest("tr");
+        var grid = $("#JunkProduct").data("kendoGrid");
+        var dataItem = grid.dataItem(row);
+        if (dataItem.JunkProductStatusId != null) {
+            alert("@Resources.General_NoSubjectToEditing");
+            return false;
+        }
+        var window = $("#wndJunkProduct").data("kendoWindow");
+        window.content("");
+        window.title("@Resources.General_Edit");
+        window.refresh({
+            url: "@Url.Action("JunkProductTemplate", "JunkProducts")" + "?junkProductId=" + dataItem.JunkProductId
+        });
+        window.center();
+        window.open();
+        return false;
+    }
+
+    function DeleteJunkProduct(e) {
+        var row = $(e.target).closest("tr");
+        var grid = $("#JunkProduct").data("kendoGrid");
+        var dataItem = grid.dataItem(row);
+        if (dataItem.JunkProductStatusId != null) {
+            alert("@Resources.General_NoSubjectToDelete");
+            return false;
+        }
+        var r = confirm("@Resources.General_Delete_Question");
+        if (r == false) {
+            return false;
+        }
+        var rt = false;
+        var dt;
+        var q = $.ajax({
+            url: '@Url.Action("DeleteJunkProduct", "JunkProducts")',
+            dataType: "json",
+            type: "GET",
+            data: {
+                id: dataItem.JunkProductId
+            },
+            async: false,
+            success: function (data) {
+                dt = data;
+                rt = true;
+            },
+            error: function (xhr) {
+                dt = xhr;
+                rt = false;
+            }
+        });
+
+        if (rt == true) {
+            if (dt.success != true) {
+                alert(JSON.stringify(dt.responseText));
+            }
+            else {
+                $("#JunkProduct").data("kendoGrid").dataSource.read();
+            }
+        }
+        else {
+            alert(JSON.stringify("Unknown error occured."));            
+        }
+        return false;
+
+    }
+
+    function RepresentJunkProduct() {
+
+        var grid = $("#JunkProduct").data("kendoGrid");
+        var selectedItem = grid.dataItem(grid.select());
+
+        if (selectedItem == null) {
+            alert("@Resources.General_NotSelected");
+            return false;
+        }
+
+        if (selectedItem.JunkProductStatusId != null) {
+            alert("Ապրանքն արդեն խոտանված է:");
+            return false;
+        }
+
+        var r = confirm("Իսկապե՞ս ցանկանում եք խոտանել ապրանքը:");
+        if (r == false) {
+            return false;
+        }
+
+        var rt = false;
+        var dt;
+
+        var q = $.ajax({
+            url: '@Url.Action("RepresentJunkProduct", "JunkProducts")',
+            dataType: "json",
+            type: "GET",
+            data: {
+                junkProductId: selectedItem.JunkProductId
+            },
+            async: false,
+            success: function (data) {
+                dt = data;
+                rt = true;
+            },
+            error: function (xhr) {
+                dt = xhr;
+                rt = false;
+            }
+        });
+
+        if (rt == true) {
+            if (dt.success != true) {
+                alert(JSON.stringify(dt.responseText));
+            }
+            else {
+                $("#JunkProduct").data("kendoGrid").dataSource.read();
+            }
+        }
+        else {
+            alert(JSON.stringify("Unknown error occured."));
+        }
+        return false;
+
+    }
+
+    function JunkProductDetail() {
+        var window = $("#wndJunkProductDetail").data("kendoWindow");
+        var grid = $("#JunkProduct").data("kendoGrid");
+        var selectedItem = grid.dataItem(grid.select());
+        if (selectedItem == null) {
+            alert("@Resources.General_NotSelected");
+            return false;
+        }
+        window.content("");
+        window.title("Մանրամասն տվյալներ");
+        window.refresh({
+            url: "@Url.Action("JunkProductDetail", "JunkProducts")" + "/" + selectedItem.JunkProductId
+        });
+        window.center();
+        window.open();
+    }
+
+    function onOpenJunkProduct(e) {
+        kendo.ui.progress(e.sender.element, true);
+    }
+    function onCloseJunkProduct(e) {
+        $("#JunkProduct").data("kendoGrid").dataSource.read();
+    }
+    function onRefreshJunkProduct(e) {
+        kendo.ui.progress(e.sender.element, false);
+    }
+
+</script>
+
+
+

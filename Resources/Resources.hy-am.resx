@@ -1,0 +1,1811 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <!-- 
+    Microsoft ResX Schema 
+    
+    Version 2.0
+    
+    The primary goals of this format is to allow a simple XML format 
+    that is mostly human readable. The generation and parsing of the 
+    various data types are done through the TypeConverter classes 
+    associated with the data types.
+    
+    Example:
+    
+    ... ado.net/XML headers & schema ...
+    <resheader name="resmimetype">text/microsoft-resx</resheader>
+    <resheader name="version">2.0</resheader>
+    <resheader name="reader">System.Resources.ResXResourceReader, System.Windows.Forms, ...</resheader>
+    <resheader name="writer">System.Resources.ResXResourceWriter, System.Windows.Forms, ...</resheader>
+    <data name="Name1"><value>this is my long string</value><comment>this is a comment</comment></data>
+    <data name="Color1" type="System.Drawing.Color, System.Drawing">Blue</data>
+    <data name="Bitmap1" mimetype="application/x-microsoft.net.object.binary.base64">
+        <value>[base64 mime encoded serialized .NET Framework object]</value>
+    </data>
+    <data name="Icon1" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+        <value>[base64 mime encoded string representing a byte array form of the .NET Framework object]</value>
+        <comment>This is a comment</comment>
+    </data>
+                
+    There are any number of "resheader" rows that contain simple 
+    name/value pairs.
+    
+    Each data row contains a name, and value. The row also contains a 
+    type or mimetype. Type corresponds to a .NET class that support 
+    text/value conversion through the TypeConverter architecture. 
+    Classes that don't support this are serialized and stored with the 
+    mimetype set.
+    
+    The mimetype is used for serialized objects, and tells the 
+    ResXResourceReader how to depersist the object. This is currently not 
+    extensible. For a given mimetype the value must be set accordingly:
+    
+    Note - application/x-microsoft.net.object.binary.base64 is the format 
+    that the ResXResourceWriter will generate, however the reader can 
+    read any of the formats listed below.
+    
+    mimetype: application/x-microsoft.net.object.binary.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Binary.BinaryFormatter
+            : and then encoded with base64 encoding.
+    
+    mimetype: application/x-microsoft.net.object.soap.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Soap.SoapFormatter
+            : and then encoded with base64 encoding.
+
+    mimetype: application/x-microsoft.net.object.bytearray.base64
+    value   : The object must be serialized into a byte array 
+            : using a System.ComponentModel.TypeConverter
+            : and then encoded with base64 encoding.
+    -->
+  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
+    <xsd:element name="root" msdata:IsDataSet="true">
+      <xsd:complexType>
+        <xsd:choice maxOccurs="unbounded">
+          <xsd:element name="metadata">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" />
+              </xsd:sequence>
+              <xsd:attribute name="name" use="required" type="xsd:string" />
+              <xsd:attribute name="type" type="xsd:string" />
+              <xsd:attribute name="mimetype" type="xsd:string" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="assembly">
+            <xsd:complexType>
+              <xsd:attribute name="alias" type="xsd:string" />
+              <xsd:attribute name="name" type="xsd:string" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="data">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="resheader">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" />
+            </xsd:complexType>
+          </xsd:element>
+        </xsd:choice>
+      </xsd:complexType>
+    </xsd:element>
+  </xsd:schema>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <data name="Bank_Code" xml:space="preserve">
+    <value>Կոդ</value>
+  </data>
+  <data name="Bank_CreateNew" xml:space="preserve">
+    <value>Ստեղծել նոր բանկ</value>
+  </data>
+  <data name="Bank_Create_Title" xml:space="preserve">
+    <value>Ստեղծել բանկ</value>
+  </data>
+  <data name="Bank_Name" xml:space="preserve">
+    <value>Անվանում</value>
+  </data>
+  <data name="Bank_Title" xml:space="preserve">
+    <value>Բանկեր</value>
+  </data>
+  <data name="Consumption_CreateNew" xml:space="preserve">
+    <value>Ստեղծել նոր ծախս</value>
+  </data>
+  <data name="Consumption_Title" xml:space="preserve">
+    <value>Ծախս</value>
+  </data>
+  <data name="DispensingType_Code" xml:space="preserve">
+    <value>Կոդ</value>
+  </data>
+  <data name="DispensingType_CreateNew" xml:space="preserve">
+    <value>Ստեղծել նոր թողարկման կարգ</value>
+  </data>
+  <data name="DispensingType_Create_Title" xml:space="preserve">
+    <value>Ստեղծել թողարկման կարգ</value>
+  </data>
+  <data name="DispensingType_Delete_Title" xml:space="preserve">
+    <value>Հեռացնել թողարկման կարգը</value>
+  </data>
+  <data name="DispensingType_Details_Title" xml:space="preserve">
+    <value>Թողարկման կարգի տվյալներ</value>
+  </data>
+  <data name="DispensingType_Edit_Title" xml:space="preserve">
+    <value>Խմբագրել թողարկման կարգը</value>
+  </data>
+  <data name="DispensingType_Name" xml:space="preserve">
+    <value>Անվանում</value>
+  </data>
+  <data name="DispensingType_Title" xml:space="preserve">
+    <value>Թողարկման կարգ</value>
+  </data>
+  <data name="DrugStatus_DispensingBy" xml:space="preserve">
+    <value>Թողարկման կարգ</value>
+  </data>
+  <data name="DrugStatus_MAH" xml:space="preserve">
+    <value>Գրանցման հավաստագրի իրավատերը</value>
+  </data>
+  <data name="DrugStatus_RegistrationDate" xml:space="preserve">
+    <value>Գրանցման ամսաթիվ</value>
+  </data>
+  <data name="DrugStatus_RegistrationNumber" xml:space="preserve">
+    <value>Գրանցման հավաստագրի N</value>
+  </data>
+  <data name="DrugStatus_RegistrationTill" xml:space="preserve">
+    <value>Վավեր է մինչև</value>
+  </data>
+  <data name="Drug_ATCCode" xml:space="preserve">
+    <value>Կոդ</value>
+  </data>
+  <data name="Drug_Code" xml:space="preserve">
+    <value>NN</value>
+  </data>
+  <data name="Drug_Country" xml:space="preserve">
+    <value>Արտադրող երկիր</value>
+  </data>
+  <data name="Drug_CreateNew" xml:space="preserve">
+    <value>Ավելացնել ապրանք</value>
+  </data>
+  <data name="Drug_Create_Title" xml:space="preserve">
+    <value>Ստեղծել դեղորայք</value>
+  </data>
+  <data name="Drug_Delete_Title" xml:space="preserve">
+    <value>Հեռացնել դեղորայքը</value>
+  </data>
+  <data name="Drug_Details_Title" xml:space="preserve">
+    <value>Դեղորայքի տվյալները</value>
+  </data>
+  <data name="Drug_DosageForm" xml:space="preserve">
+    <value>Դեղաձև</value>
+  </data>
+  <data name="Drug_Edit_Title" xml:space="preserve">
+    <value>Խմբագրել դեղորայքը</value>
+  </data>
+  <data name="Drug_GenericName" xml:space="preserve">
+    <value>Ազդող նյութ</value>
+  </data>
+  <data name="Drug_Manufacturer" xml:space="preserve">
+    <value>Արտադրող</value>
+  </data>
+  <data name="Drug_Name" xml:space="preserve">
+    <value>Անվանում</value>
+  </data>
+  <data name="Drug_Status" xml:space="preserve">
+    <value>Գրանցման կարգավիճակ</value>
+  </data>
+  <data name="Drug_Strength" xml:space="preserve">
+    <value>Դեղաչափ</value>
+  </data>
+  <data name="Drug_Title" xml:space="preserve">
+    <value>Ապրանքի մուտքագրում</value>
+  </data>
+  <data name="Drug_UnitQuantity" xml:space="preserve">
+    <value>Միավորների քանակը տուփում</value>
+  </data>
+  <data name="General_Back" xml:space="preserve">
+    <value>Վերադարձ</value>
+  </data>
+  <data name="General_ChangeStatus" xml:space="preserve">
+    <value>Համաձայնեցում</value>
+  </data>
+  <data name="General_Clean" xml:space="preserve">
+    <value>Մաքրել</value>
+  </data>
+  <data name="General_Close" xml:space="preserve">
+    <value>Փակել</value>
+  </data>
+  <data name="General_Comfirm" xml:space="preserve">
+    <value>Հաստատել</value>
+  </data>
+  <data name="General_Commands" xml:space="preserve">
+    <value>Հրահանգներ</value>
+  </data>
+  <data name="General_Confirmation" xml:space="preserve">
+    <value>Հաստատել</value>
+  </data>
+  <data name="General_Create" xml:space="preserve">
+    <value>Ստեղծել</value>
+  </data>
+  <data name="General_Delete" xml:space="preserve">
+    <value>Հեռացնել</value>
+  </data>
+  <data name="General_Delete_Info" xml:space="preserve">
+    <value>Եթե սեղմեք "Հեռացնել" կոճակը, ապա գրառումը կհեռացվի տվյալների բազայից։ Եթե համոզված չեք, որ ցանկանում եք դա անել, ապա սեղմեք "Փակել" կոճակը։</value>
+  </data>
+  <data name="General_Delete_Question" xml:space="preserve">
+    <value>Իսկապե՞ս ցանկանում եք հեռացնել գրառումը:</value>
+  </data>
+  <data name="General_Delete_Record" xml:space="preserve">
+    <value>Համոզված ե՞ք որ ցանկանում եք հեռացնել</value>
+  </data>
+  <data name="General_Details" xml:space="preserve">
+    <value>Դիտել</value>
+  </data>
+  <data name="General_Edit" xml:space="preserve">
+    <value>Խմբագրել</value>
+  </data>
+  <data name="General_GridMVCLang" xml:space="preserve">
+    <value>GridMvc.lang.am</value>
+  </data>
+  <data name="General_NewRecord" xml:space="preserve">
+    <value>Նոր գրառում</value>
+  </data>
+  <data name="General_NotSelected" xml:space="preserve">
+    <value>Գրառումը ընտրված չէ</value>
+  </data>
+  <data name="General_Particularly" xml:space="preserve">
+    <value>Մանրամասն</value>
+  </data>
+  <data name="General_Save" xml:space="preserve">
+    <value>Պահպանել</value>
+  </data>
+  <data name="General_Search" xml:space="preserve">
+    <value>Որոնել</value>
+  </data>
+  <data name="General_Select" xml:space="preserve">
+    <value>Ընտրել</value>
+  </data>
+  <data name="General_Select_List" xml:space="preserve">
+    <value>ընտրել․․․</value>
+  </data>
+  <data name="General_UnderConstruction" xml:space="preserve">
+    <value>Էջը գտնվում է մշակման փուլում</value>
+  </data>
+  <data name="Home" xml:space="preserve">
+    <value>Գլխավոր</value>
+  </data>
+  <data name="Layout_CompanyName" xml:space="preserve">
+    <value>Քոմինե-Սոֆթ</value>
+  </data>
+  <data name="Layout_Login_Hello" xml:space="preserve">
+    <value>Ողջույն</value>
+  </data>
+  <data name="Layout_Login_LogIn" xml:space="preserve">
+    <value>Մուտք</value>
+  </data>
+  <data name="Layout_Login_LogOff" xml:space="preserve">
+    <value>Ելք</value>
+  </data>
+  <data name="Layout_Nav_DataEntry" xml:space="preserve">
+    <value>Հիմնարկ</value>
+  </data>
+  <data name="Layout_Nav_DataEntry_Consumptions" xml:space="preserve">
+    <value>Ապրանքի ծախս</value>
+  </data>
+  <data name="Layout_Nav_DataEntry_Placements" xml:space="preserve">
+    <value>Պահանջագիր</value>
+  </data>
+  <data name="Layout_Nav_Store_Products" xml:space="preserve">
+    <value>Ապրանք</value>
+  </data>
+  <data name="Layout_Nav_DataEntry_Requests" xml:space="preserve">
+    <value>Պահանջներ</value>
+  </data>
+  <data name="Layout_Nav_Store_Transfers" xml:space="preserve">
+    <value>Հաշիվ-ապրանքագիր</value>
+  </data>
+  <data name="Layout_Nav_Help" xml:space="preserve">
+    <value>Օգնություն</value>
+  </data>
+  <data name="Layout_Nav_Help_Entry" xml:space="preserve">
+    <value>Հիմնարկ</value>
+  </data>
+  <data name="Layout_Nav_Help_Management" xml:space="preserve">
+    <value>Կառավարում</value>
+  </data>
+  <data name="Layout_Nav_Help_Reports" xml:space="preserve">
+    <value>Հաշվետվություններ</value>
+  </data>
+  <data name="Layout_Nav_Help_Store" xml:space="preserve">
+    <value>Պահեստ</value>
+  </data>
+  <data name="Layout_Nav_Management" xml:space="preserve">
+    <value>Կառավարում</value>
+  </data>
+  <data name="Layout_Nav_Management_Catalogs" xml:space="preserve">
+    <value>Շտեմարաններ</value>
+  </data>
+  <data name="Layout_Nav_Management_Catalogs_Bank" xml:space="preserve">
+    <value>Բանկեր</value>
+  </data>
+  <data name="Layout_Nav_Management_Catalogs_DispensingType" xml:space="preserve">
+    <value>Թողարկման կարգ</value>
+  </data>
+  <data name="Layout_Nav_Management_Catalogs_Drug" xml:space="preserve">
+    <value>Ապրանքի անվանացանկ</value>
+  </data>
+  <data name="Layout_Nav_Management_Catalogs_Manufacturer" xml:space="preserve">
+    <value>Արտադրողներ</value>
+  </data>
+  <data name="Layout_Nav_Management_Catalogs_ProductCategorie" xml:space="preserve">
+    <value>Ապրանքի կատեգորիա</value>
+  </data>
+  <data name="Layout_Nav_Management_Catalogs_ProductGroup" xml:space="preserve">
+    <value>Ապրանքի խումբ</value>
+  </data>
+  <data name="Layout_Nav_Management_Catalogs_ProductType" xml:space="preserve">
+    <value>Ապրանքի տեսակ</value>
+  </data>
+  <data name="Layout_Nav_Management_Catalogs_Statuses" xml:space="preserve">
+    <value>Կարգավիճակներ</value>
+  </data>
+  <data name="Layout_Nav_Management_Catalogs_Storage" xml:space="preserve">
+    <value>Ենթապահեստ</value>
+  </data>
+  <data name="Layout_Nav_Management_Catalogs_Supplier" xml:space="preserve">
+    <value>Մատակարարներ</value>
+  </data>
+  <data name="Layout_Nav_Management_Catalogs_UnitType" xml:space="preserve">
+    <value>Չափման միավոր</value>
+  </data>
+  <data name="Layout_Nav_Management_Catalogs_User" xml:space="preserve">
+    <value>Գործարկողներ</value>
+  </data>
+  <data name="Layout_Nav_Reports" xml:space="preserve">
+    <value>Հաշվետվություններ</value>
+  </data>
+  <data name="Layout_Nav_Reports1" xml:space="preserve">
+    <value>Հաշվետվություն 1</value>
+  </data>
+  <data name="Layout_Nav_Reports2" xml:space="preserve">
+    <value>Հաշվետվություն 2</value>
+  </data>
+  <data name="Layout_Nav_Reports3" xml:space="preserve">
+    <value>Հաշվետվություն 3</value>
+  </data>
+  <data name="Layout_Nav_Reports4" xml:space="preserve">
+    <value>Հաշվետվություն 4</value>
+  </data>
+  <data name="Layout_Nav_Reports5" xml:space="preserve">
+    <value>Հաշվետվություն 5</value>
+  </data>
+  <data name="Layout_Nav_Reports6" xml:space="preserve">
+    <value>Հաշվետվություն 6</value>
+  </data>
+  <data name="Layout_Nav_Reports7" xml:space="preserve">
+    <value>Հաշվետվություն 7</value>
+  </data>
+  <data name="Layout_Nav_Reports8" xml:space="preserve">
+    <value>Հաշվետվություն 8</value>
+  </data>
+  <data name="Layout_Nav_Store" xml:space="preserve">
+    <value>Պահեստ</value>
+  </data>
+  <data name="Layout_SiteName" xml:space="preserve">
+    <value>Դեղորայքային պահեստ</value>
+  </data>
+  <data name="Manufacturer_Code" xml:space="preserve">
+    <value>Կոդ</value>
+  </data>
+  <data name="Manufacturer_CreateNew" xml:space="preserve">
+    <value>Ստեղծել նոր արտադրող</value>
+  </data>
+  <data name="Manufacturer_Create_Title" xml:space="preserve">
+    <value>Ստեղծել արտադրող</value>
+  </data>
+  <data name="Manufacturer_Delete_Title" xml:space="preserve">
+    <value>Հեռացնել արտադրողին</value>
+  </data>
+  <data name="Manufacturer_Details_Title" xml:space="preserve">
+    <value>Արտադրողի տվյալները</value>
+  </data>
+  <data name="Manufacturer_Edit_Title" xml:space="preserve">
+    <value>Խմբագրել արտադրողի տվյալները</value>
+  </data>
+  <data name="Manufacturer_Name" xml:space="preserve">
+    <value>Անվանումը</value>
+  </data>
+  <data name="Manufacturer_Title" xml:space="preserve">
+    <value>Արտադրող</value>
+  </data>
+  <data name="Placement_CorrectedQuantity" xml:space="preserve">
+    <value>Ճշտված քանակ</value>
+  </data>
+  <data name="Placement_CreateNew" xml:space="preserve">
+    <value>Նոր պահանջագիր</value>
+  </data>
+  <data name="Placement_Create_Title" xml:space="preserve">
+    <value>Ստեղծել պահանջագիր</value>
+  </data>
+  <data name="Placement_Delete_Title" xml:space="preserve">
+    <value>Հեռացնել պահանջագիրը</value>
+  </data>
+  <data name="Placement_Details_Title" xml:space="preserve">
+    <value>Պահանջագրի տվյալներ</value>
+  </data>
+  <data name="Placement_DrugName" xml:space="preserve">
+    <value>Դեղորայք</value>
+  </data>
+  <data name="Placement_Edit_Title" xml:space="preserve">
+    <value>Խմբագրել պահանջագիրը</value>
+  </data>
+  <data name="Placement_ExpirationDate" xml:space="preserve">
+    <value>Ժամկետ</value>
+  </data>
+  <data name="Placement_OrderOrganization" xml:space="preserve">
+    <value>Պատվիրող հիմնարկ</value>
+  </data>
+  <data name="Placement_OrganizationName" xml:space="preserve">
+    <value>Հիմնարկ</value>
+  </data>
+  <data name="Placement_PlacementDate" xml:space="preserve">
+    <value>Ներկայացման ա/թ</value>
+  </data>
+  <data name="Placement_ReceiveDate" xml:space="preserve">
+    <value>Հիմնարկի պահեստի մուտքի ա/թ</value>
+  </data>
+  <data name="Placement_Seria" xml:space="preserve">
+    <value>Սերիա</value>
+  </data>
+  <data name="Placement_StatusName" xml:space="preserve">
+    <value>Կարգավիճակ</value>
+  </data>
+  <data name="Placement_StoreName" xml:space="preserve">
+    <value>Պահեստ</value>
+  </data>
+  <data name="Placement_Title" xml:space="preserve">
+    <value>Պահանջագրեր</value>
+  </data>
+  <data name="Placement_UnitCost" xml:space="preserve">
+    <value>Միավորի արժեք</value>
+  </data>
+  <data name="ProductCategory_Code" xml:space="preserve">
+    <value>Կոդ</value>
+  </data>
+  <data name="ProductCategory_CreateNew" xml:space="preserve">
+    <value>Ստեղծել նոր ապրանքային  կատեգորիա</value>
+  </data>
+  <data name="ProductCategory_Create_Title" xml:space="preserve">
+    <value>Ստեղծել ապրանքային  կատեգորիա</value>
+  </data>
+  <data name="ProductCategory_Delete_Title" xml:space="preserve">
+    <value>Հեռացնել ապրանքային կատեգորիան</value>
+  </data>
+  <data name="ProductCategory_Details_Title" xml:space="preserve">
+    <value>Ապրանքային կատեգորիայի տվյալները</value>
+  </data>
+  <data name="ProductCategory_Edit_Title" xml:space="preserve">
+    <value>Խմբագրել ապրանքային կատեգորիան</value>
+  </data>
+  <data name="ProductCategory_Name" xml:space="preserve">
+    <value>Անվանում</value>
+  </data>
+  <data name="ProductCategory_Title" xml:space="preserve">
+    <value>Ապրանքի կատեգորիա</value>
+  </data>
+  <data name="ProductGroup_Code" xml:space="preserve">
+    <value>Կոդ</value>
+  </data>
+  <data name="ProductGroup_CreateNew" xml:space="preserve">
+    <value>Ստեղծել նոր ապրանքային խումբ</value>
+  </data>
+  <data name="ProductGroup_Create_Title" xml:space="preserve">
+    <value>Ստեղծել ապրանքային խումբ</value>
+  </data>
+  <data name="ProductGroup_Delete_Title" xml:space="preserve">
+    <value>Հեռացնել ապրանքային խումբը</value>
+  </data>
+  <data name="ProductGroup_Details_Title" xml:space="preserve">
+    <value>Ապրանքային խմբի տվյալները</value>
+  </data>
+  <data name="ProductGroup_Edit_Title" xml:space="preserve">
+    <value>Խմբագրել ապրանքային խումբը</value>
+  </data>
+  <data name="ProductGroup_Name" xml:space="preserve">
+    <value>Անվանում</value>
+  </data>
+  <data name="ProductGroup_Title" xml:space="preserve">
+    <value>Ապրանքի խումբ</value>
+  </data>
+  <data name="ProductType_Code" xml:space="preserve">
+    <value>Կոդ</value>
+  </data>
+  <data name="ProductType_CreateNew" xml:space="preserve">
+    <value>Ստեղծել նոր ապրանքի տեսակ</value>
+  </data>
+  <data name="ProductType_Create_Title" xml:space="preserve">
+    <value>Ստեղծել ապրանքի տեսակ</value>
+  </data>
+  <data name="ProductType_Delete_Title" xml:space="preserve">
+    <value>Հեռացնել ապրանքային տեսակը</value>
+  </data>
+  <data name="ProductType_Details_Title" xml:space="preserve">
+    <value>Ապրանքային տեսակի տվյալները</value>
+  </data>
+  <data name="ProductType_Edit_Title" xml:space="preserve">
+    <value>Խմբագրել ապրանքային տեսակը</value>
+  </data>
+  <data name="ProductType_Name" xml:space="preserve">
+    <value>Անվանում</value>
+  </data>
+  <data name="ProductType_Title" xml:space="preserve">
+    <value>Ապրանքի տեսակ</value>
+  </data>
+  <data name="Product_CategoryCode" xml:space="preserve">
+    <value>Կատեգորիայի կոդ</value>
+  </data>
+  <data name="Product_CategoryName" xml:space="preserve">
+    <value>Կատեգորիա</value>
+  </data>
+  <data name="Product_Category_Required" xml:space="preserve">
+    <value>"Կատեգորիա" դաշտը պարտադիր է</value>
+  </data>
+  <data name="Product_CreateNew" xml:space="preserve">
+    <value>Ստեղծել նոր ապրանք</value>
+  </data>
+  <data name="Product_Create_Title" xml:space="preserve">
+    <value>Ստեղծել ապրանք</value>
+  </data>
+  <data name="Product_Delete_Title" xml:space="preserve">
+    <value>Հեռացնել ապրանքը</value>
+  </data>
+  <data name="Product_Details_Title" xml:space="preserve">
+    <value>Ապրանքի տվյալները</value>
+  </data>
+  <data name="Product_DrugCode" xml:space="preserve">
+    <value>Դեղորայքի կոդ</value>
+  </data>
+  <data name="Product_DrugName" xml:space="preserve">
+    <value>Անվանացանկ</value>
+  </data>
+  <data name="Product_Edit_Title" xml:space="preserve">
+    <value>Խմբագրել ապրանքի տվյալները</value>
+  </data>
+  <data name="Product_ExpirationDate" xml:space="preserve">
+    <value>Պահպանման ժամկետ</value>
+  </data>
+  <data name="Product_GroupCode" xml:space="preserve">
+    <value>Խմբի կոդ</value>
+  </data>
+  <data name="Product_GroupName" xml:space="preserve">
+    <value>Խումբ</value>
+  </data>
+  <data name="Product_ManufacturerCode" xml:space="preserve">
+    <value>Արտադրողի կոդ</value>
+  </data>
+  <data name="Product_ManufacturerName" xml:space="preserve">
+    <value>Արտադրող</value>
+  </data>
+  <data name="Product_Organization" xml:space="preserve">
+    <value>Հիմնարկ</value>
+  </data>
+  <data name="Product_Quantity" xml:space="preserve">
+    <value>Քանակ</value>
+  </data>
+  <data name="Product_Quantity_Required" xml:space="preserve">
+    <value>"Քանակ" դաշտը պարտադիր է</value>
+  </data>
+  <data name="Product_Seria" xml:space="preserve">
+    <value>Սերիա</value>
+  </data>
+  <data name="Product_Seria_Required" xml:space="preserve">
+    <value>"Սերիա" դաշտը պարտադիր է</value>
+  </data>
+  <data name="Product_StoreOrganization" xml:space="preserve">
+    <value>Պահեստ-հիմնարկ</value>
+  </data>
+  <data name="Product_SupplierCode" xml:space="preserve">
+    <value>Մատակարարի կոդ</value>
+  </data>
+  <data name="Product_SupplierName" xml:space="preserve">
+    <value>Մատակարար</value>
+  </data>
+  <data name="Product_Title" xml:space="preserve">
+    <value>Ապրանքներ</value>
+  </data>
+  <data name="Product_TypeCode" xml:space="preserve">
+    <value>Տեսակի կոդ</value>
+  </data>
+  <data name="Product_TypeName" xml:space="preserve">
+    <value>Տեսակ</value>
+  </data>
+  <data name="Product_UnitType" xml:space="preserve">
+    <value>Չափման միավոր</value>
+  </data>
+  <data name="Request_CreateNew" xml:space="preserve">
+    <value>Ստեղծել նոր պահանջ</value>
+  </data>
+  <data name="Request_Create_Title" xml:space="preserve">
+    <value>Ստեղծել պահանջ</value>
+  </data>
+  <data name="Request_Delete_Title" xml:space="preserve">
+    <value>Հեռացնել պահանջը</value>
+  </data>
+  <data name="Request_Details_Title" xml:space="preserve">
+    <value>Պահանջի տվյալները</value>
+  </data>
+  <data name="Request_Edit_Title" xml:space="preserve">
+    <value>Խմբագրել պահանջը</value>
+  </data>
+  <data name="Request_Product" xml:space="preserve">
+    <value>Ապրանք</value>
+  </data>
+  <data name="Request_Title" xml:space="preserve">
+    <value>Պահանջներ</value>
+  </data>
+  <data name="Requset_DrugName" xml:space="preserve">
+    <value>Դեղորայք</value>
+  </data>
+  <data name="Requset_ExpirationDate" xml:space="preserve">
+    <value>Ժամկետ</value>
+  </data>
+  <data name="Requset_OrganizationName" xml:space="preserve">
+    <value>Հիմնարկ</value>
+  </data>
+  <data name="Requset_Quantity" xml:space="preserve">
+    <value>Քանակ</value>
+  </data>
+  <data name="Requset_ReceiveDate" xml:space="preserve">
+    <value>Ստացման ա/թ</value>
+  </data>
+  <data name="Requset_RequestDate" xml:space="preserve">
+    <value>Պահանջի ա/թ</value>
+  </data>
+  <data name="Requset_Seria" xml:space="preserve">
+    <value>Սերիա</value>
+  </data>
+  <data name="Requset_StatusName" xml:space="preserve">
+    <value>Կարգավիճակ</value>
+  </data>
+  <data name="Requset_StoreName" xml:space="preserve">
+    <value>Պահեստ</value>
+  </data>
+  <data name="Requset_UnitCost" xml:space="preserve">
+    <value>Միավորի արժեք</value>
+  </data>
+  <data name="Status_Code" xml:space="preserve">
+    <value>Կոդ</value>
+  </data>
+  <data name="Status_CreateNew" xml:space="preserve">
+    <value>Ստեղծել նոր կարգավիճակ</value>
+  </data>
+  <data name="Status_Create_Title" xml:space="preserve">
+    <value>Ստեղծել կարգավիճակ</value>
+  </data>
+  <data name="Status_Delete_Title" xml:space="preserve">
+    <value>Հեռացնել կարգավիճակը</value>
+  </data>
+  <data name="Status_Details_Title" xml:space="preserve">
+    <value>Կարգավիճակի տվյալները</value>
+  </data>
+  <data name="Status_Edit_Title" xml:space="preserve">
+    <value>Խմբագրել կարգավիճակը</value>
+  </data>
+  <data name="Status_Name" xml:space="preserve">
+    <value>Անվանում</value>
+  </data>
+  <data name="Status_Title" xml:space="preserve">
+    <value>Կարգավիճակ</value>
+  </data>
+  <data name="Store_Code" xml:space="preserve">
+    <value>Պահեստի կոդ</value>
+  </data>
+  <data name="Store_CreateNew" xml:space="preserve">
+    <value>Ստեղծել նոր պահեստ</value>
+  </data>
+  <data name="Store_Create_Title" xml:space="preserve">
+    <value>Ստեղծել պահեստ</value>
+  </data>
+  <data name="Store_Delete_Title" xml:space="preserve">
+    <value>Հեռացնել պահեստը</value>
+  </data>
+  <data name="Store_Details_Title" xml:space="preserve">
+    <value>Պահեստի տվյալները</value>
+  </data>
+  <data name="Store_Edit_Title" xml:space="preserve">
+    <value>Խմբագրել պահեստը</value>
+  </data>
+  <data name="Store_Location" xml:space="preserve">
+    <value>Տեղակայում</value>
+  </data>
+  <data name="Store_Name" xml:space="preserve">
+    <value>Անվանում</value>
+  </data>
+  <data name="Store_RegistrationNumber" xml:space="preserve">
+    <value>Գրանցման համար</value>
+  </data>
+  <data name="Store_TinNumber" xml:space="preserve">
+    <value>ՀՎՀՀ</value>
+  </data>
+  <data name="Store_Title" xml:space="preserve">
+    <value>Պահեստներ</value>
+  </data>
+  <data name="Supplier_Code" xml:space="preserve">
+    <value>Կոդ</value>
+  </data>
+  <data name="Supplier_CreateNew" xml:space="preserve">
+    <value>Ստեղծել նոր մատակարար</value>
+  </data>
+  <data name="Supplier_Create_Title" xml:space="preserve">
+    <value>Ստեղծել մատակարար</value>
+  </data>
+  <data name="Supplier_Delete_Title" xml:space="preserve">
+    <value>Հեռացնել մատակարարին</value>
+  </data>
+  <data name="Supplier_Details_Title" xml:space="preserve">
+    <value>Մատակարարի տվյալները</value>
+  </data>
+  <data name="Supplier_Edit_Title" xml:space="preserve">
+    <value>Խմբագրել մատակարարի տվյալները</value>
+  </data>
+  <data name="Supplier_Name" xml:space="preserve">
+    <value>Անվանում</value>
+  </data>
+  <data name="Supplier_Title" xml:space="preserve">
+    <value>Մատակարար</value>
+  </data>
+  <data name="Transfer" xml:space="preserve">
+    <value>Հաշիվ-ապրանքագիր</value>
+  </data>
+  <data name="Transfer_BaseDoc" xml:space="preserve">
+    <value>Հիմք</value>
+  </data>
+  <data name="Transfer_Comment" xml:space="preserve">
+    <value>Մեկնաբանություն</value>
+  </data>
+  <data name="Transfer_Create_Title" xml:space="preserve">
+    <value>Ստեղծել հաշիվ-ապրանքագիր</value>
+  </data>
+  <data name="Transfer_Date" xml:space="preserve">
+    <value>Ամսաթիվ</value>
+  </data>
+  <data name="Transfer_Delete_Title" xml:space="preserve">
+    <value>Հեռացնել հաշիվ-ապրանքագիրը</value>
+  </data>
+  <data name="Transfer_Details_Title" xml:space="preserve">
+    <value>Հաշիվ-ապրանքագրի տվյալներ</value>
+  </data>
+  <data name="Transfer_Edit_Title" xml:space="preserve">
+    <value>Խմբագրել հաշիվ-ապրանքագիրը</value>
+  </data>
+  <data name="Transfer_IsTransfer" xml:space="preserve">
+    <value>Կատարված</value>
+  </data>
+  <data name="Transfer_Placement" xml:space="preserve">
+    <value>Վերադարձի փաստաթուղթ</value>
+  </data>
+  <data name="Transfer_Receiver" xml:space="preserve">
+    <value>Պատվիրատու</value>
+  </data>
+  <data name="Transfer_ReceiverAccountant" xml:space="preserve">
+    <value>Պատվիրատու հիմնարկի հաշվապահ</value>
+  </data>
+  <data name="Transfer_ReceiverHead" xml:space="preserve">
+    <value>Պատվիրատու հիմնարկի տնօրեն</value>
+  </data>
+  <data name="Transfer_ReceiverResponsible" xml:space="preserve">
+    <value>Պատասխանատու</value>
+  </data>
+  <data name="Transfer_Sender" xml:space="preserve">
+    <value>Մատակարար</value>
+  </data>
+  <data name="Transfer_SenderAccountant" xml:space="preserve">
+    <value>Մատակարար հիմնարկի հաշվապահ</value>
+  </data>
+  <data name="Transfer_SenderHead" xml:space="preserve">
+    <value>Մատակարար հիմնարկի տնօրեն</value>
+  </data>
+  <data name="Transfer_SenderResponsible" xml:space="preserve">
+    <value>Պատասխանատու</value>
+  </data>
+  <data name="Transfer_Store" xml:space="preserve">
+    <value>Պահեստ</value>
+  </data>
+  <data name="Transfer_Sum" xml:space="preserve">
+    <value>Գումար</value>
+  </data>
+  <data name="Transfer_TextSum" xml:space="preserve">
+    <value>Գումարը բառերով</value>
+  </data>
+  <data name="Transfer_Title" xml:space="preserve">
+    <value>Հաշիվ-ապրանքագրի ձևավորում</value>
+  </data>
+  <data name="Transfer_Total" xml:space="preserve">
+    <value>Ընդհանուր</value>
+  </data>
+  <data name="UnitType_Code" xml:space="preserve">
+    <value>Կոդ</value>
+  </data>
+  <data name="UnitType_CreateNew" xml:space="preserve">
+    <value>Ստեղծել նոր չափման միավոր</value>
+  </data>
+  <data name="UnitType_Create_Title" xml:space="preserve">
+    <value>Ստեղծել չափման միավոր</value>
+  </data>
+  <data name="UnitType_Delete_Title" xml:space="preserve">
+    <value>Հեռացնել չափման միավորը</value>
+  </data>
+  <data name="UnitType_Details_Title" xml:space="preserve">
+    <value>Չափման միավորի տվյալներ</value>
+  </data>
+  <data name="UnitType_Edit_Title" xml:space="preserve">
+    <value>Խմբագրել չափման միավորը</value>
+  </data>
+  <data name="UnitType_Name" xml:space="preserve">
+    <value>Անվանում</value>
+  </data>
+  <data name="UnitType_Title" xml:space="preserve">
+    <value>Չափման միավոր</value>
+  </data>
+  <data name="Users_AccessLevel" xml:space="preserve">
+    <value>Հասանելիություն</value>
+  </data>
+  <data name="Users_CreateNew" xml:space="preserve">
+    <value>Ստեղծել նոր գործարկող</value>
+  </data>
+  <data name="Users_Create_Title" xml:space="preserve">
+    <value>Ստեղծել գործարկող</value>
+  </data>
+  <data name="Users_Delete_Title" xml:space="preserve">
+    <value>Հեռացնել գործարկողին</value>
+  </data>
+  <data name="Users_Details_Title" xml:space="preserve">
+    <value>Գործարկողի տվյալներ</value>
+  </data>
+  <data name="Users_Edit_Title" xml:space="preserve">
+    <value>Խմբագրել գործարկողի տվյալները</value>
+  </data>
+  <data name="Users_OrgCode" xml:space="preserve">
+    <value>Հաստատության կոդ</value>
+  </data>
+  <data name="Users_OrgName" xml:space="preserve">
+    <value>Հաստատություն</value>
+  </data>
+  <data name="Users_Title" xml:space="preserve">
+    <value>Գործարկողներ</value>
+  </data>
+  <data name="Users_User" xml:space="preserve">
+    <value>Գործարկող</value>
+  </data>
+  <data name="PlacementDetails_OrganizationCode" xml:space="preserve">
+    <value>Հիմնարկի կոդ</value>
+  </data>
+  <data name="Placement_OrderOrganizationCode" xml:space="preserve">
+    <value>Պատվիրող հիմնարկ կոդ</value>
+  </data>
+  <data name="Product" xml:space="preserve">
+    <value>Ապրանք</value>
+  </data>
+  <data name="ConsumptionPeriod_Title" xml:space="preserve">
+    <value>Ապրանքի ծախս</value>
+  </data>
+  <data name="Consumption_EndDate" xml:space="preserve">
+    <value>Վերջնական ա/թ</value>
+  </data>
+  <data name="Consumption_IsClosed" xml:space="preserve">
+    <value>Փոփոխման ենթակա չէ</value>
+  </data>
+  <data name="Consumption_Organization" xml:space="preserve">
+    <value>Հիմնարկ</value>
+  </data>
+  <data name="Consumption_Product" xml:space="preserve">
+    <value>Ապրանք</value>
+  </data>
+  <data name="Consumption_Quantity" xml:space="preserve">
+    <value>Քանակ</value>
+  </data>
+  <data name="Consumption_StartDate" xml:space="preserve">
+    <value>Սկզբնական ա/թ</value>
+  </data>
+  <data name="Transfer_BankName" xml:space="preserve">
+    <value>Բանկ</value>
+  </data>
+  <data name="Transfer_Location" xml:space="preserve">
+    <value>Տեղակայում</value>
+  </data>
+  <data name="Transfer_RegistrationNumber" xml:space="preserve">
+    <value>Գրանցման համար</value>
+  </data>
+  <data name="Transfer_StoreName" xml:space="preserve">
+    <value>Պահեստի անվանում</value>
+  </data>
+  <data name="Transfer_TinNumber" xml:space="preserve">
+    <value>ՀՎՀՀ</value>
+  </data>
+  <data name="Product_Code" xml:space="preserve">
+    <value>Կոդ</value>
+  </data>
+  <data name="Product_CountryId" xml:space="preserve">
+    <value>Արտադրող երկիր</value>
+  </data>
+  <data name="Product_Manufacturer" xml:space="preserve">
+    <value>Արտադրող</value>
+  </data>
+  <data name="Product_OrganizationName" xml:space="preserve">
+    <value>Հիմնարկ</value>
+  </data>
+  <data name="Product_RegistrationDate" xml:space="preserve">
+    <value>Մուտքագրման ա/թ</value>
+  </data>
+  <data name="General_Correction" xml:space="preserve">
+    <value>Պահանջագրի բավարարում</value>
+  </data>
+  <data name="General_DoesNotCorrespond" xml:space="preserve">
+    <value>Դուք չեք կարող խմբագրել այս գրառումը քանի որ կարգավիճակը չի համապատասխանում գործառույթին</value>
+  </data>
+  <data name="General_FinalComfirm" xml:space="preserve">
+    <value>Մուտքագրում պահեստ</value>
+  </data>
+  <data name="General_NomenclatureQuantity" xml:space="preserve">
+    <value>Ապրանքների անվանացանկ և քանակ</value>
+  </data>
+  <data name="Placement_ConfirmDate" xml:space="preserve">
+    <value>Համաձայնեցման ա/թ</value>
+  </data>
+  <data name="Placement_CorrectionDate" xml:space="preserve">
+    <value>Ճշտման ա/թ</value>
+  </data>
+  <data name="Layout_Nav_DataEntry_StoreFlow" xml:space="preserve">
+    <value>Պահեստի շարժ</value>
+  </data>
+  <data name="Layout_Nav_Help_Messages" xml:space="preserve">
+    <value>Հաղորդագրություններ</value>
+  </data>
+  <data name="Layout_Nav_Message" xml:space="preserve">
+    <value>Հաղորդագրություններ</value>
+  </data>
+  <data name="Layout_Nav_Message_Inbox" xml:space="preserve">
+    <value>Ստացված</value>
+  </data>
+  <data name="Layout_Nav_Message_Outbox" xml:space="preserve">
+    <value>Ուղարկված</value>
+  </data>
+  <data name="Layout_Nav_Store_Placements" xml:space="preserve">
+    <value>Պահանջագիր</value>
+  </data>
+  <data name="Layout_Nav_Store_StoreFlow" xml:space="preserve">
+    <value>Պահեստի շարժ</value>
+  </data>
+  <data name="DrugCategory_Code" xml:space="preserve">
+    <value>Կոդ</value>
+  </data>
+  <data name="DrugCategory_Details_Title" xml:space="preserve">
+    <value>Դեղաչափի տվյալներ</value>
+  </data>
+  <data name="DrugCategory_Name" xml:space="preserve">
+    <value>Դեղաչափ</value>
+  </data>
+  <data name="DrugCategory_Title" xml:space="preserve">
+    <value>Դեղաչափ</value>
+  </data>
+  <data name="DrugType_Code" xml:space="preserve">
+    <value>Կոդ</value>
+  </data>
+  <data name="DrugType_Details_Title" xml:space="preserve">
+    <value>Դեղաձևի տվյալներ</value>
+  </data>
+  <data name="DrugType_Name" xml:space="preserve">
+    <value>Դեղաձև</value>
+  </data>
+  <data name="DrugType_Title" xml:space="preserve">
+    <value>Դեղաձև</value>
+  </data>
+  <data name="Layout_Nav_Management_Catalogs_DrugCategory" xml:space="preserve">
+    <value>Դեղաչափ</value>
+  </data>
+  <data name="Layout_Nav_Management_Catalogs_DrugType" xml:space="preserve">
+    <value>Դեղաձև</value>
+  </data>
+  <data name="Storage_Code" xml:space="preserve">
+    <value>Կոդ</value>
+  </data>
+  <data name="Storage_Details_Title" xml:space="preserve">
+    <value>Ենթապահեստի տվյալներ</value>
+  </data>
+  <data name="Storage_Name" xml:space="preserve">
+    <value>Ենթապահեստ</value>
+  </data>
+  <data name="Storage_Organization" xml:space="preserve">
+    <value>Հիմնարկ</value>
+  </data>
+  <data name="Storage_Title" xml:space="preserve">
+    <value>Ենթապահեստ</value>
+  </data>
+  <data name="OrganizationStore_Details_Title" xml:space="preserve">
+    <value>Պահեստի շարժի տվյալներ</value>
+  </data>
+  <data name="OrganizationStore_Edit_Title" xml:space="preserve">
+    <value>Պահեստի շարժ</value>
+  </data>
+  <data name="OrganizationStore_EndDate" xml:space="preserve">
+    <value>Վերջնական ա/թ</value>
+  </data>
+  <data name="OrganizationStore_OrganizationName" xml:space="preserve">
+    <value>Հիմնարկ</value>
+  </data>
+  <data name="OrganizationStore_StartDate" xml:space="preserve">
+    <value>Սկզբնական ա/թ</value>
+  </data>
+  <data name="OrganizationStore_Title" xml:space="preserve">
+    <value>Հիմնարկի պահեստի շարժ</value>
+  </data>
+  <data name="StorageStore_Details_Title" xml:space="preserve">
+    <value>Պահեստի շարժի տվյալներ</value>
+  </data>
+  <data name="StorageStore_Edit_Title" xml:space="preserve">
+    <value>Պահեստի շարժ</value>
+  </data>
+  <data name="StorageStore_EndDate" xml:space="preserve">
+    <value>Վերջնական ա/թ</value>
+  </data>
+  <data name="StorageStore_FinalQuantity" xml:space="preserve">
+    <value>Վերջնական մնացորդ</value>
+  </data>
+  <data name="StorageStore_InitialQuantity" xml:space="preserve">
+    <value>Սկզբնական մնացորդ</value>
+  </data>
+  <data name="StorageStore_InQuantity" xml:space="preserve">
+    <value>Մուտք</value>
+  </data>
+  <data name="StorageStore_OrganizationName" xml:space="preserve">
+    <value>Հիմնարկ</value>
+  </data>
+  <data name="StorageStore_OutQuantity" xml:space="preserve">
+    <value>Ելք</value>
+  </data>
+  <data name="StorageStore_StartDate" xml:space="preserve">
+    <value>Սկզբնական ա/թ</value>
+  </data>
+  <data name="StorageStore_Title" xml:space="preserve">
+    <value>Հիմնական պահեստի շարժ</value>
+  </data>
+  <data name="General_Messages" xml:space="preserve">
+    <value>Հաղորդագրություն</value>
+  </data>
+  <data name="MessageBox_CheckMessage" xml:space="preserve">
+    <value>Ստուգել հաղորդագրությունները</value>
+  </data>
+  <data name="MessageBox_Date" xml:space="preserve">
+    <value>Ամսաթիվ</value>
+  </data>
+  <data name="MessageBox_MessageContent" xml:space="preserve">
+    <value>Հաղորդագրության տեքստ</value>
+  </data>
+  <data name="MessageBox_MessageTitle" xml:space="preserve">
+    <value>Վերնագիր</value>
+  </data>
+  <data name="MessageBox_NewMessage" xml:space="preserve">
+    <value>Նոր հաղորդագրություն</value>
+  </data>
+  <data name="MessageBox_Received" xml:space="preserve">
+    <value>Ստացված հաղորդագրություններ</value>
+  </data>
+  <data name="MessageBox_Recipient" xml:space="preserve">
+    <value>Ստացող</value>
+  </data>
+  <data name="MessageBox_Sender" xml:space="preserve">
+    <value>Ուղարկող</value>
+  </data>
+  <data name="MessageBox_Sent" xml:space="preserve">
+    <value>Ուղարկված հաղորդագրություններ</value>
+  </data>
+  <data name="MessageBox_SentTitle" xml:space="preserve">
+    <value>Ուղարկված հաղորդագրություններ</value>
+  </data>
+  <data name="MessageBox_Title" xml:space="preserve">
+    <value>Ստացված հաղորդագրություններ</value>
+  </data>
+  <data name="Bank" xml:space="preserve">
+    <value>Բանկ</value>
+  </data>
+  <data name="General_Inputs" xml:space="preserve">
+    <value>Մուտքեր</value>
+  </data>
+  <data name="General_Outputs" xml:space="preserve">
+    <value>Ելքեր</value>
+  </data>
+  <data name="General_StorageSubStore" xml:space="preserve">
+    <value>Ենթապահեստներ</value>
+  </data>
+  <data name="Layout_Nav_Management_Catalogs_Organization" xml:space="preserve">
+    <value>Կազմակերպություններ</value>
+  </data>
+  <data name="OrganizationStoreInQuantity_OrganizationName" xml:space="preserve">
+    <value>Հիմնարկ</value>
+  </data>
+  <data name="OrganizationStoreInQuantity_ProductName" xml:space="preserve">
+    <value>Ապրանք</value>
+  </data>
+  <data name="OrganizationStoreInQuantity_Quantity" xml:space="preserve">
+    <value>Քանակ</value>
+  </data>
+  <data name="OrganizationStoreOutQuantity_ProductName" xml:space="preserve">
+    <value>Ապրանք</value>
+  </data>
+  <data name="OrganizationStoreOutQuantity_Quantity" xml:space="preserve">
+    <value>Քանակ</value>
+  </data>
+  <data name="Organization_Bank" xml:space="preserve">
+    <value>Բանկ</value>
+  </data>
+  <data name="Organization_Code" xml:space="preserve">
+    <value>Կոդ</value>
+  </data>
+  <data name="Organization_Details_Title" xml:space="preserve">
+    <value>Բուժհիմնարկի տվյալներ</value>
+  </data>
+  <data name="Organization_Edit_Title" xml:space="preserve">
+    <value>Խմբագրել բուժհիմնարկի տվյալները</value>
+  </data>
+  <data name="Organization_Location" xml:space="preserve">
+    <value>Հասցե</value>
+  </data>
+  <data name="Organization_Name" xml:space="preserve">
+    <value>Անվանում</value>
+  </data>
+  <data name="Organization_Region" xml:space="preserve">
+    <value>Մարզ</value>
+  </data>
+  <data name="Organization_RegistrationNumber" xml:space="preserve">
+    <value>Գրանցման համար</value>
+  </data>
+  <data name="Organization_StorageStatus" xml:space="preserve">
+    <value>Պահեստի կարգավիճակ</value>
+  </data>
+  <data name="Organization_TinNumber" xml:space="preserve">
+    <value>ՀՎՀՀ</value>
+  </data>
+  <data name="Organization_Title" xml:space="preserve">
+    <value>Կազմակերպություններ</value>
+  </data>
+  <data name="StorageStore_ProductName" xml:space="preserve">
+    <value>Ապրանք</value>
+  </data>
+  <data name="StorageStore_Quantity" xml:space="preserve">
+    <value>Քանակ</value>
+  </data>
+  <data name="StorageSubStore_StorageName" xml:space="preserve">
+    <value>Ենթապահեստ</value>
+  </data>
+  <data name="General_PlacementSatisfy" xml:space="preserve">
+    <value>Պահանջագրի բավարարում</value>
+  </data>
+  <data name="General_Satisfy" xml:space="preserve">
+    <value>Բավարարել</value>
+  </data>
+  <data name="Drug_DistributeDrug" xml:space="preserve">
+    <value>Բաշխել ապրանքը ենթապահեստում</value>
+  </data>
+  <data name="Drug_DrugCategory" xml:space="preserve">
+    <value>Դեղաչափ</value>
+  </data>
+  <data name="Drug_DrugQuantity" xml:space="preserve">
+    <value>Քանակ</value>
+  </data>
+  <data name="Drug_DrugType" xml:space="preserve">
+    <value>Դեղաձև</value>
+  </data>
+  <data name="Drug_ExpirationDate" xml:space="preserve">
+    <value>Պահպանման ժամկետ</value>
+  </data>
+  <data name="Drug_ItemQuantity" xml:space="preserve">
+    <value>Քանակը-տուփով</value>
+  </data>
+  <data name="Drug_Organization" xml:space="preserve">
+    <value>Ձեռքբերող հիմնարկ</value>
+  </data>
+  <data name="Drug_ProductCategory" xml:space="preserve">
+    <value>Կատեգորիա</value>
+  </data>
+  <data name="Drug_ProductGroup" xml:space="preserve">
+    <value>Խումբ</value>
+  </data>
+  <data name="Drug_ProductType" xml:space="preserve">
+    <value>Տեսակ</value>
+  </data>
+  <data name="Drug_Seria" xml:space="preserve">
+    <value>Սերիա</value>
+  </data>
+  <data name="Drug_Source" xml:space="preserve">
+    <value>Ձեռքբերման աղբյուր</value>
+  </data>
+  <data name="Drug_StoreOrganization" xml:space="preserve">
+    <value>Պահեստ-հիմնարկ</value>
+  </data>
+  <data name="Drug_Supplier" xml:space="preserve">
+    <value>Մատակարար</value>
+  </data>
+  <data name="Drug_TotalCost" xml:space="preserve">
+    <value>Ընդամենը արժեք</value>
+  </data>
+  <data name="Drug_UnitCost" xml:space="preserve">
+    <value>Միավորի արժեք</value>
+  </data>
+  <data name="Drug_UnitType" xml:space="preserve">
+    <value>Չափման միավոր</value>
+  </data>
+  <data name="General_End" xml:space="preserve">
+    <value>Ավարտ</value>
+  </data>
+  <data name="General_FieldIsRequired" xml:space="preserve">
+    <value>Դաշտը պարտադիր է</value>
+  </data>
+  <data name="General_Start" xml:space="preserve">
+    <value>Սկիզբ</value>
+  </data>
+  <data name="DrugCategory_UnitItemQuantity" xml:space="preserve">
+    <value>Տուփում միավորների քանակ</value>
+  </data>
+  <data name="Consumption_ConsumptionDate" xml:space="preserve">
+    <value>Սկիզբ</value>
+  </data>
+  <data name="Consumption_ItemQuantity" xml:space="preserve">
+    <value>Քանակը-տուփով</value>
+  </data>
+  <data name="Placement_Base" xml:space="preserve">
+    <value>Փաստաթղթի հիմք</value>
+  </data>
+  <data name="Placement_ConciliationDate" xml:space="preserve">
+    <value>Համաձայնեցման ա/թ</value>
+  </data>
+  <data name="Placement_CreateDate" xml:space="preserve">
+    <value>Լրացման ա/թ</value>
+  </data>
+  <data name="Placement_FeadyForDeliveryDate" xml:space="preserve">
+    <value>Առաքման պատրաստ ա/թ</value>
+  </data>
+  <data name="Placement_GettingReadyDate" xml:space="preserve">
+    <value>Ստացման պատրաստ ա/թ</value>
+  </data>
+  <data name="Placement_SatisfactionDate" xml:space="preserve">
+    <value>Բավարարման ա/թ</value>
+  </data>
+  <data name="Product_ItemQuantity" xml:space="preserve">
+    <value>Քանակը-տուփով</value>
+  </data>
+  <data name="General_Reject" xml:space="preserve">
+    <value>Մերժել</value>
+  </data>
+  <data name="General_Represent" xml:space="preserve">
+    <value>Ներկայացնել</value>
+  </data>
+  <data name="Layout_Nav_DataEntry_Replacements" xml:space="preserve">
+    <value>Վերադարձ</value>
+  </data>
+  <data name="Layout_Nav_DataEntry_Replacements_Comfirmation" xml:space="preserve">
+    <value>Վերադարձ</value>
+  </data>
+  <data name="Layout_Nav_DataEntry_Replacements_Entry" xml:space="preserve">
+    <value>Վերադարձ</value>
+  </data>
+  <data name="OrganizationPlacement_Title" xml:space="preserve">
+    <value>Պահանջագրի ձևավորում</value>
+  </data>
+  <data name="StorePlacement_Title" xml:space="preserve">
+    <value>Պահանջագրի բավարարում</value>
+  </data>
+  <data name="Placement_ReadyDate" xml:space="preserve">
+    <value>Առաքման պատրաստ ա/թ</value>
+  </data>
+  <data name="Placement_StorageOrganization" xml:space="preserve">
+    <value>Պահեստ</value>
+  </data>
+  <data name="Placement_IsTransfer" xml:space="preserve">
+    <value>Կցված է</value>
+  </data>
+  <data name="General_PlacementConfirmation" xml:space="preserve">
+    <value>Համոզված է՞ք որ ցանկանում էք ներկայացնել պահանջագիրը</value>
+  </data>
+  <data name="General_RecordPresentation" xml:space="preserve">
+    <value>Դուք չէք կարող ներկայացնել այս գրառումը</value>
+  </data>
+  <data name="Placement_BaseDate" xml:space="preserve">
+    <value>Փաստաթղիթ հիմքի ա/թ</value>
+  </data>
+  <data name="Placement_BaseText" xml:space="preserve">
+    <value>Հավելյալ</value>
+  </data>
+  <data name="Layout_Nav_Management_ConfirmReplacement" xml:space="preserve">
+    <value>Վերադարձի համաձայնեցում</value>
+  </data>
+  <data name="General_NoSubjectToDelete" xml:space="preserve">
+    <value>Գրառումը հեռացման ենթակա չէ</value>
+  </data>
+  <data name="General_NoSubjectToEditing" xml:space="preserve">
+    <value>Գրառումը խմբագրման ենթակա չէ</value>
+  </data>
+  <data name="General_PlacementRemoval" xml:space="preserve">
+    <value>Համոզվա՞ծ եք որ ցանկանում եք հեռացնել պահանջագիրը</value>
+  </data>
+  <data name="General_RecordAddition" xml:space="preserve">
+    <value>Դուք չէք կարող ավելացնել նոր գրառում</value>
+  </data>
+  <data name="General_ReplacementRepresentation" xml:space="preserve">
+    <value>Համոզվա՞ծ էք որ ցանկանում էք ներկայացնել վերադարձը</value>
+  </data>
+  <data name="General_Supply" xml:space="preserve">
+    <value>Տրամադրել</value>
+  </data>
+  <data name="General_SupplyNotification" xml:space="preserve">
+    <value>Կարելի է տրամադրել միայն համաձայնեցված գրառումները</value>
+  </data>
+  <data name="General_ConfirmNotification" xml:space="preserve">
+    <value>«Մուտքագրում պահեստ» կարելի է տալ այն գրառմանը, որն ունի «Պահեստից ստացված» կարգավճակ:</value>
+  </data>
+  <data name="General_TransferRemovalConfirm" xml:space="preserve">
+    <value>Համոզվա՞ծ էք որ ցանկանում էք հեռացնել հաշիվ-ապրանքագիրը</value>
+  </data>
+  <data name="General_TransferRepresentationNotification" xml:space="preserve">
+    <value>Համոզվա՞ծ էք որ ցանկանում էք ներկայացնել պահանջագիրը</value>
+  </data>
+  <data name="Transfer_DealInfo" xml:space="preserve">
+    <value>Հավելյալ տեղեկատվություն</value>
+  </data>
+  <data name="Transfer_ReceiverAccountNumber" xml:space="preserve">
+    <value>Պատվիրատու հիմնարկի հաշվեհամար</value>
+  </data>
+  <data name="Transfer_ReceiverBankName" xml:space="preserve">
+    <value>Պատվիրատու հիմնարկի բանկ</value>
+  </data>
+  <data name="Transfer_ReceiverLocation" xml:space="preserve">
+    <value>Պատվիրատու հիմնարկի գրանցման հասցե</value>
+  </data>
+  <data name="Transfer_ReceiverName" xml:space="preserve">
+    <value>Պատվիրատու</value>
+  </data>
+  <data name="Transfer_ReceiverOrganization" xml:space="preserve">
+    <value>Պատվիրատու հիմնարկ</value>
+  </data>
+  <data name="Transfer_ReceiverSupplyLocation" xml:space="preserve">
+    <value>Պատվիրատու հիմնարկի հասցե</value>
+  </data>
+  <data name="Transfer_ReceiverTin" xml:space="preserve">
+    <value>Պատվիրատու հիմնարկի ՀՎՀՀ</value>
+  </data>
+  <data name="Transfer_SenderAccountNumber" xml:space="preserve">
+    <value>Մատակարար հիմնարկի հաշվեհամար</value>
+  </data>
+  <data name="Transfer_SenderBankName" xml:space="preserve">
+    <value>Մատակարար հիմնարկի բանկ</value>
+  </data>
+  <data name="Transfer_SenderLocation" xml:space="preserve">
+    <value>Մատակարար հիմնարկի գրանցման հասցե</value>
+  </data>
+  <data name="Transfer_SenderName" xml:space="preserve">
+    <value>Մատակարար</value>
+  </data>
+  <data name="Transfer_SenderOrganization" xml:space="preserve">
+    <value>Մատակարար հիմնարկ</value>
+  </data>
+  <data name="Transfer_SenderSupplyLocation" xml:space="preserve">
+    <value>Մատակարար հիմնարկի հասցե</value>
+  </data>
+  <data name="Transfer_SenderTin" xml:space="preserve">
+    <value>Մատակարար հիմնարկի ՀՎՀՀ</value>
+  </data>
+  <data name="Transfer_Status" xml:space="preserve">
+    <value>Կարգավիճակ</value>
+  </data>
+  <data name="Consumption_New" xml:space="preserve">
+    <value>Նոր ծախս</value>
+  </data>
+  <data name="Placement_New" xml:space="preserve">
+    <value>Պահանջագրի մուտքագրում</value>
+  </data>
+  <data name="Placement_Representation" xml:space="preserve">
+    <value>Պահանջագրի ներկայացում</value>
+  </data>
+  <data name="Login_ForgetPassword" xml:space="preserve">
+    <value>Մոռացել ե՞ք գաղտնաբառը</value>
+  </data>
+  <data name="Login_Login" xml:space="preserve">
+    <value>Մուտքանուն</value>
+  </data>
+  <data name="Login_Password" xml:space="preserve">
+    <value>Գաղտնաբառ</value>
+  </data>
+  <data name="Login_RememberMe" xml:space="preserve">
+    <value>Հիշել ինձ</value>
+  </data>
+  <data name="Login_Title" xml:space="preserve">
+    <value>Մուտք</value>
+  </data>
+  <data name="Bank_Details_Title" xml:space="preserve">
+    <value>Բանկի տվյալները</value>
+  </data>
+  <data name="Consumption_RepresentAlert" xml:space="preserve">
+    <value>Կարգավիճակ ունեցող գրառումը «Ներկայացնել» հնարավոր չէ:</value>
+  </data>
+  <data name="Consumption_Search" xml:space="preserve">
+    <value>Ապրանքի ծախսի որոնում</value>
+  </data>
+  <data name="Placement_Confirmation" xml:space="preserve">
+    <value>Պահանջագրի համաձայնեցում</value>
+  </data>
+  <data name="Placement_ConfirmationAlert" xml:space="preserve">
+    <value>«Համաձայնեցում» կարելի է տալ այն գրառմանը, որն ունի «Բավարարված» կարգավիճակ։</value>
+  </data>
+  <data name="Placement_CorrectAlert" xml:space="preserve">
+    <value>«Բավարարել» կարելի է այն գրառումը, որն ունի «Ներկայացված» կարգավիճակ:</value>
+  </data>
+  <data name="Placement_ReceiveAlert" xml:space="preserve">
+    <value>«Մուտքագրում պահեստ» կարելի է տալ այն գրառմանը, որն ունի «Պահեստից ստացված» կարգավճակ:</value>
+  </data>
+  <data name="Placement_ReleaseAlert" xml:space="preserve">
+    <value>«Տարամադրել պահեստից» կարելի է այն գրառումը, որն ունի «Առաքման պատրաստ» կարգավիճակ:</value>
+  </data>
+  <data name="Placement_RepresentAlert" xml:space="preserve">
+    <value>Կարգավիճակ ունեցող գրառումը «Ներկայացնել» հնարավոր չէ:</value>
+  </data>
+  <data name="Placement_Search" xml:space="preserve">
+    <value>Պահանջագրերի որոնում</value>
+  </data>
+  <data name="Placement_SupplyStorage" xml:space="preserve">
+    <value>Տրամադրել պահեստից</value>
+  </data>
+  <data name="Placement_SupplyStorageTitle" xml:space="preserve">
+    <value>Պահեստից տրամադրում</value>
+  </data>
+  <data name="Product_Entry" xml:space="preserve">
+    <value>Ապրանքի մուտքագրում</value>
+  </data>
+  <data name="Product_New" xml:space="preserve">
+    <value>Նոր ապրանք</value>
+  </data>
+  <data name="Product_Search" xml:space="preserve">
+    <value>Ապրանքի որոնում</value>
+  </data>
+  <data name="Transfer_New" xml:space="preserve">
+    <value>Նոր հաշիվ-ապրանքագիր</value>
+  </data>
+  <data name="Transfer_NewTitle" xml:space="preserve">
+    <value>Հաշիվ-ապրանքագրի մուտքագրում</value>
+  </data>
+  <data name="Transfer_RepresentAlert" xml:space="preserve">
+    <value>Գրառումն արդեն «Առաքման պատրաստ» Է:</value>
+  </data>
+  <data name="Trasfner_Search" xml:space="preserve">
+    <value>Հաշիվ-ապրանքագրերի որոնում</value>
+  </data>
+  <data name="Consumption_RepresentationAlert" xml:space="preserve">
+    <value>Համոզվա՞ծ էք որ ցանկանում էք ներկայացնել պահանջագիրը</value>
+  </data>
+  <data name="Consumption_Status" xml:space="preserve">
+    <value>Կարգավիճակ</value>
+  </data>
+  <data name="Consumption_TerminationDate" xml:space="preserve">
+    <value>Ավարտ</value>
+  </data>
+  <data name="Consumption_TotalCost" xml:space="preserve">
+    <value>Ընդամենը արժեք</value>
+  </data>
+  <data name="Consumption_UnitCost" xml:space="preserve">
+    <value>Միավորի արժեք</value>
+  </data>
+  <data name="General_DatePeriod" xml:space="preserve">
+    <value>Ժամանակահատված</value>
+  </data>
+  <data name="Retransfer_Entry" xml:space="preserve">
+    <value>Հաշիվ-ապրանքագրի մուտքագրում</value>
+  </data>
+  <data name="Diagnose" xml:space="preserve">
+    <value>Ախտորոշում</value>
+  </data>
+  <data name="DrugClass_Details" xml:space="preserve">
+    <value>Անվանման տվյալներ</value>
+  </data>
+  <data name="DrugClass_Entry" xml:space="preserve">
+    <value>Անվանման մուտքագրում</value>
+  </data>
+  <data name="DrugClass_Name" xml:space="preserve">
+    <value>Անվանում</value>
+  </data>
+  <data name="DrugClass_New" xml:space="preserve">
+    <value>Նոր անվանում</value>
+  </data>
+  <data name="DrugClass_Status" xml:space="preserve">
+    <value>Ցուցադրել ակտիվը</value>
+  </data>
+  <data name="Drug_DistributeDrugEntry" xml:space="preserve">
+    <value>Ապրանքի բաշխում ենթապահեստում</value>
+  </data>
+  <data name="Drug_New" xml:space="preserve">
+    <value>Նոր ապրանք</value>
+  </data>
+  <data name="Drug_Search" xml:space="preserve">
+    <value>Ապրանքի որոնում</value>
+  </data>
+  <data name="Layout_Nav_DataEntry_Replacements_Retransfers" xml:space="preserve">
+    <value>Հաշիվ-ապրանքագիր</value>
+  </data>
+  <data name="Layout_Nav_Store_Replacements" xml:space="preserve">
+    <value>Վերադարձ պահեստ</value>
+  </data>
+  <data name="Placement_ReleaseDate" xml:space="preserve">
+    <value>Պահեստից ստացման ա/թ</value>
+  </data>
+  <data name="Report1_Head" xml:space="preserve">
+    <value>ՀԱՅԱՍՏԱՆԻ ՀԱՆՐԱՊԵՏՈՒԹՅԱՆ ՊԵՏՈՒԹՅԱՆ ԿԱՐԻՔՆԵՐԻ ՀԱՄԱՐ ԿԵՆՏՐՈՆԱՑՎԱԾ ԿԱՐԳՈՎ ՁԵՌՔ ԲԵՐՎԱԾ
+        ԴԵՂԵՐԻ ԵՌԱՄՍՅԱԿԱՅԻՆ ՀԱՇՎԵՏՎՈՒԹՅՈՒՆ ԴԵՂԵՐԻ ՇԱՐԺԻ ՎԵՐԱԲԵՐՅԱԼ</value>
+  </data>
+  <data name="Report1_Text" xml:space="preserve">
+    <value>Սույն հաշվետվությունը ստանալու համար անհրաժեշտ է ընտրել հաշվետու ժամանակահատվածի &lt;b&gt;Սկիզբը&lt;/b&gt;, &lt;b&gt;Ավարտը&lt;/b&gt;,
+        &lt;b&gt;Հիմնարկը&lt;/b&gt; և սեղմել &lt;b&gt;Ստանալ հաշվետվությունը&lt;/b&gt; կոճակը:</value>
+  </data>
+  <data name="Report2_Head" xml:space="preserve">
+    <value>ՀԱՅԱՍՏԱՆԻ ՀԱՆՐԱՊԵՏՈՒԹՅԱՆ ՊԵՏԱԿԱՆ ԲՅՈՒՋԵԻ ՄԻՋՈՑՆԵՐԻ ՀԱՇՎԻՆ ՁԵՌՔ ԲԵՐՎՈՂ ԴԵՂԵՐԻ
+
+ԵՌԱՄՍՅԱԿԱՅԻՆ ՀԱՇՎԵՏՎՈՒԹՅՈՒՆ ԲԺՇԿԱԿԱՆ ԿԱԶՄԱԿԵՐՊՈՒԹՅՈՒՆՈՒՄ ՀԱՇՎԱՌՎԱԾ ՀԻՎԱՆԴՆԵՐԻ ԹՎԻ
+
+ՎԵՐԱԲԵՐՅԱԼ</value>
+  </data>
+  <data name="Report2_Text" xml:space="preserve">
+    <value>Սույն հաշվետվությունը ստանալու համար անհրաժեշտ է ընտրել հաշվետու ժամանակահատվածի &lt;b&gt;Սկիզբը&lt;/b&gt;, &lt;b&gt;Ավարտը&lt;/b&gt;, &lt;b&gt;Հիմնարկը&lt;/b&gt; և
+
+սեղմել &lt;b&gt;Ստանալ հաշվետվությունը&lt;/b&gt; կոճակը:</value>
+  </data>
+  <data name="Report3_Head" xml:space="preserve">
+    <value>ՀԱՅԱՍՏԱՆԻ ՀԱՆՐԱՊԵՏՈՒԹՅԱՆ ՊԵՏՈՒԹՅԱՆ ԿԱՐԻՔՆԵՐԻ ՀԱՄԱՐ ԿԵՆՏՐՈՆԱՑՎԱԾ ԿԱՐԳՈՎ ՁԵՌՔ ԲԵՐՎԱԾ
+
+ԴԵՂԵՐԻ ԵՌԱՄՍՅԱԿԱՅԻՆ ՀԱՇՎԵՏՎՈՒԹՅՈՒՆ ՀԻՎԱՆԴՆԵՐԻ ՏՎՅԱԼՆԵՐԻ ՎԵՐԱԲԵՐՅԱԼ</value>
+  </data>
+  <data name="Report3_Text" xml:space="preserve">
+    <value>Սույն հաշվետվությունը ստանալու համար անհրաժեշտ է ընտրել հաշվետու ժամանակահատվածի &lt;b&gt;Սկիզբը&lt;/b&gt;, &lt;b&gt;Ավարտը&lt;/b&gt;, &lt;b&gt;Հիմնարկը&lt;/b&gt;,
+
+&lt;b&gt;Ախտորոշումը&lt;/b&gt; և սեղմել &lt;b&gt;Ստանալ հաշվետվությունը&lt;/b&gt; կոճակը:</value>
+  </data>
+  <data name="Report4_Head" xml:space="preserve">
+    <value>ՀԱՅԱՍՏԱՆԻ ՀԱՆՐԱՊԵՏՈՒԹՅԱՆ ՊԵՏՈՒԹՅԱՆ ԿԱՐԻՔՆԵՐԻ ՀԱՄԱՐ ԿԵՆՏՐՈՆԱՑՎԱԾ ԿԱՐԳՈՎ ՁԵՌՔ ԲԵՐՎԱԾ
+
+ԴԵՂԵՐԻ ԵՌԱՄՍՅԱԿԱՅԻՆ ՀԱՇՎԵՏՎՈՒԹՅՈՒՆ ՄԱՐԶՈՒՄ ՆԵՐՄԱՐԶԱՅԻՆ ԱՄՓՈՓ ԲԱՇԽԱՑՈՒՑԱԿԻ
+
+ՎԵՐԱԲԵՐՅԱԼ</value>
+  </data>
+  <data name="Report4_Text" xml:space="preserve">
+    <value>Սույն հաշվետվությունը ստանալու համար անհրաժեշտ է ընտրել հաշվետու ժամանակահատվածի &lt;b&gt;Սկիզբը&lt;/b&gt;, &lt;b&gt;Ավարտը&lt;/b&gt;, &lt;b&gt;Հիմնարկը&lt;/b&gt;,
+
+և սեղմել &lt;b&gt;Ստանալ հաշվետվությունը&lt;/b&gt; կոճակը:</value>
+  </data>
+  <data name="Report5_Head" xml:space="preserve">
+    <value>ՀԱՅՏ-ՊԱՀԱՆՋԱԳԻՐ &lt;br&gt;
+ՀՀ ԱՌՈՂՋԱՊԱՀՈՒԹՅԱՆ ՆԱԽԱՐԱՐՈՒԹՅԱՆ ՄԱՐԴԱՍԻՐԱԿԱՆ ՕԳՆՈՒԹՅԱՄԲ ՍՏԱՑՎԱԾ ԴԵՂԵՐԻ, ԲՆԱ-ՆԵՐԻ ՄԱՍԻՆ</value>
+  </data>
+  <data name="Report5_Text" xml:space="preserve">
+    <value>Սույն հաշվետվությունը ստանալու համար անհրաժեշտ է ընտրել &lt;b&gt;Ամսաթիվը&lt;/b&gt;, &lt;b&gt;Հիմնարկը&lt;/b&gt;, և սեղմել &lt;b&gt;Ստանալ հաշվետվությունը&lt;/b&gt;
+
+կոճակը:</value>
+  </data>
+  <data name="Report6_Head" xml:space="preserve">
+    <value>ՀՀ ԱՌՈՂԱՊԱՀՈՒԹՅԱՆ ՆԱԽԱՐԱՐՈՒԹՅԱՆ &lt;br /&gt; ՄԱՐԴԱՍԻՐԱԿԱՆ ՕԳՆՈՒԹՅՈՒՆ ԱՏԱՑՎԱԾ ԴԵՂԵՐԻ, ԲՆԱ-ՆԵՐԻ
+
+ՄՆԱՑՈՐԴՆԵՐԻ ԵՎ ՇԱՐԺԻ ՎԵՐԱԲԵՐՅԱԼ ՀԱՇՎԵՏՎՈՒԹՅՈՒՆ</value>
+  </data>
+  <data name="Report6_Text" xml:space="preserve">
+    <value>Սույն հաշվետվությունը ստանալու համար անհրաժեշտ է ընտրել հաշվետու ժամանակահատվածի &lt;b&gt;Սկիզբը&lt;/b&gt;, &lt;b&gt;Ավարտը&lt;/b&gt; և սեղմել
+
+&lt;b&gt;Ստանալ հաշվետվությունը&lt;/b&gt; կոճակը:</value>
+  </data>
+  <data name="Report7_Head" xml:space="preserve">
+    <value>ՀՀ ԱՌՈՂՋԱՊԱՀՈՒԹՅԱՆ ՆԱԽԱՐԱՐՈՒԹՅԱՆ &lt;br&gt;ՀԱՍՑԵՈՎ ՄԱՐԴԱՍԻՐԱԿԱՆ ՕԳՆՈՒԹՅԱՄԲ ՍՏԱՑՎԱԾ ԴԵՂԵՐԻ,
+
+ԲՆԱ-ՆԵՐԻ ԵՌԱՄՍՅԱԿԱՅԻՆ ՀԱՇՎԵՏՎՈՒԹՅՈՒՆ ՄԱՐԶՈՒՄ ՆԵՐՄԱՐԶԱՅԻՆ ԱՄՓՈՓ ԲԱՇԽԱՑՈՒՑԱԿԻ
+
+ՎԵՐԱԲԵՐՅԱԼ</value>
+  </data>
+  <data name="Report7_Text" xml:space="preserve">
+    <value>Սույն հաշվետվությունը ստանալու համար անհրաժեշտ է ընտրել հաշվետու ժամանակահատվածի &lt;b&gt;Սկիզբը&lt;/b&gt;, &lt;b&gt;Ավարտը&lt;/b&gt;, &lt;b&gt;Հիմնարկը&lt;/b&gt; և
+
+սեղմել &lt;b&gt;Ստանալ հաշվետվությունը&lt;/b&gt; կոճակը:</value>
+  </data>
+  <data name="Report8_Head" xml:space="preserve">
+    <value>ՀՀ ԱՌՈՂՋԱՊԱՀՈՒԹՅԱՆ ՆԱԽԱՐԱՐՈՒԹՅԱՆ &lt;br&gt; ՄԱՐԴԱՍԻՐԱԿԱՆ ՕԳՆՈՒԹՅԱՄԲ ՍՏԱՑՎԱԾ ԴԵՂԵՐԻ, ԲՆԱ-ՆԵՐԻ
+
+ԵՌԱՄՍՅԱԿԱՅԻՆ ՀԱՇՎԵՏՎՈՒԹՅՈՒՆ ԴԵՂԵՐԻ ՇԱՐԺԻ ՎԵՐԱԲԵՐՅԱԼ</value>
+  </data>
+  <data name="Report8_Text" xml:space="preserve">
+    <value>Սույն հաշվետվությունը ստանալու համար անհրաժեշտ է ընտրել հաշվետու ժամանակահատվածի &lt;b&gt;Սկիզբը&lt;/b&gt;, &lt;b&gt;Ավարտը&lt;/b&gt;, &lt;b&gt;Հիմնարկը&lt;/b&gt; և
+
+սեղմել &lt;b&gt;Ստանալ հաշվետվությունը&lt;/b&gt; կոճակը:</value>
+  </data>
+  <data name="Report_Get" xml:space="preserve">
+    <value>Ստանալ հաշվետվությունը</value>
+  </data>
+  <data name="ReTransfer_Title" xml:space="preserve">
+    <value>Վերադարձվող ապրանքի հաշիվ-ապրանքագիր</value>
+  </data>
+  <data name="Transfer_DeliverReady" xml:space="preserve">
+    <value>Առաքման պատրաստ</value>
+  </data>
+  <data name="Transfer_JoinAlert" xml:space="preserve">
+    <value>Դուք այլևս չէք կարող կցել պահանջագրեր</value>
+  </data>
+  <data name="Transfer_Represent" xml:space="preserve">
+    <value>Պատրաստել առաքման</value>
+  </data>
+  <data name="General_Entry" xml:space="preserve">
+    <value>Մուտք</value>
+  </data>
+  <data name="General_Exit" xml:space="preserve">
+    <value>Ելք</value>
+  </data>
+  <data name="JunkConsumption_Title" xml:space="preserve">
+    <value>Հիմնարկի պահեստի ապրանքի խոտանում</value>
+  </data>
+  <data name="JunkProduct_Title" xml:space="preserve">
+    <value>Հիմնական պահեստի ապրանքի խոտանում</value>
+  </data>
+  <data name="Layout_Nav_DataEntry_Replacements_JunkConsumptions" xml:space="preserve">
+    <value>Խոտանում</value>
+  </data>
+  <data name="Layout_Nav_Store_JunkProducts" xml:space="preserve">
+    <value>Խոտանում</value>
+  </data>
+  <data name="Transfer_JoinPlacement" xml:space="preserve">
+    <value>Կցել պահանջագիրը</value>
+  </data>
+  <data name="Home_p1" xml:space="preserve">
+    <value>Դեղերի լոգիստիկ կառավարման տեղեկատվական համակարգի նպատակն է ապահովել պետական գնումներով
+        ձեռք բերվող և հումանիտար պահեստի կողմից բաշխվող դեղերի և բժշկական պարագաների բաշխման և դեղերի
+        շարժի, պահանջարկի ձևավորման, ՀՀ առողջապահության նախարարության, մարդասիրական օգնության հանրապետական
+        կենտրոնի, Երևան քաղաքի և մարզպետարանների առողջապահության պատասխանատուների կողմից մշտադիտարկման,
+        ծախսի հաշվառման ավտոմատացումը: Համակարգը նախատեսված է իդենտիֆիկացված օգտվողների համար:
+        Յուրաքանչյուր օգտվող համակարգ է մուտք գործում իր համապատասխան լոգինով և գաղտնաբառով,
+        որից հետո օգտվողին համակարգի կողմից ավտոմատ կերպով տրամադրվում է իր դերին և պարտականություններին համապատասխան ինտերֆեյս:</value>
+  </data>
+  <data name="Home_p2" xml:space="preserve">
+    <value>&lt;b&gt;Հիմնարկ&lt;/b&gt; բաժինը հնարավորթյուն է տալիս ստեղծել և ներկայացնել ապրանքի Պահանջագրեր, հետևել պահանջագրի բավարարման ընթացքին, կառավարել դեղորայքի և բժշկական նշանակության ապրանքների ծախսը, դիտել հիմնարկի պահեստի շարժը՝ առկա մնացորդների պատկերն ըստ պահպանման ժամանակահատվածի, ինչպես նաև կատարել ապրանքի վերադարձ կամ տրամադրում այլ կազմակերպության:</value>
+  </data>
+  <data name="Home_p3" xml:space="preserve">
+    <value>&lt;b&gt;Պահեստ&lt;/b&gt; բաժինը հնարավորություն է տալիս ձևավորել պահեստում առկա և մուտքագրվող ապրանքների, դեղերի և ԲՆԱ-ի անվանացանկ,
+        կառավարել ապրանքները ենթապահեստների միջոցով: Բաժնում նախատեսվում է նաև կառավարել հիմնարկների կողմից ներկայացրած
+        Պահանջագրերը՝ հաշվի առնելով պահեստում ապրանքի մնացորդը, դրանց պահպանման ժամկետները, տվյալ հիմնարկի կողմից տվյալ
+        ապրանքի սպառման պատկերը նախորդ ժամանակահատվածներում և այլ ցուցանիշներ: Պահեստի կողմից բավարարված պահանջագրերի հիման
+        վրա պահեստից ապրանքներ ելքագրելու գործառույթն իրականացվում է Հաշիվ-ապրանքագրերի միջոցով, որը հնարավորություն է տալիս նաև ֆիքսել
+        պահեստում ապրանքի պատրաստ լինելու և առաքման ժամանակահտվածները՝ դրանով իսկ ամբողջացնելով պահանջագրերի վերջնական բավարարման
+        գործընթացը:</value>
+  </data>
+  <data name="Home_p4" xml:space="preserve">
+    <value>&lt;b&gt;Հաշվետվություններ&lt;/b&gt; բաժինը հնարավորություն է տալիս ստանալ ստանդարտ հաշվետվություններ, որոնք հաստատված են ՀՀ առողջապահության
+        նախարարի 27.04.2012 թվականի N 926-Ա հրամանով:</value>
+  </data>
+  <data name="Home_p5" xml:space="preserve">
+    <value>&lt;b&gt;Կառավարում&lt;/b&gt; բաժինը հնարավորություն է տալիս ղեկավարել համակարգում օգտագործվող շտեմարանները, կառավարել գործակողների լիազորությունները:</value>
+  </data>
+  <data name="Home_p6" xml:space="preserve">
+    <value>&lt;b&gt;Հաղորդագրություններ&lt;/b&gt; բաժինը հնարավորություն է տալիս համակարգից օգտվողներին փոխանակվել հաղորդագրություններով:</value>
+  </data>
+  <data name="Home_p7" xml:space="preserve">
+    <value>&lt;b&gt;Օգնություն&lt;/b&gt; բաժինը տրամադրում է համակարգից օգտվելու ուղեցույց:</value>
+  </data>
+  <data name="Login_Article" xml:space="preserve">
+    <value>Սույն համակարգը մշակվել է «Առողջապահական և սոցիալական ծառայությունների արդյունավետության բարելավման շուրջ ԱՄՆ Կառավարության և ՀՀ
+    կառավարության միջև ստորագրված AAG-111- G-10- 002 Համաձայնագրի շրջանակներում Հայաստանում տուբերկուլոզի դեմ պայքարի, մոր և մանկան
+    առողջության, և ընտանիքի պլանավորման/վերարտադրողական առողջության բարելավման ծրագրով նախատեսված «Թափանցիկության և
+    հաշվետվողականության բարելավում հանրային ծառայությունների տրամադրման համակարգում, ներառյալ ծառայությունների և ապրանքի գնումն ու
+    բաշխումը» նպատակի իրականացման համար:</value>
+  </data>
+  <data name="Login_AuthUsers" xml:space="preserve">
+    <value>Համակարգ կարող են մուտք գործել միայն օգտվողի լիազորություններ ունեցողները՝ մուտքագրելով նախապես տրամադրված մուտքանունը և գաղտնաբառը</value>
+  </data>
+  <data name="Login_Footer" xml:space="preserve">
+    <value>Համակարգում ներառված տեղեկատվությունը հեղինակային է և կարող է չհամընկնել ԱՄՆ ՄԶԳ, ԱՄՆ Կառավարության տեսակետին</value>
+  </data>
+  <data name="Login_Head" xml:space="preserve">
+    <value>Դեղերի և բժշկական նշանակության ապրանքների միասնական Լոգիստիկ կառավարման տեղեկատվական համակարգ (ԴԼԿՏՀ)` պետության կողմից
+    կենտրոնացված գնումներով ձեռք բերվող բոլոր դեղամիջոցների, այդ թվում՝ հակաբեղմնավորիչների համար</value>
+  </data>
+  <data name="Drug_Description" xml:space="preserve">
+    <value>Նկարագրություն</value>
+  </data>
+  <data name="Retransfer_Receiver" xml:space="preserve">
+    <value>Ստացող</value>
+  </data>
+  <data name="Retransfer_ReceiverAccountant" xml:space="preserve">
+    <value>Ստացող հիմնարկի հաշվապահ</value>
+  </data>
+  <data name="Retransfer_ReceiverAccountNumber" xml:space="preserve">
+    <value>Ստացող հիմնարկի հաշվեհամար</value>
+  </data>
+  <data name="Retransfer_ReceiverBankName" xml:space="preserve">
+    <value>Ստացող հիմնարկի բանկ</value>
+  </data>
+  <data name="Retransfer_ReceiverHead" xml:space="preserve">
+    <value>Ստացող հիմնարկի տնօրեն</value>
+  </data>
+  <data name="Retransfer_ReceiverLocation" xml:space="preserve">
+    <value>Ստացող հիմնարկի գրանցման հասցե</value>
+  </data>
+  <data name="Retransfer_ReceiverName" xml:space="preserve">
+    <value>Ստացող</value>
+  </data>
+  <data name="Retransfer_ReceiverOrganization" xml:space="preserve">
+    <value>Ստացող հիմնարկ</value>
+  </data>
+  <data name="Retransfer_ReceiverResponsible" xml:space="preserve">
+    <value>Պատասխանատու</value>
+  </data>
+  <data name="Retransfer_ReceiverSupplyLocation" xml:space="preserve">
+    <value>Ստացող հիմնարկի հասցե</value>
+  </data>
+  <data name="Retransfer_ReceiverTin" xml:space="preserve">
+    <value>Ստացող հիմնարկի ՀՎՀՀ</value>
+  </data>
+  <data name="Retransfer_Sender" xml:space="preserve">
+    <value>Վերադարձնող</value>
+  </data>
+  <data name="Retransfer_SenderAccountant" xml:space="preserve">
+    <value>Վերադարձնող հիմնարկի հաշվապահ</value>
+  </data>
+  <data name="Retransfer_SenderAccountNumber" xml:space="preserve">
+    <value>Վերադարձնող հիմնարկի հաշվեհամար</value>
+  </data>
+  <data name="Retransfer_SenderBankName" xml:space="preserve">
+    <value>Վերադարձնող հիմնարկի բանկ</value>
+  </data>
+  <data name="Retransfer_SenderHead" xml:space="preserve">
+    <value>Վերադարձնող հիմնարկի տնօրեն</value>
+  </data>
+  <data name="Retransfer_SenderLocation" xml:space="preserve">
+    <value>Վերադարձնող հիմնարկի գրանցման հասցե</value>
+  </data>
+  <data name="Retransfer_SenderName" xml:space="preserve">
+    <value>Վերադարձնող</value>
+  </data>
+  <data name="Retransfer_SenderOrganization" xml:space="preserve">
+    <value>Վերադարձնող հիմնարկ</value>
+  </data>
+  <data name="Retransfer_SenderResponsible" xml:space="preserve">
+    <value>Պատասխանատու</value>
+  </data>
+  <data name="Retransfer_SenderSupplyLocation" xml:space="preserve">
+    <value>Վերադարձնող հիմնարկի հասցե</value>
+  </data>
+  <data name="Retransfer_SenderTin" xml:space="preserve">
+    <value>Վերադարձնող հիմնարկի ՀՎՀՀ</value>
+  </data>
+  <data name="Product_UnitCost" xml:space="preserve">
+    <value>Միավոր արժեք</value>
+  </data>
+  <data name="Product_TotalCost" xml:space="preserve">
+    <value>Ընդհանուր արժեք</value>
+  </data>
+  <data name="Product_Storage" xml:space="preserve">
+    <value>Պահեստ</value>
+  </data>
+  <data name="CodeMustBeNumber" xml:space="preserve">
+    <value>Կոդը պետք է լինի թիվ</value>
+  </data>
+</root>

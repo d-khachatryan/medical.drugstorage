@@ -1,0 +1,83 @@
+﻿@model Medicaldrugstore.Models.Representation 
+
+@{
+    Layout = null;
+}
+
+@using (Html.BeginForm("Represent", "Replacements", FormMethod.Post, new { id = "frmRepresentation" }))
+{
+<div class="create-item">
+
+    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+    @Html.HiddenFor(model => model.ReplacementId)
+
+    <div class="form-group margin-5-0 create-item">
+        @Html.LabelFor(model => model.ReplacementDate, htmlAttributes: new { @class = "control-label" })
+            @Html.EditorFor(model => model.ReplacementDate, new { htmlAttributes = new { required = "required", validationmessage = "Դաշտը լրացված չէ", @class = "form-control" } })
+            <span class="k-invalid-msg" data-for="ReplacementDate"></span>
+        </div>
+
+    <div class="clear"></div>    
+    <div class="form-group margin-10-0">
+        <div class="align-right">
+            <button id="rprSave" class="k-button"><i class="glyphicon glyphicon-floppy-disk"></i> @Resources.General_Save</button>
+            <button id="rprCancel" class="k-button"><i class="glyphicon glyphicon-off"></i> @Resources.General_Close</button>
+        </div>
+    </div>
+    <div class="clear"></div>
+</div>
+}
+
+<script>
+    $(document).ready(function () {
+        $("#rprCancel")
+            .click(function () {
+                $(this).closest(".k-window-content").data("kendoWindow").close();
+                return false;
+            });
+        $("#rprSave")
+            .click(function (e) {
+
+                var validator = $("#frmRepresentation").kendoValidator().data("kendoValidator");
+                if (!validator.validate()) {
+                    return false;
+                }
+                var item = new Object();
+                item.replacementId = '@Model.ReplacementId';
+                item.replacementDate = document.getElementById("ReplacementDate").value;
+
+                var rt = false;
+                var dt;
+                var q = $.ajax({
+                    url: '@Url.Action("Represent", "Replacements")',
+                    dataType: "json",
+                    type: "POST",
+                    data: JSON.stringify({ representation: item }),
+                    contentType: "application/json; charset=utf-8",
+                    async: false,
+                    success: function (data) {
+                        dt = data;
+                        rt = true;
+                    },
+                    error: function (xhr) {
+                        dt = xhr;
+                        rt = false;
+                    }
+                });
+                if (rt == true) {
+                    if (dt != "1") {
+                        alert(JSON.stringify(dt));
+                        return false;
+                    }
+                    else {
+                        $(this).closest(".k-window-content").data("kendoWindow").close();
+                        return false;
+                    }
+                }
+                else {
+                    alert(JSON.stringify(dt));
+                    return false;
+                }
+            });
+    });
+</script>

@@ -1,0 +1,176 @@
+﻿@model Medicaldrugstore.Models.UserOrganization
+
+@{
+    Layout = null;
+}
+    <div id="mainForm">
+        <div class="create-item">
+
+            @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+            @Html.HiddenFor(model => model.UserOrganizationId)
+            @Html.HiddenFor(model => model.Id)
+
+            <div class="form-group margin-5-0">
+                @Html.LabelFor(model => model.OrganizationId, new { @class = "control-label col-sm-3 align-right border-box" })
+                <div class="col-sm-9 border-box">
+                    @(Html.Kendo().ComboBoxFor(model => model.OrganizationId)
+                .DataTextField("Text")
+                .DataValueField("Value")
+                .Filter(FilterType.StartsWith)
+                .BindTo(ViewBag.vbOrganizations)
+                .HtmlAttributes(new { required = "required", validationmessage = "Դաշտը լրացված չէ", data_value_primitive = true, @class = "input-item" })
+                    )
+                </div>
+            </div>
+            <div class="clear"></div>
+            <div class="form-group margin-5-0">
+                @Html.LabelFor(model => model.Psm01, new { @class = "control-label col-sm-3 align-right border-box" })
+                <div class="col-sm-9 border-box for-checkbox">
+                    @Html.CheckBox("Psm01", Model.Psm01 != null && (bool)Model.Psm01)
+                </div>
+            </div>
+            <div class="clear"></div>
+            <div class="form-group margin-5-0">
+                @Html.LabelFor(model => model.Psm02, new { @class = "control-label col-sm-3 align-right border-box" })
+                <div class="col-sm-9 border-box for-checkbox">
+                    @Html.CheckBox("Psm02", Model.Psm02 != null && (bool)Model.Psm01)
+                </div>
+            </div>
+            <div class="clear"></div>
+            <div class="form-group margin-5-0">
+                @Html.LabelFor(model => model.Psm03, new { @class = "control-label col-sm-3 align-right border-box" })
+                <div class="col-sm-9 border-box for-checkbox">
+                    @Html.CheckBox("Psm03", Model.Psm03 != null && (bool)Model.Psm01)
+                </div>
+            </div>
+            <div class="clear"></div>
+            <div class="form-group margin-5-0">
+                @Html.LabelFor(model => model.Psm04, new { @class = "control-label col-sm-3 align-right border-box" })
+                <div class="col-sm-9 border-box for-checkbox">
+                    @Html.CheckBox("Psm04", Model.Psm04 != null && (bool)Model.Psm01)
+                </div>
+            </div>
+            <div class="clear"></div>
+            <div class="form-group margin-5-0">
+                @Html.LabelFor(model => model.Psm05, new { @class = "control-label col-sm-3 align-right border-box" })
+                <div class="col-sm-9 border-box for-checkbox">
+                    @Html.CheckBox("Psm05", Model.Psm05 != null && (bool)Model.Psm01)
+                </div>
+            </div>
+            <div class="clear"></div>
+            <div class="form-group margin-5-0">
+                @Html.LabelFor(model => model.Psm06, new { @class = "control-label col-sm-3 align-right border-box" })
+                <div class="col-sm-9 border-box for-checkbox">
+                    @Html.CheckBox("Psm06", Model.Psm06 != null && (bool)Model.Psm01)
+                </div>
+            </div>
+            <div class="clear"></div>
+            <div class="form-group margin-5-0">
+                @Html.LabelFor(model => model.Psm07, new { @class = "control-label col-sm-3 align-right border-box" })
+                <div class="col-sm-9 border-box for-checkbox">
+                    @Html.CheckBox("Psm07", Model.Psm07 != null && (bool)Model.Psm01)
+                </div>
+            </div>
+            <div class="clear"></div>
+            <div class="form-group margin-5-0 ">
+                @Html.LabelFor(model => model.Psm08, new { @class = "control-label col-sm-3 align-right border-box" })
+                <div class="col-sm-9 border-box for-checkbox">
+                    @Html.CheckBox("Psm08", Model.Psm08 != null && (bool)Model.Psm01)
+                </div>
+            </div>
+            <div class="clear"></div>
+            <div class="form-group margin-5-0">
+                @Html.LabelFor(model => model.Psm09, new { @class = "control-label col-sm-3 align-right border-box" })
+                <div class="col-sm-9 border-box for-checkbox">
+                    @Html.CheckBox("Psm09", Model.Psm09 != null && (bool)Model.Psm01)
+                </div>
+            </div>
+            <div class="clear"></div>
+            <div class="form-group margin-5-0">
+                @Html.LabelFor(model => model.Psm10, new { @class = "control-label col-sm-3 align-right border-box" })
+                <div class="col-sm-9 border-box for-checkbox">
+                    @Html.CheckBox("Psm10", Model.Psm10 != null && (bool)Model.Psm01)
+                </div>
+            </div>
+            <div class="clear"></div>
+            <div class="form-group margin-10-0">
+                <div class="col-xs-12 align-right border-box">
+                    <button id="uotSave" class="k-button"><i class="glyphicon glyphicon-floppy-disk"></i> Հիշել</button>
+                    <button id="uotCancel" class="k-button"><i class="glyphicon glyphicon-off"></i> Ելք</button>
+                </div>
+            </div>
+            <div class="clear"></div>
+
+        </div>
+    </div>
+
+<script>
+    $(document).ready(function () {
+        $("label").css(
+            "padding-top", "6px"
+            );
+
+        $("#uotCancel")
+            .click(function () {
+                if ($(this).closest(".k-window-content").data("kendoWindow"))
+                    $(this).closest(".k-window-content").data("kendoWindow").close();
+            });
+        $("#uotSave")
+            .click(function (e) {
+
+                var validator = $("#mainForm").kendoValidator().data("kendoValidator");
+                if (!validator.validate()) {
+                    return false;
+                }
+
+                var item = new Object();
+                item.UserOrganizationId = '@Model.UserOrganizationId ';
+                item.Id = '@Model.Id';
+                item.OrganizationId = $("#OrganizationId").val();
+                item.Psm01 = $("#Psm01").prop('checked');
+                item.Psm02 = $("#Psm02").prop('checked');
+                item.Psm03 = $("#Psm03").prop('checked');
+                item.Psm03 = $("#Psm04").prop('checked');
+                item.Psm03 = $("#Psm05").prop('checked');
+                item.Psm03 = $("#Psm06").prop('checked');
+                item.Psm03 = $("#Psm07").prop('checked');
+                item.Psm03 = $("#Psm08").prop('checked');
+                item.Psm03 = $("#Psm09").prop('checked');
+                item.Psm03 = $("#Psm10").prop('checked');
+
+                var rt = false;
+                var dt;
+                var q = $.ajax({
+                    url: '@Url.Action("SaveUserOrganization", "Account")',
+                    dataType: "json",
+                    type: "POST",
+                    data: JSON.stringify({ userOrganization: item }),
+                    contentType: "application/json; charset=utf-8",
+                    async: false,
+                    success: function (data) {
+                        dt = data;
+                        rt = true;
+                    },
+                    error: function (xhr) {
+                        dt = xhr;
+                        rt = false;
+                    }
+                });
+                if (rt == true) {
+                    if (dt.success != true) {
+                        /*Այստեղ իրականացվում է սերվերից վերադարձված սխալի ցուցադրման գործառույթը:
+                        Անհրաժեշտ է որ alert-ի փոխարեն կարմիր գույնով ցուցադրվի սխալը:
+                        Այդ սխալը պետք է տեղակայված լինի մուտքային վերջին դաշտի և հրահանգների արանքում:*/
+                        alert(JSON.stringify(dt.responseText));
+                    }
+                    else {
+                        $(this).closest(".k-window-content").data("kendoWindow").close();
+                    }
+                }
+                else {
+                    alert(JSON.stringify("Unknown error occured."));
+                }
+                return false;
+            });
+    });
+</script>

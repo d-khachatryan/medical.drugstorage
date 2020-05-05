@@ -1,0 +1,227 @@
+﻿@model Medicaldrugstore.Models.Placement
+
+@{
+    Layout = null;
+}
+    <div class="container create-item" id="frmPlacement">
+        @Html.HiddenFor(model => model.PlacementId)
+        <div class="col-sm-12 border-box">
+            <div class="form-group">
+                @Html.LabelFor(model => model.OrderOrganizationId, htmlAttributes: new { @class = "control-label" })
+                @(Html.Kendo().ComboBoxFor(model => model.OrderOrganizationId)
+                    .DataTextField("Text")
+                    .DataValueField("Value")
+                    .Filter(FilterType.StartsWith)
+                    .BindTo(ViewBag.vbOrganizationPlacementOrderOrganizations)
+                    .HtmlAttributes(new { required = "required", data_required_msg = "Դաշտը պարտադիր է", data_value_primitive = true })
+                )
+                @Html.ValidationMessageFor(model => model.OrderOrganizationId, "", new { @class = "text-danger" })
+            </div>
+        </div>
+        <div class="col-sm-12 border-box">
+            <div class="form-group">
+               @Html.LabelFor(model => model.OrganizationId, htmlAttributes: new { @class = "control-label" })
+                @*<label class="control-label col-sm-4 align-right">Ներկայացնող հիմնարկ</label>*@
+                @(Html.Kendo().ComboBoxFor(model => model.OrganizationId)
+                    .DataTextField("Text")
+                    .DataValueField("Value")
+                    .Filter(FilterType.StartsWith)
+                    .BindTo(ViewBag.vbOrganizationPlacementOrganizations)
+                    .HtmlAttributes(new { required = "required", data_required_msg = "Դաշտը պարտադիր է", data_value_primitive = true })
+                )
+                @Html.ValidationMessageFor(model => model.OrganizationId, "", new { @class = "text-danger" })
+            </div>
+        </div>
+        <div class="clear"></div>
+        <div class="col-sm-6 border-box">
+            <div class="form-group">
+                @Html.LabelFor(model => model.StorageOrganizationId, htmlAttributes: new { @class = "control-label" })
+                @*<label class="control-label col-sm-4 align-right">Հիմնական պահեստ</label>*@
+                    @(Html.Kendo().ComboBoxFor(model => model.StorageOrganizationId)
+                    .DataTextField("Text")
+                    .DataValueField("Value")
+                    .Filter(FilterType.StartsWith)
+                    .BindTo(ViewBag.vbOrganizationPlacementStorageOrganizations)
+                    .HtmlAttributes(new { required = "required", data_required_msg = "Դաշտը պարտադիր է", data_value_primitive = true })
+                    )
+                    @Html.ValidationMessageFor(model => model.StorageOrganizationId, "", new { @class = "text-danger" })
+            </div>
+        </div>
+        <div class="col-sm-6 border-box">
+            <div class="form-group">
+                @Html.LabelFor(model => model.PlacementBaseId, htmlAttributes: new { @class = "control-label" })
+                    @(Html.Kendo().ComboBoxFor(model => model.PlacementBaseId)
+                    .DataTextField("Text")
+                    .DataValueField("Value")
+                    .Filter(FilterType.StartsWith)
+                    .BindTo(ViewBag.vbPlacementBases)
+                    .HtmlAttributes(new { required = "required", data_required_msg = "Դաշտը պարտադիր է", data_value_primitive = true })
+                    )
+                @Html.ValidationMessageFor(model => model.PlacementBaseId, "", new { @class = "text-danger" })
+            </div>
+        </div>
+        <div class="col-sm-6 border-box">
+            <div class="form-group">
+                @Html.LabelFor(model => model.PlacementBaseDate, htmlAttributes: new { @class = "control-label" })
+                    @Html.Kendo().DatePickerFor(model => model.PlacementBaseDate)
+                @Html.ValidationMessageFor(model => model.PlacementBaseDate, "", new { @class = "text-danger" })
+            </div>
+        </div>
+        <div class="col-sm-6 border-box">
+            <div class="form-group">
+                @Html.LabelFor(model => model.PlacementBaseText, htmlAttributes: new { @class = "control-label" })
+                    @Html.Kendo().TextBoxFor(model => model.PlacementBaseText)
+                    @Html.ValidationMessageFor(model => model.PlacementBaseText, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="clear"></div>
+
+        <div class="col-sm-12 border-box">
+            <div class="form-group">
+                @Html.LabelFor(model => model.PlacementItems, new { @class = "control-label" })
+                    @(Html.Kendo().Grid<Medicaldrugstore.Models.PlacementItem>()
+                       .Name("PlacementItem")
+                       .Columns(columns =>
+                       {
+                           columns.Bound(model => model.PlacementItemId).Hidden();
+                           columns.Bound(model => model.PlacementId).Hidden();
+                           columns.ForeignKey(model => model.DrugClassId, (List<SelectListItem>) ViewBag.vbDrugClasses, "Value", "Text").EditorTemplateName("DrugClass");
+                           columns.Bound(model => model.Quantity).Width(80);
+                           columns.Command(commands =>
+                           {
+                               commands.Destroy().Text(" ");
+                           }).Title(" ").Width(65);
+                       })
+                           .ToolBar(toolbar =>
+                           {
+                               toolbar.Create().Text("Նոր");
+                           })
+                           .Editable(editable => editable.Mode(GridEditMode.InCell))
+                           .DataSource(dataSource => dataSource
+                               .Ajax()
+                               .Batch(true)
+                               .Read(read => read.Action("ReadPlacementItems", "Placement", new { id = @Model.PlacementId }))
+                           .Model(model =>
+                           {
+                               model.Id(p => p.PlacementId);
+                           }
+                           )
+                           )
+                            .Scrollable()
+                            .Resizable(resize => resize.Columns(true))
+                            .Reorderable(reorder => reorder.Columns(true))
+                            .Sortable()
+                    )
+            </div>
+        </div>
+        <div class="clear"></div>
+
+        @*@Այստեղ պետք է ցուցադրվի սխալի հաղորդագրությունը:*@
+        <div class="form-group col-sm-8 margin-10-0 border-box">
+            <span id="errormssg"></span>
+        </div>
+        <div class="form-group col-sm-4 border-box margin-10-0 align-right">
+            <button id="optSave" class="k-button"><i class="glyphicon glyphicon-floppy-disk"></i> @Resources.General_Save</button>
+            <button id="optCancel" class="k-button"><i class="glyphicon glyphicon-off"></i> @Resources.General_Close</button>
+        </div>
+    </div>
+
+<script>
+    $(document).ready(function () {
+        $("#optCancel")
+            .click(function () {
+                $(this).closest(".k-window-content").data("kendoWindow").close();
+                return false;
+            });
+        $("#optSave")
+            .click(function (e) {
+                var errTmplt = '<div class="k-widget k-tooltip k-tooltip-validation" style="margin:0.5em; padding:3px 5px;"><span class="fa fa-exclamation-triangle"></span> #=message#<div class="k-callout k-callout-n"></div></div>';
+                var validator = $("#frmPlacement").kendoValidator({
+                    errorTemplate: errTmplt
+                }).data("kendoValidator");
+                if (!validator.validate()) {
+                    $("#errormssg").html("<span class='fa fa-exclamation-triangle'></span> @GeneralResources.FieldsRequired");
+                    return false;
+                }
+
+                var item = new Object();
+                item.PlacementId = '@Model.PlacementId';
+                item.OrderOrganizationId = document.getElementById("OrderOrganizationId").value;
+                item.OrganizationId = document.getElementById("OrganizationId").value;
+                item.PlacementBaseId = document.getElementById("PlacementBaseId").value;
+                item.PlacementBaseDate = document.getElementById("PlacementBaseDate").value;
+                item.PlacementBaseText = document.getElementById("PlacementBaseText").value;
+                item.StorageOrganizationId = document.getElementById("StorageOrganizationId").value;
+
+                var placementItemGrid = $("#PlacementItem").data("kendoGrid"), parameterMap = placementItemGrid.dataSource.transport.parameterMap;
+                var currentItemData = placementItemGrid.dataSource.data();
+                var rItems = [];
+                for (var i = 0; i < currentItemData.length; i++) {
+                    var itm = new Object();
+                    if (currentItemData[i].isNew()) {
+                        itm.PlacementItemId = currentItemData[i].PlacementItemId;
+                        itm.PlacementId = currentItemData[i].PlacementId;
+                        itm.DrugClassId = currentItemData[i].DrugClassId;
+                        itm.Quantity = currentItemData[i].Quantity;
+                        itm.RecordStatus = String(1);
+                        rItems.push(itm);
+                    } else if (currentItemData[i].dirty) {
+                        itm.PlacementItemId = currentItemData[i].PlacementItemId;
+                        itm.PlacementId = currentItemData[i].PlacementId;
+                        itm.DrugClassId = currentItemData[i].DrugClassId;
+                        itm.Quantity = currentItemData[i].Quantity;
+                        itm.RecordStatus = String(2);
+                        rItems.push(itm);
+                    }
+                }
+                for (var i = 0; i < placementItemGrid.dataSource._destroyed.length; i++) {
+                    var itm = new Object();
+                    itm.PlacementItemId = placementItemGrid.dataSource._destroyed[i].PlacementItemId;
+                    itm.PlacementId = placementItemGrid.dataSource._destroyed[i].PlacementId;
+                    itm.DrugClassId = placementItemGrid.dataSource._destroyed[i].DrugClassId;
+                    itm.Quantity = placementItemGrid.dataSource._destroyed[i].Quantity;
+                    itm.RecordStatus = String(3);
+                    rItems.push(itm);
+                }
+                item.PlacementItems = rItems;
+
+                var rt = false;
+                var dt;
+                var q = $.ajax({
+                    url: '@Url.Action("SavePlacement", "Placement")',
+                    dataType: "json",
+                    type: "POST",
+                    data: JSON.stringify({ placement: item }),
+                    contentType: "application/json; charset=utf-8",
+                    async: false,
+                    success: function (data) {
+                        dt = data;
+                        rt = true;
+                    },
+                    error: function (xhr) {
+                        dt = xhr;
+                        rt = false;
+                    }
+                });
+
+                if (rt == true) {
+                    if (dt.success != true) {
+                        /*Այստեղ իրականացվում է սերվերից վերադարձված սխալի ցուցադրման գործառույթը:
+                        Անհրաժեշտ է որ alert-ի փոխարեն կարմիր գույնով ցուցադրվի սխալը:
+                        Այդ սխալը պետք է տեղակայված լինի մուտքային վերջին դաշտի և հրահանգների արանքում:*/
+                        alert(JSON.stringify(dt.responseText));
+                    }
+                    else {
+                        $(this).closest(".k-window-content").data("kendoWindow").close();
+                    }
+                }
+                else {
+                    alert(JSON.stringify("Unknown error occured."));
+                }
+                return false;
+
+            });
+    });
+</script>
+

@@ -1,0 +1,286 @@
+﻿@model Medicaldrugstore.Models.OrganizationTemplate
+
+@{
+    Layout = null;
+}
+
+@*@using (Html.BeginForm("SaveOrganization", "Organizations", FormMethod.Post, new { id = "frmOrganization" }))
+{*@
+
+<div class="create-item" id="frmOrganization">
+
+    @Html.HiddenFor(model => model.OrganizationId)
+    
+    <div class="form-group margin-5-0">
+        @Html.LabelFor(model => model.OrganizationCode, htmlAttributes: new { @class = "control-label col-sm-5 border-box align-right" })
+        <div class="col-sm-7 border-box">
+            @Html.Kendo().TextBoxFor(model => model.OrganizationCode)
+            @Html.ValidationMessageFor(model => model.OrganizationCode, "", new { @class = "text-danger" })
+        </div>
+    </div>
+    <div class="clear"></div>
+    <div class="form-group margin-5-0">
+        @Html.LabelFor(model => model.OrganizationName, htmlAttributes: new { @class = "control-label col-sm-5 border-box align-right" })
+        <div class="col-sm-7 border-box">
+            @Html.Kendo().TextBoxFor(model => model.OrganizationName)
+            @Html.ValidationMessageFor(model => model.OrganizationName, "", new { @class = "text-danger" })
+        </div>
+    </div>
+    <div class="clear"></div>
+    <div class="form-group margin-5-0">
+        @Html.LabelFor(model => model.RegionId, htmlAttributes: new { @class = "control-label col-sm-5 border-box align-right" })
+        <div class="col-sm-7 border-box">
+            @(Html.Kendo().ComboBoxFor(model => model.RegionId)
+             .DataTextField("OrganizationName")
+             .DataValueField("OrganizationId")
+             .Placeholder("Select category...")
+             .Filter(FilterType.StartsWith)
+             .DataSource(source =>
+             {
+                 source.Read(read =>
+                 {
+                     read.Action("GetRegions", "Organizations");
+                 });
+             })
+             .HtmlAttributes(new { data_value_primitive = true })
+            )
+            @Html.ValidationMessageFor(model => model.RegionId, "", new { @class = "text-danger" })
+        </div>
+    </div>
+    <div class="clear"></div>
+    <div class="form-group margin-5-0">
+        @Html.LabelFor(model => model.GovermentId, htmlAttributes: new { @class = "control-label col-sm-5 border-box align-right" })
+        <div class="col-sm-7 border-box">
+            @(Html.Kendo().ComboBoxFor(model => model.GovermentId)
+             .DataTextField("OrganizationName")
+             .DataValueField("OrganizationId")
+             .Placeholder("Select category...")
+             .Filter(FilterType.StartsWith)
+             .DataSource(source =>
+             {
+                 source.Read(read =>
+                 {
+                     read.Action("GetGoverments", "Organizations");
+                 });
+             })
+             .HtmlAttributes(new { data_value_primitive = true })
+            )
+            @Html.ValidationMessageFor(model => model.GovermentId, "", new { @class = "text-danger" })
+        </div>
+    </div>
+    <div class="clear"></div>
+    <div class="form-group margin-5-0">
+        @Html.LabelFor(model => model.OrganizationLocation, htmlAttributes: new { @class = "control-label col-sm-5 border-box align-right" })
+        <div class="col-sm-7 border-box">
+            @Html.Kendo().TextBoxFor(model => model.OrganizationLocation)
+            @Html.ValidationMessageFor(model => model.OrganizationLocation, "", new { @class = "text-danger" })
+        </div>
+    </div>
+    <div class="clear"></div>
+    <div class="form-group margin-5-0">
+        @Html.LabelFor(model => model.DeliveryLocation, htmlAttributes: new { @class = "control-label col-sm-5 border-box align-right" })
+        <div class="col-sm-7 border-box">
+            @Html.Kendo().TextBoxFor(model => model.DeliveryLocation)
+            @Html.ValidationMessageFor(model => model.DeliveryLocation, "", new { @class = "text-danger" })
+        </div>
+    </div>
+    <div class="clear"></div>
+    <div class="form-group margin-5-0">
+        @Html.LabelFor(model => model.RegistrationNumber, htmlAttributes: new { @class = "control-label col-sm-5 border-box align-right" })
+        <div class="col-sm-7 border-box">
+            @Html.Kendo().TextBoxFor(model => model.RegistrationNumber)
+            @Html.ValidationMessageFor(model => model.RegistrationNumber, "", new { @class = "text-danger" })
+        </div>
+    </div>
+    <div class="clear"></div>
+    <div class="form-group margin-5-0">
+        @Html.LabelFor(model => model.TinNumber, htmlAttributes: new { @class = "control-label col-sm-5 border-box align-right" })
+        <div class="col-sm-7 border-box">
+            @Html.Kendo().TextBoxFor(model => model.TinNumber)
+            @Html.ValidationMessageFor(model => model.TinNumber, "", new { @class = "text-danger" })
+        </div>
+    </div>
+    <div class="clear"></div>
+    <div class="form-group margin-5-0">
+        @Html.LabelFor(model => model.BankId, htmlAttributes: new { @class = "control-label col-sm-5 border-box align-right" })
+        <div class="col-sm-7 border-box">
+            @(Html.Kendo().ComboBoxFor(model => model.BankId)
+             .DataTextField("BankName")
+             .DataValueField("BankId")
+             .Placeholder("Select category...")
+             .Filter(FilterType.StartsWith)
+             .DataSource(source =>
+             {
+                 source.Read(read =>
+                 {
+                     read.Action("GetBanks", "Organizations");
+                 });
+             })
+             .HtmlAttributes(new { data_value_primitive = true })
+            )
+            @Html.ValidationMessageFor(model => model.BankId, "", new { @class = "text-danger" })
+        </div>
+    </div>
+    <div class="clear"></div>
+    <div class="form-group margin-5-0">
+        @Html.LabelFor(model => model.BankAccountNumber, htmlAttributes: new { @class = "control-label col-sm-5 border-box align-right" })
+        <div class="col-sm-7 border-box">
+            @Html.Kendo().TextBoxFor(model => model.BankAccountNumber)
+            @Html.ValidationMessageFor(model => model.BankAccountNumber, "", new { @class = "text-danger" })
+        </div>
+    </div>
+    <div class="clear"></div>
+    <div class="form-group margin-5-0">
+        @Html.LabelFor(model => model.HeadName, htmlAttributes: new { @class = "control-label col-sm-5 border-box align-right" })
+        <div class="col-sm-7 border-box">
+            @Html.Kendo().TextBoxFor(model => model.HeadName)
+            @Html.ValidationMessageFor(model => model.HeadName, "", new { @class = "text-danger" })
+        </div>
+    </div>
+    <div class="clear"></div>
+    <div class="form-group margin-5-0">
+        @Html.LabelFor(model => model.AccountantName, htmlAttributes: new { @class = "control-label col-sm-5 border-box  align-right" })
+        <div class="col-sm-7 border-box">
+            @Html.Kendo().TextBoxFor(model => model.AccountantName)
+            @Html.ValidationMessageFor(model => model.AccountantName, "", new { @class = "text-danger" })
+        </div>
+    </div>
+    <div class="clear"></div>
+    <div class="form-group margin-5-0">
+        @Html.LabelFor(model => model.ResponsibleName, htmlAttributes: new { @class = "control-label col-sm-5 border-box align-right" })
+        <div class="col-sm-7 border-box">
+            @Html.Kendo().TextBoxFor(model => model.ResponsibleName)
+            @Html.ValidationMessageFor(model => model.ResponsibleName, "", new { @class = "text-danger" })
+        </div>
+    </div>
+    <div class="clear"></div>
+
+    <div class="form-group margin-10-0">
+        @Html.LabelFor(model => model.IsOrganization, htmlAttributes: new { @class = "control-label col-xs-5 border-box align-right" })
+        <div class="col-xs-7 border-box">
+            @*@Html.Kendo().CheckBoxFor(model => model.IsOrganization)*@
+            @Html.CheckBox("IsOrganization", Model.IsOrganization != null && (bool) Model.IsOrganization)
+            @Html.ValidationMessageFor(model => model.IsOrganization, "", new { @class = "text-danger" })
+        </div>
+    </div>
+    <div class="clear"></div>
+
+    <div class="form-group margin-10-0">
+        @Html.LabelFor(model => model.IsRegion, htmlAttributes: new { @class = "control-label col-xs-5 border-box align-right" })
+        <div class="col-xs-7 border-box">
+            @Html.CheckBox("IsRegion", Model.IsRegion != null && (bool) Model.IsRegion)
+            @Html.ValidationMessageFor(model => model.IsRegion, "", new { @class = "text-danger" })
+        </div>
+    </div>
+    <div class="clear"></div>
+
+    <div class="form-group margin-10-0">
+        @Html.LabelFor(model => model.IsStorage, htmlAttributes: new { @class = "control-label col-xs-5 border-box align-right" })
+        <div class="col-xs-7 border-box">
+            @Html.CheckBox("IsStorage", Model.IsStorage != null && (bool) Model.IsStorage)
+            @Html.ValidationMessageFor(model => model.IsStorage, "", new { @class = "text-danger" })
+        </div>
+    </div>
+    <div class="clear"></div>
+    <div class="form-group margin-10-0">
+        @Html.LabelFor(model => model.IsGoverment, htmlAttributes: new { @class = "control-label col-xs-5 border-box align-right" })
+        <div class="col-xs-7 border-box">
+            @Html.CheckBox("IsGoverment", Model.IsGoverment != null && (bool) Model.IsGoverment)
+            @Html.ValidationMessageFor(model => model.IsGoverment, "", new { @class = "text-danger" })
+        </div>
+    </div>
+    <div class="clear"></div>
+
+    @*@Այստեղ պետք է ցուցադրվի սխալի հաղորդագրությունը:*@
+
+    <div class="form-group margin-10-0">
+        <div class="col-xs-8 border-box align-right">
+            <span id="errormssg"></span>
+        </div>
+        <div class="col-xs-4 border-box align-right">
+            <button id="organizationTemplateSave" class="k-button"><i class="glyphicon glyphicon-floppy-disk"></i> @Resources.General_Save</button>
+            <button id="organizationTemplateCancel" class="k-button"><i class="glyphicon glyphicon-off"></i> @Resources.General_Close</button>
+        </div>
+    </div>
+    <div class="clear"></div>
+</div>
+@*}*@
+
+<script>
+    $(document).ready(function () {
+        $("#organizationTemplateCancel")
+             .click(function () {
+                 $(this).closest(".k-window-content").data("kendoWindow").close();
+                 return false;
+             });
+
+
+        $("#organizationTemplateSave")
+            .click(function (e) {
+                var errTmplt = '<div class="k-widget k-tooltip k-tooltip-validation" style="margin:0.5em; padding:3px 5px;"><span class="fa fa-exclamation-triangle"></span> #=message#<div class="k-callout k-callout-n"></div></div>';
+                var validator = $("#frmOrganization").kendoValidator({
+                    errorTemplate: errTmplt
+                }).data("kendoValidator");
+                if (!validator.validate()) {
+                    $("#errormssg").html("<span class='fa fa-exclamation-triangle'></span> @GeneralResources.FieldsRequired");
+                    return false;
+                }
+
+                var item = new Object();
+                item.OrganizationId = '@Model.OrganizationId';
+                item.OrganizationCode = $("#OrganizationCode").val();
+                item.OrganizationName = $("#OrganizationName").val();
+                item.RegionId = $("#RegionId").val();
+                item.GovermentId = $("#GovermentId").val();
+                item.OrganizationLocation = $("#OrganizationLocation").val();
+                item.DeliveryLocation = $("#DeliveryLocation").val();
+                item.RegistrationNumber = $("#RegistrationNumber").val();
+                item.TinNumber = $("#TinNumber").val();
+                item.BankId = $("#BankId").val();
+                item.BankAccountNumber = $("#BankAccountNumber").val();
+                item.HeadName = $("#HeadName").val();
+                item.AccountantName = $("#AccountantName").val();
+                item.ResponsibleName = $("#ResponsibleName").val();
+                item.IsOrganization = document.getElementById("IsOrganization").checked;
+                item.IsRegion = document.getElementById("IsRegion").checked;
+                item.IsStorage = document.getElementById("IsStorage").checked;
+                item.IsGoverment = document.getElementById("IsGoverment").checked;
+
+                var rt = false;
+                var dt;
+                var q = $.ajax({
+                    url: '@Url.Action("SaveOrganization", "Organizations")',
+                    dataType: "json",
+                    type: "POST",
+                    data: JSON.stringify({ organizationTemplate: item }),
+                    contentType: "application/json; charset=utf-8",
+                    async: false,
+                    success: function (data) {
+                        dt = data;
+                        rt = true;
+                    },
+                    error: function (xhr) {
+                        dt = xhr;
+                        rt = false;
+                    }
+                });
+
+                if (rt == true) {
+                    if (dt.success != true) {
+                        /*Այստեղ իրականացվում է սերվերից վերադարձված սխալի ցուցադրման գործառույթը:
+                        Անհրաժեշտ է որ alert-ի փոխարեն կարմիր գույնով ցուցադրվի սխալը:
+                        Այդ սխալը պետք է տեղակայված լինի մուտքային վերջին դաշտի և հրահանգների արանքում:*/
+                        alert(JSON.stringify(dt.responseText));
+                    }
+                    else {
+                        $(this).closest(".k-window-content").data("kendoWindow").close();
+                    }
+                }
+                else {
+                    alert(JSON.stringify("Unknown error occured."));
+                }
+                return false;
+
+            });
+    });
+</script>

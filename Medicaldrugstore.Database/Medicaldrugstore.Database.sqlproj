@@ -1,0 +1,203 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003" ToolsVersion="4.0">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <Name>Medicaldrugstore.Database</Name>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectVersion>4.1</ProjectVersion>
+    <ProjectGuid>{55851f71-e295-406d-8bdb-549784fb6d62}</ProjectGuid>
+    <DSP>Microsoft.Data.Tools.Schema.Sql.Sql130DatabaseSchemaProvider</DSP>
+    <OutputType>Database</OutputType>
+    <RootPath>
+    </RootPath>
+    <RootNamespace>Medicaldrugstore.Database</RootNamespace>
+    <AssemblyName>Medicaldrugstore.Database</AssemblyName>
+    <ModelCollation>1033,CI</ModelCollation>
+    <DefaultFileStructure>BySchemaAndSchemaType</DefaultFileStructure>
+    <DeployToDatabase>True</DeployToDatabase>
+    <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
+    <TargetLanguage>CS</TargetLanguage>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <SqlServerVerification>False</SqlServerVerification>
+    <IncludeCompositeObjects>True</IncludeCompositeObjects>
+    <TargetDatabaseSet>True</TargetDatabaseSet>
+    <SccProjectName>SAK</SccProjectName>
+    <SccProvider>SAK</SccProvider>
+    <SccAuxPath>SAK</SccAuxPath>
+    <SccLocalPath>SAK</SccLocalPath>
+    <DefaultCollation>SQL_Latin1_General_CP1_CI_AS</DefaultCollation>
+    <DefaultFilegroup>PRIMARY</DefaultFilegroup>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <OutputPath>bin\Release\</OutputPath>
+    <BuildScriptName>$(MSBuildProjectName).sql</BuildScriptName>
+    <TreatWarningsAsErrors>False</TreatWarningsAsErrors>
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <DefineDebug>false</DefineDebug>
+    <DefineTrace>true</DefineTrace>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <OutputPath>bin\Debug\</OutputPath>
+    <BuildScriptName>$(MSBuildProjectName).sql</BuildScriptName>
+    <TreatWarningsAsErrors>false</TreatWarningsAsErrors>
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <DefineDebug>true</DefineDebug>
+    <DefineTrace>true</DefineTrace>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup>
+    <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">11.0</VisualStudioVersion>
+    <!-- Default to the v11.0 targets path if the targets file for the current VS version is not found -->
+    <SSDTExists Condition="Exists('$(MSBuildExtensionsPath)\Microsoft\VisualStudio\v$(VisualStudioVersion)\SSDT\Microsoft.Data.Tools.Schema.SqlTasks.targets')">True</SSDTExists>
+    <VisualStudioVersion Condition="'$(SSDTExists)' == ''">11.0</VisualStudioVersion>
+  </PropertyGroup>
+  <Import Condition="'$(SQLDBExtensionsRefPath)' != ''" Project="$(SQLDBExtensionsRefPath)\Microsoft.Data.Tools.Schema.SqlTasks.targets" />
+  <Import Condition="'$(SQLDBExtensionsRefPath)' == ''" Project="$(MSBuildExtensionsPath)\Microsoft\VisualStudio\v$(VisualStudioVersion)\SSDT\Microsoft.Data.Tools.Schema.SqlTasks.targets" />
+  <ItemGroup>
+    <Folder Include="Properties" />
+    <Folder Include="dbo\" />
+    <Folder Include="dbo\Tables\" />
+    <Folder Include="dbo\Views\" />
+    <Folder Include="Security\" />
+    <Folder Include="dbo\Functions\" />
+    <Folder Include="dbo\Stored Procedures\" />
+  </ItemGroup>
+  <ItemGroup>
+    <Build Include="dbo\Tables\PlacementBase.sql" />
+    <Build Include="dbo\Tables\PlacementItem.sql" />
+    <Build Include="dbo\Tables\ConsumptionProduct.sql" />
+    <Build Include="dbo\Tables\Organization.sql" />
+    <Build Include="dbo\Tables\Bank.sql" />
+    <Build Include="dbo\Tables\TransferStatus.sql" />
+    <Build Include="dbo\Tables\DrugCategory.sql" />
+    <Build Include="dbo\Tables\DrugType.sql" />
+    <Build Include="dbo\Tables\UserPermission.sql" />
+    <Build Include="dbo\Tables\RetransferStatus.sql" />
+    <Build Include="dbo\Tables\Drug.sql" />
+    <Build Include="dbo\Tables\Retransfer.sql" />
+    <Build Include="dbo\Tables\UnitType.sql" />
+    <Build Include="dbo\Tables\Country.sql" />
+    <Build Include="dbo\Tables\DispensingType.sql" />
+    <Build Include="dbo\Tables\Manufacturer.sql" />
+    <Build Include="dbo\Tables\Supplier.sql" />
+    <Build Include="dbo\Tables\ReplacementBase.sql" />
+    <Build Include="dbo\Tables\DrugClass.sql" />
+    <Build Include="dbo\Tables\UserOrganization.sql" />
+    <Build Include="dbo\Tables\AspNetRoles.sql" />
+    <Build Include="dbo\Tables\PlacementItemProduct.sql" />
+    <Build Include="dbo\Tables\__MigrationHistory.sql" />
+    <Build Include="dbo\Tables\AspNetUsers.sql" />
+    <Build Include="dbo\Tables\Product.sql" />
+    <Build Include="dbo\Tables\AspNetUserRoles.sql" />
+    <Build Include="dbo\Tables\AspNetUserLogins.sql" />
+    <Build Include="dbo\Tables\AspNetUserClaims.sql" />
+    <Build Include="dbo\Tables\Level.sql" />
+    <Build Include="dbo\Tables\BaseDocument.sql" />
+    <Build Include="dbo\Tables\ProductCategory.sql" />
+    <Build Include="dbo\Tables\MessageBox.sql" />
+    <Build Include="dbo\Tables\ProductType.sql" />
+    <Build Include="dbo\Tables\ProductGroup.sql" />
+    <Build Include="dbo\Tables\Consumption.sql" />
+    <Build Include="dbo\Tables\JunkProduct.sql" />
+    <Build Include="dbo\Tables\ReplacementProduct.sql" />
+    <Build Include="dbo\Tables\JunkConsumption.sql" />
+    <Build Include="dbo\Tables\ReplacementProductStorage.sql" />
+    <Build Include="dbo\Tables\Status.sql" />
+    <Build Include="dbo\Tables\Storage.sql" />
+    <Build Include="dbo\Tables\JunkProductStatus.sql" />
+    <Build Include="dbo\Tables\JunkConsumptionStatus.sql" />
+    <Build Include="dbo\Tables\Replacement.sql" />
+    <Build Include="dbo\Tables\DrugPicture.sql" />
+    <Build Include="dbo\Tables\JunkBase.sql" />
+    <Build Include="dbo\Tables\DrugSource.sql" />
+    <Build Include="dbo\Tables\Transfer.sql" />
+    <Build Include="dbo\Tables\Placement.sql" />
+    <Build Include="dbo\Tables\ReplacementStatus.sql" />
+    <Build Include="dbo\Tables\PlacementStatus.sql" />
+    <Build Include="dbo\Tables\ConsumptionStatus.sql" />
+    <Build Include="dbo\Views\vwPlacementItemDetails.sql" />
+    <Build Include="dbo\Views\vwPlacementItemProductDetails.sql" />
+    <Build Include="dbo\Views\vwTransfer.sql" />
+    <Build Include="dbo\Views\vwReplacementDetails.sql" />
+    <Build Include="dbo\Views\vwStorage.sql" />
+    <Build Include="dbo\Views\vwUsers.sql" />
+    <Build Include="dbo\Views\vwRetransferDetails.sql" />
+    <Build Include="dbo\Views\vwConsumption.sql" />
+    <Build Include="dbo\Views\vwItem.sql" />
+    <Build Include="dbo\Views\vwUserPermission.sql" />
+    <Build Include="dbo\Views\vwAspNetUserRoles.sql" />
+    <Build Include="dbo\Views\vwTransferPlacement.sql" />
+    <Build Include="dbo\Views\vwUserOrganization.sql" />
+    <Build Include="dbo\Views\vwOrganization.sql" />
+    <Build Include="dbo\Views\vwConsumptionProduct.sql" />
+    <Build Include="dbo\Views\vwPlacement.sql" />
+    <Build Include="dbo\Views\vwDrugClass.sql" />
+    <Build Include="dbo\Views\vwDrug.sql" />
+    <Build Include="dbo\Views\vwProduct.sql" />
+    <Build Include="dbo\Views\vwDrugItem.sql" />
+    <Build Include="dbo\Views\vwJunkConsumption.sql" />
+    <Build Include="dbo\Views\vwJunkProduct.sql" />
+    <Build Include="Security\RoleMemberships.sql" />
+    <Build Include="dbo\Functions\tfnStorageReplacement.sql" />
+    <Build Include="dbo\Functions\tfnStorageJunk.sql" />
+    <Build Include="dbo\Functions\tfnStorageJunkPeriod.sql" />
+    <Build Include="dbo\Functions\tfnStoragePlacementPeriod.sql" />
+    <Build Include="dbo\Functions\tfnStorageProductPeriod.sql" />
+    <Build Include="dbo\Functions\tfnStorageReplacementPeriod.sql" />
+    <Build Include="dbo\Functions\tfnStorageProductItems.sql" />
+    <Build Include="dbo\Functions\tfnStorageReplacementItems.sql" />
+    <Build Include="dbo\Functions\tfnStoragePlacementItems.sql" />
+    <Build Include="dbo\Functions\tfnStorageJunkItems.sql" />
+    <Build Include="dbo\Functions\tfnDestinationOrganizationReplacementItems.sql" />
+    <Build Include="dbo\Functions\tfnOrganizationConsumptionItems.sql" />
+    <Build Include="dbo\Functions\tfnOrganizationJunkItems.sql" />
+    <Build Include="dbo\Functions\tfnOrganizationPlacementItems.sql" />
+    <Build Include="dbo\Functions\tfnSourceOrganizationReplacementItems.sql" />
+    <Build Include="dbo\Functions\tfnOrganizationPlacement.sql" />
+    <Build Include="dbo\Functions\tfnOrganizationConsumption.sql" />
+    <Build Include="dbo\Functions\tfnSourceOrganizationReplacement.sql" />
+    <Build Include="dbo\Functions\tfnOrganizationJunk.sql" />
+    <Build Include="dbo\Functions\tfnDestinationOrganizationReplacement.sql" />
+    <Build Include="dbo\Functions\tfnOrganizationPlacementPeriod.sql" />
+    <Build Include="dbo\Functions\tfnOrganizationConsumptionPeriod.sql" />
+    <Build Include="dbo\Functions\tfnSourceOrganizationReplacementPeriod.sql" />
+    <Build Include="dbo\Functions\tfnDestinationOrganizationReplacementPeriod.sql" />
+    <Build Include="dbo\Functions\tfnOrganizationJunkPeriod.sql" />
+    <Build Include="dbo\Functions\tfnStorageProduct.sql" />
+    <Build Include="dbo\Functions\tfnStoragePlacement.sql" />
+    <Build Include="dbo\Stored Procedures\spStorageStoreIns.sql" />
+    <Build Include="dbo\Stored Procedures\spOrganizationStore.sql" />
+    <Build Include="dbo\Stored Procedures\spStorageStoreOuts.sql" />
+    <Build Include="dbo\Stored Procedures\spOrganizationStoreIns.sql" />
+    <Build Include="dbo\Stored Procedures\spOrganizationStoreOuts.sql" />
+    <Build Include="dbo\Stored Procedures\spOrganizationStoreExpirations.sql" />
+    <Build Include="dbo\Stored Procedures\spStorageStoreExpirations.sql" />
+    <Build Include="dbo\Stored Procedures\spOrganizations.sql" />
+    <Build Include="dbo\Stored Procedures\Report02.sql" />
+    <Build Include="dbo\Stored Procedures\Report03.sql" />
+    <Build Include="dbo\Stored Procedures\Report01.sql" />
+    <Build Include="dbo\Stored Procedures\Report05.sql" />
+    <Build Include="dbo\Stored Procedures\Report04.sql" />
+    <Build Include="dbo\Stored Procedures\Report06.sql" />
+    <Build Include="dbo\Stored Procedures\spStorageStore.sql" />
+    <Build Include="dbo\Stored Procedures\Report07.sql" />
+    <Build Include="dbo\Stored Procedures\Report08.sql" />
+    <Build Include="dbo\Stored Procedures\spStorageSubStore.sql" />
+    <Build Include="dbo\Stored Procedures\spOrganizationPlacementOrderOrganizations.sql" />
+    <Build Include="dbo\Stored Procedures\spOrganizationPlacementStorageOrganizations.sql" />
+    <Build Include="dbo\Stored Procedures\spOrganizationPlacementOrganizations.sql" />
+    <Build Include="dbo\Stored Procedures\spCurrentStoreStatus.sql" />
+    <Build Include="dbo\Stored Procedures\spConsumptionProducts.sql" />
+    <Build Include="dbo\Stored Procedures\spPlacementProducts.sql" />
+    <Build Include="dbo\Stored Procedures\spReplacementProducts.sql" />
+    <Build Include="dbo\Stored Procedures\spStoreOrganizations.sql" />
+  </ItemGroup>
+</Project>

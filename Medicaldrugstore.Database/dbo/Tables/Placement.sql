@@ -1,0 +1,26 @@
+﻿CREATE TABLE [dbo].[Placement] (
+    [PlacementId]           INT           IDENTITY (1, 1) NOT NULL,
+    [PlacementDate]         DATE          NULL,
+    [OrderOrganizationId]   INT           NULL,
+    [OrganizationId]        INT           NULL,
+    [CorrectionDate]        DATE          NULL,
+    [ConfirmDate]           DATE          NULL,
+    [ReceiveDate]           DATE          NULL,
+    [TransferId]            INT           NULL,
+    [IsTransfer]            BIT           NULL,
+    [PlacementBaseId]       INT           NULL,
+    [PlacementBaseDate]     DATE          NULL,
+    [PlacementBaseText]     NVARCHAR (50) NULL,
+    [ReadyDate]             DATE          NULL,
+    [StorageOrganizationId] INT           NULL,
+    [PlacementStatusId]     INT           NULL,
+    [ReleaseDate]           DATETIME      NULL,
+    CONSTRAINT [PK_Placement] PRIMARY KEY CLUSTERED ([PlacementId] ASC),
+    CONSTRAINT [FK_Placement_Organization] FOREIGN KEY ([OrganizationId]) REFERENCES [dbo].[Organization] ([OrganizationId]),
+    CONSTRAINT [FK_Placement_Organization1] FOREIGN KEY ([OrderOrganizationId]) REFERENCES [dbo].[Organization] ([OrganizationId]),
+    CONSTRAINT [FK_Placement_Organization2] FOREIGN KEY ([StorageOrganizationId]) REFERENCES [dbo].[Organization] ([OrganizationId]),
+    CONSTRAINT [FK_Placement_PlacementBase] FOREIGN KEY ([PlacementBaseId]) REFERENCES [dbo].[PlacementBase] ([PlacementBaseId]),
+    CONSTRAINT [FK_Placement_PlacementStatus] FOREIGN KEY ([PlacementStatusId]) REFERENCES [dbo].[PlacementStatus] ([PlacementStatusId]),
+    CONSTRAINT [FK_Placement_Transfer] FOREIGN KEY ([TransferId]) REFERENCES [dbo].[Transfer] ([TransferId]) ON DELETE SET NULL
+);
+

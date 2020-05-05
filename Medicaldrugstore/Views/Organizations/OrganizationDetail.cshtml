@@ -1,0 +1,105 @@
+﻿@model Medicaldrugstore.Models.OrganizationDetail
+
+@{
+    Layout = null;
+}
+
+<div id="content">
+    <table class="table table-striped details" style="margin-bottom:0">
+        <tr>
+            <td class="col-xs-6">@Html.DisplayNameFor(model => model.OrganizationCode)</td>
+            <td class="bold col-xs-6">@Html.DisplayFor(model => model.OrganizationCode)</td>
+        </tr>
+        <tr>
+            <td class="col-xs-6">@Html.DisplayNameFor(model => model.OrganizationName)</td>
+            <td class="col-xs-6">@Html.DisplayFor(model => model.OrganizationName)</td>
+        </tr>
+        <tr>
+            <td class="col-xs-6">@Html.DisplayNameFor(model => model.OrganizationLocation)</td>
+            <td class="col-xs-6">@Html.DisplayFor(model => model.OrganizationLocation)</td>
+        </tr>
+        <tr>
+            <td class="col-xs-6">@Html.DisplayNameFor(model => model.DeliveryLocation)</td>
+            <td class="col-xs-6">@Html.DisplayFor(model => model.DeliveryLocation)</td>
+        </tr>
+        <tr>
+            <td class="col-xs-6">@Html.DisplayNameFor(model => model.RegistrationNumber)</td>
+            <td class="col-xs-6">@Html.DisplayFor(model => model.RegistrationNumber)</td>
+        </tr>
+        <tr>
+            <td class="col-xs-6">@Html.DisplayNameFor(model => model.TinNumber)</td>
+            <td class="col-xs-6">@Html.DisplayFor(model => model.TinNumber)</td>
+        </tr>
+        <tr>
+            <td class="col-xs-6">@Html.DisplayNameFor(model => model.BankAccountNumber)</td>
+            <td class="col-xs-6">@Html.DisplayFor(model => model.BankAccountNumber)</td>
+        </tr>        
+        <tr>
+            <td class="col-xs-6">@Html.DisplayNameFor(model => model.HeadName)</td>
+            <td class="col-xs-6">@Html.DisplayFor(model => model.HeadName)</td>
+        </tr>
+        <tr>
+            <td class="col-xs-6">@Html.DisplayNameFor(model => model.AccountantName)</td>
+            <td class="col-xs-6">@Html.DisplayFor(model => model.AccountantName)</td>
+        </tr>
+        <tr>
+            <td class="col-xs-6">@Html.DisplayNameFor(model => model.ResponsibleName)</td>
+            <td class="col-xs-6">@Html.DisplayFor(model => model.ResponsibleName)</td>
+        </tr>
+        <tr>
+            <td class="col-xs-6">@Html.DisplayNameFor(model => model.RegionName)</td>
+            <td class="col-xs-6">@Html.DisplayFor(model => model.RegionName)</td>
+        </tr>
+        <tr>
+            <td class="col-xs-6">Լիազորություններ</td>
+            <td class="col-xs-6">
+                @if (Model.IsOrganization == true)
+                {
+                    @Html.DisplayNameFor(model => model.IsOrganization)<br />
+                }
+                @if (Model.IsRegion == true)
+                {
+                    @Html.DisplayNameFor(model => model.IsRegion)<br />
+                }
+                @if (Model.IsStorage == true)
+                {
+                    @Html.DisplayNameFor(model => model.IsStorage)<br />
+                }
+                @if (Model.IsGoverment == true)
+                {
+                    @Html.DisplayNameFor(model => model.IsGoverment)
+                }
+            </td>
+        </tr>
+    </table>
+</div>
+
+<div class="form-group col-sm-12 border-box margin-10-0 align-right">
+    <button id="rtJunkProductDetailSave" class="k-button"><i class="glyphicon glyphicon-download-alt"></i> Արտահանել</button>
+</div>
+
+
+<script>
+    $(document).ready(function () {
+        $("#rtJunkProductDetailSave")
+            .click(function () {
+                var draw = kendo.drawing;
+                draw.drawDOM($("#content"), {
+                    avoidLinks: true,
+                    paperSize: "A4"
+                })
+                .then(function (root) {
+                    return draw.exportPDF(root);
+                })
+                .done(function (data) {
+                    kendo.saveAs({
+                        dataURI: data,
+                        fileName: '@Model.OrganizationCode'
+                    });
+                    return false;
+                });
+            });
+    }
+)
+</script>
+

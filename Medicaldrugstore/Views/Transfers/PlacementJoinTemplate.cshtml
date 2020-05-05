@@ -1,0 +1,63 @@
+﻿@model Medicaldrugstore.Models.Placement
+
+@{
+    Layout = null;
+}
+
+<div class="create-item">
+
+    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+    @Html.HiddenFor(model => model.PlacementId)
+    @Html.HiddenFor(model => model.TransferId)
+
+    <div class="form-group margin-10-0">
+        @Html.LabelFor(model => model.IsTransfer, htmlAttributes: new { @class = "control-label col-sm-4 align-right border-box" })
+        @Html.CheckBox("IsTransfer", Model.IsTransfer != null && (bool) Model.IsTransfer)
+        <div class="align-right margin-0-10" style="float:right">
+            <button id="jptSave" class="k-button"><i class="glyphicon glyphicon-floppy-disk"></i> @Resources.General_Save</button>
+            <button id="jptCancel" class="k-button"><i class="glyphicon glyphicon-off"></i> @Resources.General_Close</button>
+        </div>
+    </div>
+</div>
+
+<script>
+    $(document).ready(function () {
+        $("#jptCancel")
+            .click(function () {
+                if ($(this).closest(".k-window-content").data("kendoWindow"))
+                    $(this).closest(".k-window-content").data("kendoWindow").close();
+            });
+        $("#jptSave")
+            .click(function (e) {
+                var placementId = '@Model.PlacementId'; 
+                var transferId = '@Model.TransferId';
+                var isTransfer = document.getElementById("IsTransfer").checked;
+                var rt = false;
+                var dt;
+                var q = $.ajax({
+                    url: '@Url.Action("Join", "Transfers")',
+                    dataType: "json",
+                    type: "GET",
+                    data: { pId: placementId, tId: transferId, iTr: isTransfer },
+                    async: false,
+                    success: function (data) {
+                        dt = data;
+                        rt = true;
+                    },
+                    error: function (xhr) {
+                        dt = xhr;
+                        rt = false;
+                    }
+                });
+                if (rt == true) {
+                    if ($(this).closest(".k-window-content").data("kendoWindow"))
+                        $(this).closest(".k-window-content").data("kendoWindow").close();
+                }
+                else {
+                    alert(dt);
+                    return false;
+                }
+
+            });
+    });
+</script>

@@ -1,0 +1,49 @@
+﻿@model Medicaldrugstore.Models.DrugClassDetail
+
+@{
+    Layout = null;
+}
+
+<div>
+    <table class="table table-striped details">
+        <tr>
+            <td class="col-xs-3">@Html.DisplayNameFor(model => model.DrugClassId)</td>
+            <td class="bold col-xs-3">@Html.DisplayFor(model => model.DrugClassId)</td>
+        </tr>
+        <tr>
+            <td class="col-xs-3">@Html.DisplayNameFor(model => model.DrugClassName)</td>
+            <td class="bold col-xs-9">@Html.DisplayFor(model => model.DrugClassName)</td>
+        </tr>
+        <tr>
+            <td class="col-xs-6">@Html.DisplayNameFor(model => model.GenericName )</td>
+            <td class="col-xs-6">@Html.DisplayFor(model => model.GenericName)</td>
+        </tr>
+        <tr>
+            <td class="col-xs-6">@Html.DisplayNameFor(model => model.ProductCategoryName)</td>
+            <td class="col-xs-6">@Html.DisplayFor(model => model.ProductCategoryName )</td>
+        </tr>
+        <tr>
+            <td class="col-xs-3">@Html.DisplayNameFor(model => model.ProductGroupName )</td>
+            <td class="col-xs-9">@Html.DisplayFor(model => model.ProductGroupName)</td>
+        </tr>
+        <tr>
+            <td class="col-xs-6">@Html.DisplayNameFor(model => model.ProductTypeName )</td>
+            <td class="col-xs-6">@Html.DisplayFor(model => model.ProductTypeName)</td>
+        </tr>
+        <tr>
+            <td class="col-xs-3">@Html.DisplayNameFor(model => model.DrugCategoryName)</td>
+            <td class="col-xs-9">@Html.DisplayFor(model => model.DrugCategoryName)</td>
+        </tr>
+        <tr>
+            <td class="col-xs-3">@Html.DisplayNameFor(model => model.DrugTypeName )</td>
+            <td class="col-xs-9">@Html.DisplayFor(model => model.DrugTypeName)</td>
+        </tr>
+        <tr>
+            <td class="col-xs-3">@Html.DisplayNameFor(model => model.UnitItemQuantity)</td>
+            <td class="col-xs-9">@Html.DisplayFor(model => model.UnitItemQuantity)</td>
+        </tr>
+        
+    </table>
+</div>
+
+

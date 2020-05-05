@@ -1,0 +1,13 @@
+﻿@{
+    Layout = null;
+}
+
+
+@(Html.Kendo().ComboBox()
+                    .Name("PlacementBaseId")
+                    .DataTextField("Text")
+                    .DataValueField("Value")
+                    .Filter(FilterType.StartsWith)
+                    .BindTo(ViewBag.vbPlacementBases)
+                    .HtmlAttributes(new { required = "required", data_required_msg = "Դաշտը պարտադիր է", data_value_primitive = true })
+)

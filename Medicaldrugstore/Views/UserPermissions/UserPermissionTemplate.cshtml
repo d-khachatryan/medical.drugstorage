@@ -1,0 +1,154 @@
+﻿@model Medicaldrugstore.Models.UserPermission
+
+@{
+    Layout = null;
+}
+
+<div class="container-full create-item">
+
+    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+    @Html.HiddenFor(model => model.UserPermissionId)
+
+    <div class="form-group margin-5-0">
+        @Html.LabelFor(model => model.UserId, htmlAttributes: new { @class = "control-label col-sm-5 align-right" })
+        <div class="col-sm-5">
+            @(Html.Kendo().ComboBox()
+                    .Name("UserId")
+                    .DataTextField("Text")
+                    .DataValueField("Value")
+                    .Filter(FilterType.StartsWith)
+                    .BindTo(ViewBag.vbUsers)
+                    .HtmlAttributes(new { data_value_primitive = true })
+            )
+            <br />
+            @Html.ValidationMessageFor(model => model.UserId, "", new { @class = "text-danger" })
+        </div>
+    </div>
+    <div class="clear"></div>
+    <div class="form-group margin-5-0">
+        @Html.LabelFor(model => model.OrganizationId, htmlAttributes: new { @class = "control-label col-sm-5 align-right" })
+        <div class="col-sm-5">
+            @(Html.Kendo().ComboBox()
+                    .Name("OrganizationId")
+                    .DataTextField("Text")
+                    .DataValueField("Value")
+                    .Filter(FilterType.StartsWith)
+                    .BindTo(ViewBag.vbOrganizations)
+                    .HtmlAttributes(new { data_value_primitive = true })
+            )
+            <br />
+            @Html.ValidationMessageFor(model => model.OrganizationId, "", new { @class = "text-danger" })
+        </div>
+    </div>
+    <div class="clear"></div>
+    <div class="form-group margin-10-0">
+        @Html.LabelFor(model => model.IsOrganizationUser, htmlAttributes: new { @class = "control-label col-xs-4 align-right" })
+        <div class="col-xs-6">
+            @Html.CheckBox("IsOrganizationUser", Model.IsOrganizationUser != null && (bool) Model.IsOrganizationUser)
+            <br />
+            @Html.ValidationMessageFor(model => model.IsOrganizationUser, "", new { @class = "text-danger" })
+        </div>
+    </div>
+    <div class="clear"></div>
+    <div class="form-group margin-10-0">
+        @Html.LabelFor(model => model.IsStorageUser, htmlAttributes: new { @class = "control-label col-xs-4 align-right" })
+        <div class="col-xs-6">
+            @Html.CheckBox("IsStorageUser", Model.IsStorageUser != null && (bool) Model.IsStorageUser)
+            <br />
+            @Html.ValidationMessageFor(model => model.IsStorageUser, "", new { @class = "text-danger" })
+        </div>
+    </div>
+    <div class="clear"></div>
+    <div class="form-group margin-10-0">
+        @Html.LabelFor(model => model.IsRegionUser, htmlAttributes: new { @class = "control-label col-xs-4 align-right" })
+        <div class="col-xs-6">
+            @Html.CheckBox("IsRegionUser", Model.IsRegionUser != null && (bool) Model.IsRegionUser)
+            <br />
+            @Html.ValidationMessageFor(model => model.IsRegionUser, "", new { @class = "text-danger" })
+        </div>
+    </div>
+    <div class="clear"></div>
+    <div class="form-group margin-10-0">
+        @Html.LabelFor(model => model.IsGovermentUser, htmlAttributes: new { @class = "control-label col-xs-4 align-right" })
+        <div class="col-xs-6">
+            @Html.CheckBox("IsGovermentUser", Model.IsGovermentUser != null && (bool) Model.IsGovermentUser)
+            <br />
+            @Html.ValidationMessageFor(model => model.IsGovermentUser, "", new { @class = "text-danger" })
+        </div>
+    </div>
+    <div class="clear"></div>
+    <div class="form-group margin-10-0">
+        @Html.LabelFor(model => model.IsAdministrator, htmlAttributes: new { @class = "control-label col-xs-4 align-right" })
+        <div class="col-xs-6">
+            @Html.CheckBox("IsAdministrator", Model.IsAdministrator != null && (bool) Model.IsAdministrator)
+            <br />
+            @Html.ValidationMessageFor(model => model.IsAdministrator, "", new { @class = "text-danger" })
+        </div>
+    </div>
+    <div class="clear"></div>
+    <div class="form-group margin-10-0">
+        <div class="col-xs-5"></div>
+        <div class="col-xs-5 align-right">
+            <button id="uptSave" class="k-button"><i class="glyphicon glyphicon-floppy-disk"></i> @Resources.General_Save</button>
+            <button id="uptCancel" class="k-button"><i class="glyphicon glyphicon-off"></i> @Resources.General_Close</button>
+        </div>
+    </div>
+    <div class="clear"></div>
+</div>
+
+<script>
+    $(document).ready(function () {
+        $("#uptCancel")
+            .click(function () {
+                if ($(this).closest(".k-window-content").data("kendoWindow"))
+                    $(this).closest(".k-window-content").data("kendoWindow").close();
+            });
+        $("#uptSave")
+            .click(function (e) {
+
+                var item = new Object();
+                item.UserPermissionId = '@Model.UserPermissionId';
+                item.UserId = document.getElementById("UserId").value;
+                item.OrganizationId = document.getElementById("OrganizationId").value;
+                item.UserName = $('#UserId').data('kendoComboBox').text();
+                item.IsOrganizationUser = document.getElementById("IsOrganizationUser").checked;
+                item.IsStorageUser = document.getElementById("IsStorageUser").checked;
+                item.IsRegionUser = document.getElementById("IsRegionUser").checked;
+                item.IsGovermentUser = document.getElementById("IsGovermentUser").checked;
+                item.IsAdministrator = document.getElementById("IsAdministrator").checked;
+
+                var rt = false;
+                var dt;
+                var q = $.ajax({
+                    url: '@Url.Action("SaveUserPermission", "UserPermissions")',
+                    dataType: "json",
+                    type: "POST",
+                    data: JSON.stringify({ userPermission: item }),
+                    contentType: "application/json; charset=utf-8",
+                    async: false,
+                    success: function (data) {
+                        dt = data;
+                        rt = true;
+                    },
+                    error: function (xhr) {
+                        dt = xhr;
+                        rt = false;
+                    }
+                });
+                if (rt == true) {
+                    if (dt != "1") {
+                        alert(JSON.stringify(dt));
+                    }
+                    else {
+                        if ($(this).closest(".k-window-content").data("kendoWindow"))
+                            $(this).closest(".k-window-content").data("kendoWindow").close();
+                    }
+                }
+                else {
+                    alert(dt);
+                    return false;
+                }
+            });
+    });
+</script>
+

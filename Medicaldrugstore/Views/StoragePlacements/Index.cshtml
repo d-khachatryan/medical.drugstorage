@@ -1,0 +1,633 @@
+﻿@model IEnumerable<Medicaldrugstore.Models.PlacementDetails>
+
+@*@section Styles{
+        <style>
+            #prmPlacementId {
+                width: 205px;
+            }
+        </style>
+    }*@
+
+@{
+    ViewBag.Title = Resources.StorePlacement_Title;
+}
+
+<div class="margin-10-0">
+    <div class="page-header-title">@Resources.StorePlacement_Title</div>
+</div>
+
+<button class="accordion">@Resources.General_Search</button>
+<div class="panel">
+    <div class="margin-5-0">
+        <div class="col-sm-2 align-right padding-left-0 padding-right-0">
+            <label>@Resources.General_NN</label>
+        </div>
+        <div class="col-sm-4 padding-left-10 padding-right-10">
+            @*@(Html.Kendo().TextBox().Name("prmPlacementId")
+                )*@
+            <div class="col-sm-6 padding-left-0 padding-right-5">
+                @(Html.Kendo().TextBox()
+                  .Name("prmPlacementId")
+                  .HtmlAttributes(new { @class = "width100" })
+                )
+            </div>
+            <div class="col-sm-6 padding-left-0 padding-right-5"></div>
+        </div>
+        <div class="col-sm-2 align-right padding-left-0 padding-right-0">
+            <label>@PlacementResources.OrderOrganizationId</label>
+        </div>
+        <div class="col-sm-4 padding-left-10 padding-right-10">
+            @(Html.Kendo().ComboBox()
+                      .Name("prmOrderOrganizationId")
+                      .DataTextField("Text")
+                      .DataValueField("Value")
+                      .Filter(FilterType.StartsWith)
+                      .BindTo(ViewBag.vbOrganizations)
+                      .HtmlAttributes(new { data_value_primitive = true, @class = "width100" })
+            )
+        </div>
+    </div>
+
+    <div class="clear"></div>
+
+    <div class="margin-5-0">
+        <div class="col-sm-2 align-right padding-left-0 padding-right-0">
+            <label>@Resources.Placement_OrganizationName</label>
+        </div>
+        <div class="col-sm-4 padding-left-10 padding-right-10">
+            @(Html.Kendo().ComboBox()
+                          .Name("prmOrganizationId")
+                          .DataTextField("Text")
+                          .DataValueField("Value")
+                          .Filter(FilterType.StartsWith)
+                          .BindTo(ViewBag.vbOrganizations)
+                          .HtmlAttributes(new { data_value_primitive = true, @class = "width100" })
+            )
+        </div>
+        <div class="col-sm-2 align-right padding-left-0 padding-right-0">
+            <label>@PlacementResources.PlacementBaseId</label>
+        </div>
+        <div class="col-sm-4 padding-left-10 padding-right-10">
+            @(Html.Kendo().ComboBox()
+                      .Name("prmPlacementBaseId")
+                      .DataTextField("Text")
+                      .DataValueField("Value")
+                      .Filter(FilterType.StartsWith)
+                      .BindTo(ViewBag.vbPlacementBases)
+                      .HtmlAttributes(new { data_value_primitive = true, @class = "width100" })
+            )
+        </div>
+    </div>
+
+    <div class="clear"></div>
+
+    <div class="margin-5-0">
+        <div class="col-sm-2 align-right padding-left-0 padding-right-0">
+            <label>@PlacementResources.PlacementStatusName</label>
+        </div>
+        <div class="col-sm-4 padding-left-10 padding-right-10">
+            @(Html.Kendo().ComboBox()
+                      .Name("prmPlacementStatusId")
+                      .DataTextField("Text")
+                      .DataValueField("Value")
+                      .Filter(FilterType.StartsWith)
+                      .BindTo(ViewBag.vbPlacementStatuses)
+                      .HtmlAttributes(new { data_value_primitive = true, @class = "width100" })
+            )
+        </div>
+        <div class="col-sm-2 align-right padding-left-0 padding-right-0">
+            <label>@PlacementResources.CorrectionDate</label>
+        </div>
+        <div class="col-sm-4 padding-left-10 padding-right-10">
+            <div class="col-sm-6 padding-left-0 padding-right-5">
+                @(Html.Kendo().DatePicker()
+                .Name("prmStartCorrectionDate")
+                .HtmlAttributes(new { @class = "width100" })
+                )
+            </div>
+            <div class="col-sm-6 padding-left-5 padding-right-0">
+                @(Html.Kendo().DatePicker()
+                .Name("prmTerminationCorrectionDate")
+                .HtmlAttributes(new { @class = "width100" })
+                )
+            </div>
+        </div>
+    </div>
+
+    <div class="clear"></div>
+
+    <div class="margin-5-0">
+        <div class="col-sm-2 align-right padding-left-0 padding-right-0">
+            <label>@Resources.Placement_CreateDate</label>
+        </div>
+        <div class="col-sm-4 padding-left-10 padding-right-10">
+            <div class="col-sm-6 padding-left-0 padding-right-5">
+                @(Html.Kendo().DatePicker()
+                .Name("prmStartPlacementDate")
+                .HtmlAttributes(new { @class = "width100" })
+                )
+            </div>
+            <div class="col-sm-6 padding-left-5 padding-right-0">
+                @(Html.Kendo().DatePicker()
+                .Name("prmTerminationPlacementDate")
+                .HtmlAttributes(new { @class = "width100" })
+                )
+            </div>
+        </div>
+        <div class="col-sm-2 align-right padding-left-0 padding-right-0">
+            <label>@PlacementResources.ReadyDate</label>
+        </div>
+        <div class="col-sm-4 padding-left-10 padding-right-10">
+            <div class="col-sm-6 padding-left-0 padding-right-5">
+                @(Html.Kendo().DatePicker()
+                .Name("prmStartReadyDate")
+                .HtmlAttributes(new { @class = "width100" })
+                )
+            </div>
+            <div class="col-sm-6 padding-left-5 padding-right-0">
+                @(Html.Kendo().DatePicker()
+                .Name("prmTerminationReadyDate")
+                .HtmlAttributes(new { @class = "width100" })
+                )
+            </div>
+        </div>
+    </div>
+
+    <div class="clear"></div>
+
+    <div class="margin-5-0">
+        <div class="col-sm-2 align-right padding-left-0 padding-right-0">
+            <label>@PlacementResources.ConfirmDate</label>
+        </div>
+        <div class="col-sm-4 padding-left-10 padding-right-10">
+            <div class="col-sm-6 padding-left-0 padding-right-5">
+                @(Html.Kendo().DatePicker()
+                .Name("prmStartConfirmDate")
+                .HtmlAttributes(new { @class = "width100" })
+                )
+            </div>
+            <div class="col-sm-6 padding-left-5 padding-right-0">
+                @(Html.Kendo().DatePicker()
+                .Name("prmTerminationConfirmDate")
+                .HtmlAttributes(new { @class = "width100" })
+                )
+            </div>
+        </div>
+        <div class="col-sm-2 align-right padding-left-0 padding-right-0">
+            <label>@PlacementResources.ReceiveDate</label>
+        </div>
+        <div class="col-sm-4 padding-left-10 padding-right-10">
+            <div class="col-sm-6 padding-left-0 padding-right-5">
+                @(Html.Kendo().DatePicker()
+                .Name("prmStartReceiveDate")
+                .HtmlAttributes(new { @class = "width100" })
+                )
+            </div>
+            <div class="col-sm-6 padding-left-5 padding-right-0">
+                @(Html.Kendo().DatePicker()
+                .Name("prmTerminationReceiveDate")
+                .HtmlAttributes(new { @class = "width100" })
+                )
+            </div>
+        </div>
+    </div>
+
+    <div class="clear"></div>
+
+    @*<div class="margin-5-0">
+        <div class="col-sm-2 align-right padding-left-0 padding-right-0">
+            <label>@PlacementResources.ReceiveDate</label>
+        </div>
+        <div class="col-sm-4 padding-left-10 padding-right-10">
+            <div class="col-sm-6 padding-left-0 padding-right-5">
+                @(Html.Kendo().DatePicker()
+                      .Name("prmStartReceiveDate")
+                      .HtmlAttributes(new { @class = "width100" })
+                )
+            </div>
+            <div class="col-sm-6 padding-left-5 padding-right-0">
+                @(Html.Kendo().DatePicker()
+                      .Name("prmTerminationReceiveDate")
+                      .HtmlAttributes(new { @class = "width100" })
+                )
+            </div>
+        </div>
+        <div class="col-sm-2 align-right padding-left-0 padding-right-0">
+
+        </div>
+        <div class="col-sm-4 padding-left-10 padding-right-10 align-right">
+            <button type="submit" class="k-button" onclick="return Search();"><i class="glyphicon glyphicon-search"></i> @Resources.General_Search</button>
+            <button type="submit" class="k-button" onclick="return Clear();"><i class="glyphicon glyphicon-minus"></i> @Resources.General_Clean</button>
+        </div>
+    </div>*@
+
+    <div class="clear"></div>
+</div>
+
+
+
+
+
+<script type="text/javascript">
+
+    $(document).ready(function () {
+        currentPlacementIndex = -1;
+        currentPlacementItemIndex = -1;
+    });
+
+    function Clear() {
+        $("#prmPlacementId").val("");
+        $("#prmPlacementBaseId").data("kendoComboBox").select(-1);
+        $("#prmOrganizationId").data("kendoComboBox").select(-1);
+        $("#prmOrderOrganizationId").data("kendoComboBox").select(-1);
+        $("#prmPlacementStatusId").data("kendoComboBox").select(-1);
+        $("#prmStartPlacementDate").val("");
+        $("#prmTerminationPlacementDate").val("");
+        $("#prmStartCorrectionDate").val("");
+        $("#prmTerminationCorrectionDate").val("");
+        $("#prmStartConfirmDate").val("");
+        $("#prmTerminationConfirmDate").val("");
+        $("#prmStartReadyDate").val("");
+        $("#prmTerminationReadyDate").val("");
+        $("#prmStartReceiveDate").val("");
+        $("#prmTerminationReceiveDate").val("");
+        $("#Placement").data("kendoGrid").dataSource.read();
+        $("#Placement").data("kendoGrid").refresh();
+        return false;
+    }
+    function Search() {
+        $("#Placement").data("kendoGrid").dataSource.read();
+        $("#Placement").data("kendoGrid").refresh();
+        return false;
+    }
+    function getParameters() {
+        return {
+            placementId: $("#prmPlacementId").val(),
+            organizationId: $("#prmOrganizationId").val(),
+            placementBaseId: $("#prmPlacementBaseId").val(),
+            orderOrganizationId: $("#prmOrderOrganizationId").val(),
+            PlacementStatusId: $("#prmPlacementStatusId").val(),
+            startPlacementDate: $("#prmStartPlacementDate").val(),
+            terminationPlacementDate: $("#prmTerminationPlacementDate").val(),
+            startCorrectionDate: $("#prmStartCorrectionDate").val(),
+            terminationCorrectionDate: $("#prmTerminationCorrectionDate").val(),
+            startConfirmDate: $("#prmStartConfirmDate").val(),
+            terminationConfirmDate: $("#prmTerminationConfirmDate").val(),
+            startReadyDate: $("#prmStartReadyDate").val(),
+            terminationReadyDate: $("#prmTerminationReadyDate").val(),
+            startReceiveDate: $("#prmStartReceiveDate").val(),
+            terminationReceiveDate: $("#prmTerminationReceiveDate").val()
+        };
+    }
+
+    function onPlacementDetailExpand(e) {
+        currentPlacementIndex = $(e.masterRow).index(".k-master-row");
+        var selectedItem = this.dataItem(e.masterRow);
+        PID = selectedItem.PlacementId;
+        PSID = selectedItem.PlacementStatusId;
+        this.collapseRow(this.tbody.find(' > tr.k-master-row').not(e.masterRow));
+    }
+
+    function onPlacementItemDetailExpand(e) {
+        currentPlacementItemIndex = $(e.masterRow).index(".k-master-row");
+        var selectedItem = this.dataItem(e.masterRow);
+        PLITID = selectedItem.PlacementItemId;
+        this.collapseRow(this.tbody.find(' > tr.k-master-row').not(e.masterRow));
+    }
+
+</script>
+<div class="toolbar">
+    <button onclick="CorrectPlacement()" class="k-button">@Resources.General_Satisfy</button>
+    <button onclick="ReleasePlacement()" class="k-button">@Resources.Placement_SupplyStorage</button>
+    <button onclick="PlacementDetails()" class="k-button">@Resources.General_Details</button>
+</div>
+
+@*<div class="toolbar-fixed">
+    <button onclick="CorrectPlacement()" class="k-button">@Resources.General_Satisfy</button>
+    <button onclick="ReleasePlacement()" class="k-button">@Resources.Placement_SupplyStorage</button>
+    <button onclick="PlacementDetails()" class="k-button">@Resources.General_Details</button>
+</div>*@
+
+@(Html.Kendo().Grid<Medicaldrugstore.Models.PlacementDetails>()
+                        .Name("Placement")
+                        .Events(events => events.DetailExpand("onPlacementDetailExpand"))
+                        .Columns(columns =>
+                        {
+                            columns.Bound(model => model.PlacementId).Width(60);
+                            columns.Bound(model => model.OrganizationName);
+                            columns.Bound(model => model.PlacementStatusName);
+                            columns.Bound(model => model.PlacementDate).Width(142);
+                            columns.Bound(model => model.CorrectionDate).Width(145);
+                            columns.Bound(model => model.ConfirmDate).Width(140);
+                            columns.Bound(model => model.ReadyDate).Width(140);
+                            columns.Bound(model => model.ReleaseDate).Width(140);
+                            columns.Bound(model => model.ReceiveDate).Width(139);
+                        })
+                .Selectable(s => s.Mode(Kendo.Mvc.UI.GridSelectionMode.Single))
+                .Pageable()
+                .ClientDetailTemplateId("pitemplate")
+                .Scrollable()
+                .Sortable()
+                .Resizable(resize => resize.Columns(true))
+                .Reorderable(reorder => reorder.Columns(true))
+                //.HtmlAttributes(new { style = "height:620px;" })
+                .DataSource(dataSource => dataSource
+                .Ajax()
+                .Read(read => read.Action("ReadStoragePlacementDetails", "OrganizationPlacements").Data("getParameters"))
+                .PageSize(15)
+                .Sort(sort => sort.Add("PlacementId").Descending())
+                .Model(model => model.Id(p => p.PlacementId))
+)
+)
+
+@(Html.Kendo().Window().Name("wndCorrectPlacement")
+                .Width(300).Height(120)
+                .Draggable().Resizable()
+                .Content("").Modal(true)
+                .Actions(actions => actions.Pin().Close())
+                .Visible(false)
+                .Events(events => events
+                .Close("onPlacementClose").Open("onPlacementOpen").Refresh("onPlacementRefresh"))
+)
+
+@(Html.Kendo().Window().Name("wndReleasePlacement")
+                .Width(300).Height(120)
+                .Draggable().Resizable()
+                .Content("").Modal(true)
+                .Actions(actions => actions.Pin().Close())
+                .Visible(false)
+                .Events(events => events
+                .Close("onPlacementClose").Open("onPlacementOpen").Refresh("onPlacementRefresh"))
+)
+
+
+@(Html.Kendo().Window().Name("wndPlacementDetails")
+                .Width(800).Height(450)
+                .Draggable().Resizable()
+                .Content("").Modal(true)
+                .Actions(actions => actions.Pin().Close())
+                .Visible(false)
+                .Events(events => events
+                .Close("onPlacementClose").Open("onPlacementOpen").Refresh("onPlacementRefresh"))
+)
+
+
+<script>
+
+
+    function CorrectPlacement() {
+        var window = $("#wndCorrectPlacement").data("kendoWindow");
+        var grid = $("#Placement").data("kendoGrid");
+        var selectedItem = grid.dataItem(grid.select());
+        if (selectedItem == null) {
+            alert("@Resources.General_NotSelected");
+            return false;
+        }
+        if (selectedItem.PlacementStatusId != 1) {
+            alert("@Html.Raw(Resources.Placement_CorrectAlert)");
+            return false;
+        }
+        window.content("");
+        window.title("@Resources.General_PlacementSatisfy");
+        window.refresh({
+            url: "@Url.Action("CorrectPlacement", "StoragePlacements")" + "/" + selectedItem.PlacementId
+        });
+        window.center();
+        window.open();
+        return false;
+    }
+
+    function ReleasePlacement() {
+        var window = $("#wndReleasePlacement").data("kendoWindow");
+        var grid = $("#Placement").data("kendoGrid");
+        var selectedItem = grid.dataItem(grid.select());
+        if (selectedItem == null) {
+            alert("@Resources.General_NotSelected");
+            return false;
+        }
+        if (selectedItem.PlacementStatusId != 5) {
+            alert("@Html.Raw(Resources.Placement_ReleaseAlert)");
+            return false;
+        }
+        window.content("");
+        window.title("@Resources.Placement_SupplyStorageTitle");
+        window.refresh({
+            url: "@Url.Action("ReleasePlacement", "StoragePlacements")" + "/" + selectedItem.PlacementId
+        });
+        window.center();
+        window.open();
+        return false;
+    }
+
+    function PlacementDetails() {
+        var window = $("#wndPlacementDetails").data("kendoWindow");
+        var grid = $("#Placement").data("kendoGrid");
+        var selectedItem = grid.dataItem(grid.select());
+        if (selectedItem == null) {
+            alert("@Resources.General_NotSelected");
+            return false;
+        }
+        window.content("");
+        window.title("@Resources.Placement_Details_Title");
+        window.refresh({
+            url: "@Url.Action("PlacementDetails", "StoragePlacements")" + "/" + selectedItem.PlacementId
+        });
+        window.center();
+        window.open();
+        return false;
+    }
+
+    function onPlacementOpen(e) {
+        kendo.ui.progress(e.sender.element, true);
+    }
+    function onPlacementClose(e) {
+        $("#Placement").data("kendoGrid").dataSource.read();
+        $("#Placement").data("kendoGrid").refresh();
+    }
+
+    function onPlacementRefresh(e) {
+        kendo.ui.progress(e.sender.element, false);
+    }
+</script>
+
+
+
+<script id="pitemplate" type="text/kendo-tmpl">
+    @(Html.Kendo().TabStrip()
+          .Name("tabstrip_#=PlacementId#")
+          .SelectedIndex(0)
+          .Animation(animation => animation.Open(open => open.Fade(FadeDirection.In)))
+          .Items(items =>
+          {
+              items.Add().Text(Resources.General_NomenclatureQuantity).Content(@<text>
+            @(Html.Kendo().Grid<Medicaldrugstore.Models.PlacementItemDetails>()
+              .Name("Placement_#=PlacementId#")
+              .Events(events => events.DetailExpand("onPlacementItemDetailExpand"))
+              .Columns(columns =>
+              {
+                  columns.Bound(p => p.PlacementItemId).Hidden();
+                  columns.Bound(p => p.PlacementId).Hidden();
+                  columns.Bound(p => p.DrugClassName);
+                  columns.Bound(p => p.Quantity).Width(90).HtmlAttributes(new { style = "text-align: center" });
+                  columns.Bound(p => p.ItemQuantity).Width(135).HtmlAttributes(new { style = "text-align: center" });
+              })
+              .DataSource(dataSource => dataSource
+                  .Ajax()
+                  .PageSize(5)
+                  .Read(read => read.Action("ReadPlacementItemDetails", "OrganizationPlacements", new { id = "#=PlacementId#" }))
+                  .Model(model =>
+                  {
+                      model.Id(p => p.PlacementItemId);
+                  }
+                  )
+              )
+              .ClientDetailTemplateId("piptemplate")
+              .Scrollable()
+              .Pageable()
+              .Sortable()
+              .ToClientTemplate()
+            )
+            </text>
+                  );
+          })
+          .ToClientTemplate())
+</script>
+
+<script>
+
+</script>
+
+<script id="piptemplate" type="text/kendo-tmpl">
+    @(Html.Kendo().Grid<Medicaldrugstore.Models.PlacementItemProductDetails>()
+              .Name("PlacementItem_#=PlacementItemId#")
+              .Columns(columns =>
+              {
+                  columns.Bound(p => p.PlacementItemProductId).Hidden();
+                  columns.Bound(p => p.PlacementItemId).Hidden();
+                  columns.Bound(p => p.ProductName);
+                  columns.Bound(p => p.StorageName);
+                  columns.Bound(p => p.Quantity).Width(72).HtmlAttributes(new { style = "text-align: center" });
+                  columns.Bound(p => p.ItemQuantity).Width(135).HtmlAttributes(new { style = "text-align: center" });
+                  columns.Bound(p => p.UnitCost).Width(128).HtmlAttributes(new { style = "text-align: center" });
+                  columns.Bound(p => p.TotalCost).Width(135).HtmlAttributes(new { style = "text-align: center" });
+                  columns.Command(commands =>
+                  {
+                      commands.Custom("U#=PlacementItemId#").Text(" ").Click("UpdatePlacementItemProduct").HtmlAttributes(new { @class = "Update_Icon" });
+                      commands.Custom("D#=PlacementItemId#").Text(" ").Click("DestroyPlacementItemProduct").HtmlAttributes(new { @class = "Delete_Icon" });
+                  }).Title(Resources.General_Commands).Width(130);
+              })
+              .ToolBar(toolbar =>
+              {
+                  toolbar.Custom().Name("Create_#=PlacementItemId#").Text(Resources.General_NewRecord).HtmlAttributes(new { onclick = "return CreatePlacementItemProduct();" });
+              })
+              .DataSource(dataSource => dataSource
+                  .Ajax()
+                  .PageSize(5)
+                  .Read(read => read.Action("ReadPlacementItemProductDetails", "OrganizationPlacements", new { id = "#=PlacementItemId#" }))
+                  .Model(model =>
+                  {
+                      model.Id(p => p.PlacementItemProductId);
+                  }
+                  )
+              )
+              .Scrollable()
+              .Resizable(resize => resize.Columns(true))
+              .Reorderable(reorder => reorder.Columns(true))
+              .Pageable()
+              .Events(e => e.DataBound("onRowBound"))
+              .Sortable()
+              .ToClientTemplate()
+    )
+</script>
+
+@(Html.Kendo().Window().Name("wndPlacementItemProduct")
+                .Width(700).Height(230)
+                .Draggable().Resizable()
+                .Content("").Modal(true)
+                .Actions(actions => actions.Pin().Close())
+                .Visible(false)
+                .Events(events => events
+                .Close("onPlacementItemProductClose").Open("onPlacementItemProductOpen").Refresh("onPlacementItemProductRefresh"))
+)
+
+<script>
+
+    function CreatePlacementItemProduct() {
+        var window = $("#wndPlacementItemProduct").data("kendoWindow");
+        window.content("");
+        window.title("@Resources.General_NewRecord");
+        window.refresh({
+            url: '@Url.Action("PlacementItemProductTemplate", "StoragePlacements")?placementItemProductId=' + 0 + '&placementItemId=' + PLITID
+        });
+        window.center();
+        window.open();
+        return false;
+    }
+
+    function UpdatePlacementItemProduct(e) {
+        var row = $(e.target).closest("tr");
+        var gridName = "#PlacementItem_" + PLITID;
+        var grid = $(gridName).data("kendoGrid");
+        var dataItem = grid.dataItem(row);
+        var window = $("#wndPlacementItemProduct").data("kendoWindow");
+        window.content("");
+        window.title("@Resources.General_Edit");
+        window.refresh({
+            url: '@Url.Action("PlacementItemProductTemplate", "StoragePlacements")?placementItemProductId=' + dataItem.PlacementItemProductId + '&placementItemId=' + PLITID
+        });
+        window.center();
+        window.open();
+        return false;
+    }
+
+    function DestroyPlacementItemProduct(e) {
+
+        if (confirm('@Resources.General_Delete_Question')) {
+            var gridName = "#PlacementItem_" + PLITID;
+            var row = $(e.target).closest("tr");
+            var grid = $(gridName).data("kendoGrid");
+            var dataItem = grid.dataItem(row);
+            var placementItemProductId = dataItem.PlacementItemProductId;
+            var rt = false;
+            var dt;
+            var q = $.ajax({
+                url: '@Url.Action("DestroyPlacementItemProduct", "StoragePlacements")',
+                dataType: "json",
+                type: "GET",
+                data: { pipId: placementItemProductId },
+                async: false,
+                success: function (data) {
+                    dt = data;
+                    rt = true;
+                },
+                error: function (xhr) {
+                    dt = xhr;
+                    rt = false;
+                }
+            });
+            $(gridName).data("kendoGrid").dataSource.read();
+            $(gridName).data("kendoGrid").refresh();
+        } else {
+            // Do nothing!
+        }
+        return false;
+    }
+
+    function onPlacementItemProductOpen(e) {
+        kendo.ui.progress(e.sender.element, true);
+    }
+    function onPlacementItemProductClose(e) {
+        var gridName = "#PlacementItem_" + PLITID;
+        $(gridName).data("kendoGrid").dataSource.read();
+        $(gridName).data("kendoGrid").refresh();
+    }
+    function onPlacementItemProductRefresh(e) {
+        kendo.ui.progress(e.sender.element, false);
+    }
+</script>
+
+
+<script type="text/javascript">
+    $("#prmOrganizationId, #prmOrderOrganizationId, #prmPlacementStatusId, #prmPlacementBaseId").width(415).kendoComboBox();
+    $("#prmStartPlacementDate, #prmTerminationPlacementDate, #prmStartCorrectionDate, #prmTerminationCorrectionDate, #prmStartConfirmDate, #prmTerminationConfirmDate, #prmStartReadyDate, #prmTerminationReadyDate, #prmStartReceiveDate, #prmTerminationReceiveDate").width(200).DatePicker();
+</script>

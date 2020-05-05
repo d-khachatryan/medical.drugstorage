@@ -1,0 +1,14 @@
+﻿@{
+    Layout = null;
+}
+
+
+@(Html.Kendo().ComboBox()
+                    .Name("DrugClassId")
+                    .DataTextField("Text")
+                    .DataValueField("Value")
+                    .Filter(FilterType.StartsWith)
+                    .BindTo(ViewBag.vbDrugClasses)
+                    .HtmlAttributes(new { data_value_primitive = true})
+)
+

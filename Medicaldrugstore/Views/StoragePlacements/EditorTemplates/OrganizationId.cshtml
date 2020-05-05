@@ -1,0 +1,13 @@
+﻿@{
+    Layout = null;
+}
+
+
+@(Html.Kendo().ComboBox()
+                    .Name("OrganizationId")
+                    .DataTextField("Text")
+                    .DataValueField("Value")
+                    .Filter(FilterType.StartsWith)
+                    .BindTo(ViewBag.vbOrganizations)
+                    .HtmlAttributes(new { required = "required", data_required_msg = "Դաշտը պարտադիր է", data_value_primitive = true })
+)

@@ -1,0 +1,103 @@
+﻿@model Medicaldrugstore.Models.StorageTemplate
+
+@{
+    Layout = null;
+}
+
+@*@using (Html.BeginForm("SaveStorage", "Organizations", FormMethod.Post, new { id = "frmStorage" }))
+{*@
+<div id="OrganizationStorageTemplate" class="create-item">
+
+    @Html.HiddenFor(model => model.StorageId)
+    @Html.HiddenFor(model => model.OrganizationId)
+    <div class="form-group margin-5-0">
+        @Html.LabelFor(model => model.StorageCode, htmlAttributes: new { @class = "control-label col-sm-3 border-box align-right" })
+        <div class="col-sm-9 border-box">
+            @Html.Kendo().TextBoxFor(model => model.StorageCode)
+            @Html.ValidationMessageFor(model => model.StorageCode, "", new { @class = "text-danger" })
+        </div>
+    </div>
+    <div class="clear"></div>
+    <div class="form-group margin-5-0">
+        @Html.LabelFor(model => model.StorageName, htmlAttributes: new { @class = "control-label col-sm-3 border-box align-right" })
+        <div class="col-sm-9 border-box">
+            @Html.Kendo().TextBoxFor(model => model.StorageName)
+           @Html.ValidationMessageFor(model => model.StorageName, "", new { @class = "text-danger" })
+        </div>
+    </div>
+    <div class="clear"></div>
+
+    @*@Այստեղ պետք է ցուցադրվի սխալի հաղորդագրությունը:*@
+
+    <div class="form-group margin-10-0">
+        <div class="col-xs-3 border-box"></div>
+        <div class="col-xs-9 border-box align-right">
+            <button id="storageTemplateSave" class="k-button"><i class="glyphicon glyphicon-floppy-disk"></i> @Resources.General_Save</button>
+            <button id="storageTemplateCancel" class="k-button"><i class="glyphicon glyphicon-off"></i> @Resources.General_Close</button>
+        </div>
+    </div>
+    <div class="clear"></div>
+</div>
+@*}*@
+<script>
+    $(document).ready(function () {
+        $("#storageTemplateCancel")
+            .click(function () {
+                //if ($(this).closest(".k-window-content").data("kendoWindow"))
+                $(this).closest(".k-window-content").data("kendoWindow").close();
+                return false;
+            });
+        $("#storageTemplateSave")
+            .click(function (e) {
+                var errTmplt = '<div class="k-widget k-tooltip k-tooltip-validation" style="margin:0.5em; padding:3px 5px;"><span class="fa fa-exclamation-triangle"></span> #=message#<div class="k-callout k-callout-n"></div></div>';
+                var validator = $("#OrganizationStorageTemplate").kendoValidator({
+                    errorTemplate: errTmplt
+                }).data("kendoValidator");
+                if (!validator.validate()) {
+                    return false;
+                }
+
+                var item = new Object();
+                item.StorageId = '@Model.StorageId';
+                item.OrganizationId = '@Model.OrganizationId';
+                item.StorageCode = $("#StorageCode").val();
+                item.StorageName = $("#StorageName").val();
+
+                var rt = false;
+                var dt;
+                var q = $.ajax({
+                    url: '@Url.Action("SaveStorage", "Organizations")',
+                    dataType: "json",
+                    type: "POST",
+                    data: JSON.stringify({ storageTemplate: item }),
+                    contentType: "application/json; charset=utf-8",
+                    async: false,
+                    success: function (data) {
+                        dt = data;
+                        rt = true;
+                    },
+                    error: function (xhr) {
+                        dt = xhr;
+                        rt = false;
+                    }
+                });
+
+                if (rt == true) {
+                    if (dt.success != true) {
+                        /*Այստեղ իրականացվում է սերվերից վերադարձված սխալի ցուցադրման գործառույթը:
+                        Անհրաժեշտ է որ alert-ի փոխարեն կարմիր գույնով ցուցադրվի սխալը:
+                        Այդ սխալը պետք է տեղակայված լինի մուտքային վերջին դաշտի և հրահանգների արանքում:*/
+                        alert(JSON.stringify(dt.responseText));
+                    }
+                    else {
+                        $(this).closest(".k-window-content").data("kendoWindow").close();
+                    }
+                }
+                else {
+                    alert(JSON.stringify("Unknown error occured."));
+                }
+                return false;
+
+            });
+    });
+</script>

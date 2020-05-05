@@ -1,0 +1,174 @@
+﻿@model Medicaldrugstore.Models.PlacementItemProduct
+
+@{
+    Layout = null;
+}
+
+<script>
+    function onProductSelect(e) {
+        var dataItem = this.dataItem(e.item.index());
+        var selectedProductId = dataItem.Value;
+        var selectedPlacementItemId = '@Model.PlacementItemId';
+        var q = $.ajax({
+            url: '@Url.Action("CurrentCountInfo", "StoragePlacements")',
+            dataType: "json",
+            type: "GET",
+            data: { productId: selectedProductId, placementItemId: selectedPlacementItemId },
+            async: true,
+            success: function (data) {
+                dt = data.Data;
+                rt = true;
+                if (dt != null) {
+                    $("#CurrentStoreCount").html(dt[0].CurrentStoreCount);
+                    $("#CurrentRequestedCount").html(dt[0].CurrentRequestCount);
+                }
+            },
+            error: function (xhr) {
+                dt = xhr;
+                rt = false;
+            }
+        });
+    }
+</script>
+@using (Html.BeginForm("SavePlacementItemProduct", "StoragePlacements", FormMethod.Post, new { id = "frmPlacementProduct" }))
+{
+<div class="create-item">
+
+    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+    @Html.HiddenFor(model => model.PlacementItemProductId)
+    @Html.HiddenFor(model => model.PlacementItemId)
+
+    <div class="form-group margin-5-0 create-item">
+        @Html.LabelFor(model => model.ProductId, new { @class = "control-label col-sm-4 align-right" })
+        <div class="col-sm-6">
+            @(Html.Kendo().ComboBoxFor(model => model.ProductId)
+                .DataTextField("Text")
+                .DataValueField("Value")
+                .Filter(FilterType.StartsWith)
+                .Events(e =>
+                {
+                    e.Select("onProductSelect");
+                })
+                .BindTo(ViewBag.vbProducts)
+                .HtmlAttributes(new { data_value_primitive = true })
+            )
+            <br />
+            <span class="k-invalid-msg vldmsg" data-for="ProductId"></span>
+        </div>
+    </div>
+    <div class="clear"></div>
+    <div class="form-group margin-5-0">
+        @Html.Label("Պահեստում առկա քանակ", new { @class = "control-label col-sm-4 align-right" })
+        <div class="col-sm-6">
+            @Html.Label("-", new { id = "CurrentStoreCount", size = 10 })
+            <br />
+        </div>
+    </div>
+    <div class="clear"></div>
+    <div class="form-group margin-5-0">
+        @Html.Label("Ներկայումս պատվիրված քանակ", htmlAttributes: new { @class = "control-label col-sm-4 align-right" })
+        <div class="col-sm-6">
+            @Html.Label("-", new { id = "CurrentRequestedCount", size = 10 })
+            <br />
+        </div>
+    </div>
+    <div class="clear"></div>
+    <div class="form-group margin-5-0">
+        @Html.LabelFor(model => model.Quantity, htmlAttributes: new { @class = "control-label col-sm-4 align-right" })
+        <div class="col-sm-6">
+            @Html.EditorFor(model => model.Quantity, new { htmlAttributes = new { @class = "k-textbox" } })
+            <br />
+            @Html.ValidationMessageFor(model => model.Quantity, "", new { @class = "text-danger" })
+        </div>
+    </div>
+    <div class="clear"></div>
+    <div class="form-group margin-5-0">
+        @Html.LabelFor(model => model.StorageId, htmlAttributes: new { @class = "control-label col-sm-4 align-right" })
+        <div class="col-sm-6">
+            @(Html.Kendo().ComboBoxFor(model => model.StorageId)
+                .DataTextField("Text")
+                .DataValueField("Value")
+                .Filter(FilterType.StartsWith)
+                .BindTo(ViewBag.vbStorages)
+                .HtmlAttributes(new { data_value_primitive = true/*, style = "width:300px" */})
+            )
+            <br />
+            <span class="k-invalid-msg vldmsg" data-for="StorageId"></span>
+        </div>
+    </div>
+    <div class="clear"></div>
+    <div class="form-group margin-10-0">
+        <div class="col-xs-4"></div>
+        <div class="col-xs-6 align-right">
+            <button id="btnConfirmSave" class="k-button"><i class="glyphicon glyphicon-floppy-disk"></i> @Resources.General_Save</button>
+            <button id="btnConfirmCancel" class="k-button"><i class="glyphicon glyphicon-off"></i> @Resources.General_Close</button>
+        </div>
+    </div>
+    <div class="clear"></div>
+</div>
+}
+<script>
+    $(document).ready(function () {
+        $("#btnConfirmCancel")
+            .click(function () {
+                $(this).closest(".k-window-content").data("kendoWindow").close();
+                return false;
+            });
+        $("#btnConfirmSave")
+            .click(function (e) {
+
+                var ProductId = $("#ProductId").data("kendoComboBox").input; 
+                var StorageId = $("#StorageId").data("kendoComboBox").input;
+                var validator = $("#frmPlacementProduct").kendoValidator().data("kendoValidator");
+                if (!validator.validate()) {
+                    ProductId.addClass("k-invalid");
+                    StorageId.addClass("k-invalid");
+                    return false;
+                }
+
+                ProductId.removeClass("k-invalid");
+                StorageId.removeClass("k-invalid");
+
+                var item = new Object();
+                item.placementItemProductId = '@(Model.PlacementItemProductId)';
+                item.placementItemId = '@(Model.PlacementItemId)';
+                item.productId = document.getElementById("ProductId").value;
+                item.quantity = document.getElementById("Quantity").value;
+                item.storageId = document.getElementById("StorageId").value;
+
+                var rt = false;
+                var dt;
+                var q = $.ajax({
+                    url: '@Url.Action("SavePlacementItemProduct", "StoragePlacements")',
+                    dataType: "json",
+                    type: "POST",
+                    data: JSON.stringify({ placementItemProduct: item }),
+                    contentType: "application/json; charset=utf-8",
+                    async: false,
+                    success: function (data) {
+                        dt = data;
+                        rt = true;
+                    },
+                    error: function (xhr) {
+                        dt = xhr;
+                        rt = false;
+                    }
+                });
+                if (rt == true) {
+                    if (dt.success != true) {
+                        alert(JSON.stringify(dt.responseText));
+                        return false;
+                    }
+                    else {
+                        $(this).closest(".k-window-content").data("kendoWindow").close();
+                        return false;
+                    }
+                }
+                else {
+                    alert(JSON.stringify("Unknown error occured."));
+                    return false;
+                }
+
+            });
+    });
+</script>

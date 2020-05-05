@@ -1,0 +1,31 @@
+﻿@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <title>Telerik MVC HTML5 Report Viewer</title>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+    <script src="http://code.jquery.com/jquery-1.9.1.min.js"></script>
+    @Styles.Render(" ~/Content/kendo/2017.1.118/kendo.common.min.css")
+    @Styles.Render(" ~/Content/kendo/2017.1.118/kendo.blueopal.min.css")
+    <script src="@Url.Content("~/Scripts/kendo/2017.1.118/kendo.web.min.js")"></script>
+    <style>
+        #reportViewer1 {
+            position: relative;
+            width: 1300px;
+            height: 900px;
+            font-family: Verdana, Arial;
+            margin: 0 auto;
+        }
+    </style>
+    <script src="@Url.Content("~/ReportViewer/js/telerikReportViewer-11.0.17.222.min.js")"></script>
+</head>
+<body>
+    <div id="main">
+        @RenderBody()
+    </div>
+    </body>
+</html>

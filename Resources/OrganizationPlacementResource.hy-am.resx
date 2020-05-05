@@ -1,0 +1,273 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <!-- 
+    Microsoft ResX Schema 
+    
+    Version 2.0
+    
+    The primary goals of this format is to allow a simple XML format 
+    that is mostly human readable. The generation and parsing of the 
+    various data types are done through the TypeConverter classes 
+    associated with the data types.
+    
+    Example:
+    
+    ... ado.net/XML headers & schema ...
+    <resheader name="resmimetype">text/microsoft-resx</resheader>
+    <resheader name="version">2.0</resheader>
+    <resheader name="reader">System.Resources.ResXResourceReader, System.Windows.Forms, ...</resheader>
+    <resheader name="writer">System.Resources.ResXResourceWriter, System.Windows.Forms, ...</resheader>
+    <data name="Name1"><value>this is my long string</value><comment>this is a comment</comment></data>
+    <data name="Color1" type="System.Drawing.Color, System.Drawing">Blue</data>
+    <data name="Bitmap1" mimetype="application/x-microsoft.net.object.binary.base64">
+        <value>[base64 mime encoded serialized .NET Framework object]</value>
+    </data>
+    <data name="Icon1" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+        <value>[base64 mime encoded string representing a byte array form of the .NET Framework object]</value>
+        <comment>This is a comment</comment>
+    </data>
+                
+    There are any number of "resheader" rows that contain simple 
+    name/value pairs.
+    
+    Each data row contains a name, and value. The row also contains a 
+    type or mimetype. Type corresponds to a .NET class that support 
+    text/value conversion through the TypeConverter architecture. 
+    Classes that don't support this are serialized and stored with the 
+    mimetype set.
+    
+    The mimetype is used for serialized objects, and tells the 
+    ResXResourceReader how to depersist the object. This is currently not 
+    extensible. For a given mimetype the value must be set accordingly:
+    
+    Note - application/x-microsoft.net.object.binary.base64 is the format 
+    that the ResXResourceWriter will generate, however the reader can 
+    read any of the formats listed below.
+    
+    mimetype: application/x-microsoft.net.object.binary.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Binary.BinaryFormatter
+            : and then encoded with base64 encoding.
+    
+    mimetype: application/x-microsoft.net.object.soap.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Soap.SoapFormatter
+            : and then encoded with base64 encoding.
+
+    mimetype: application/x-microsoft.net.object.bytearray.base64
+    value   : The object must be serialized into a byte array 
+            : using a System.ComponentModel.TypeConverter
+            : and then encoded with base64 encoding.
+    -->
+  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
+    <xsd:element name="root" msdata:IsDataSet="true">
+      <xsd:complexType>
+        <xsd:choice maxOccurs="unbounded">
+          <xsd:element name="metadata">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" />
+              </xsd:sequence>
+              <xsd:attribute name="name" use="required" type="xsd:string" />
+              <xsd:attribute name="type" type="xsd:string" />
+              <xsd:attribute name="mimetype" type="xsd:string" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="assembly">
+            <xsd:complexType>
+              <xsd:attribute name="alias" type="xsd:string" />
+              <xsd:attribute name="name" type="xsd:string" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="data">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="resheader">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" />
+            </xsd:complexType>
+          </xsd:element>
+        </xsd:choice>
+      </xsd:complexType>
+    </xsd:element>
+  </xsd:schema>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <data name="Base" xml:space="preserve">
+    <value>Փաստաթղթի հիմք</value>
+  </data>
+  <data name="ConciliationDate" xml:space="preserve">
+    <value>Համաձայնեցման ա/թ</value>
+  </data>
+  <data name="Confirmation" xml:space="preserve">
+    <value>Պահանջագրի համաձայնեցում</value>
+  </data>
+  <data name="ConfirmationAlert" xml:space="preserve">
+    <value>«Համաձայնեցում» կարելի է տալ այն գրառմանը, որն ունի «Բավարարված» կարգավիճակ։</value>
+  </data>
+  <data name="CreateNew" xml:space="preserve">
+    <value>Նոր պահանջագիր</value>
+  </data>
+  <data name="DateErrorMessage" xml:space="preserve">
+    <value>Նախկին ամսաթիվը դատարկ է</value>
+  </data>
+  <data name="FeadyForDeliveryDate" xml:space="preserve">
+    <value>Առաքման պատրաստ ա/թ</value>
+  </data>
+  <data name="New" xml:space="preserve">
+    <value>Պահանջագրի մուտքագրում</value>
+  </data>
+  <data name="OrderOrganization" xml:space="preserve">
+    <value>Պատվիրող հիմնարկ</value>
+  </data>
+  <data name="Organization_Title" xml:space="preserve">
+    <value>Կազմակերպություններ</value>
+  </data>
+  <data name="Placement" xml:space="preserve">
+    <value>Պահանջագիր</value>
+  </data>
+  <data name="PlacementDate" xml:space="preserve">
+    <value>Ներկայացման ա/թ</value>
+  </data>
+  <data name="PlacementDetails_OrganizationCode" xml:space="preserve">
+    <value>Հիմնարկի կոդ</value>
+  </data>
+  <data name="Placement_BaseDate" xml:space="preserve">
+    <value>Փաստաթղիթ հիմքի ա/թ</value>
+  </data>
+  <data name="Placement_BaseText" xml:space="preserve">
+    <value>Հավելյալ</value>
+  </data>
+  <data name="Placement_ConfirmDate" xml:space="preserve">
+    <value>Համաձայնեցման ա/թ</value>
+  </data>
+  <data name="Placement_CorrectAlert" xml:space="preserve">
+    <value>«Բավարարել» կարելի է այն գրառումը, որն ունի «Ներկայացված» կարգավիճակ:</value>
+  </data>
+  <data name="Placement_CorrectedQuantity" xml:space="preserve">
+    <value>Ճշտված քանակ</value>
+  </data>
+  <data name="Placement_CorrectionDate" xml:space="preserve">
+    <value>Ճշտման ա/թ</value>
+  </data>
+  <data name="Placement_CreateDate" xml:space="preserve">
+    <value>Լրացման ա/թ</value>
+  </data>
+  <data name="Placement_Create_Title" xml:space="preserve">
+    <value>Ստեղծել պահանջագիր</value>
+  </data>
+  <data name="Placement_Delete_Title" xml:space="preserve">
+    <value>Հեռացնել պահանջագիրը</value>
+  </data>
+  <data name="Placement_Details_Title" xml:space="preserve">
+    <value>Պահանջագրի տվյալներ</value>
+  </data>
+  <data name="Placement_DrugId" xml:space="preserve">
+    <value>Անվանացանկ</value>
+  </data>
+  <data name="Placement_DrugName" xml:space="preserve">
+    <value>Դեղորայք</value>
+  </data>
+  <data name="Placement_Edit_Title" xml:space="preserve">
+    <value>Խմբագրել պահանջագիրը</value>
+  </data>
+  <data name="Placement_ExpirationDate" xml:space="preserve">
+    <value>Ժամկետ</value>
+  </data>
+  <data name="Placement_GettingReadyDate" xml:space="preserve">
+    <value>Ստացման պատրաստ ա/թ</value>
+  </data>
+  <data name="Placement_IsTransfer" xml:space="preserve">
+    <value>Կցված է</value>
+  </data>
+  <data name="Placement_ItemQuantity" xml:space="preserve">
+    <value>Քանակը տուփով</value>
+  </data>
+  <data name="Placement_OrderOrganizationCode" xml:space="preserve">
+    <value>Պատվիրող հիմնարկ կոդ</value>
+  </data>
+  <data name="Placement_OrganizationName" xml:space="preserve">
+    <value>Հիմնարկ</value>
+  </data>
+  <data name="Placement_Product" xml:space="preserve">
+    <value>Ապրանք</value>
+  </data>
+  <data name="Placement_Quantity" xml:space="preserve">
+    <value>Քանակ</value>
+  </data>
+  <data name="Placement_ReadyDate" xml:space="preserve">
+    <value>Առաքման պատրաստ ա/թ</value>
+  </data>
+  <data name="Placement_ReleaseAlert" xml:space="preserve">
+    <value>«Տարամադրել պահեստից» կարելի է այն գրառումը, որն ունի «Առաքման պատրաստ» կարգավիճակ:</value>
+  </data>
+  <data name="Placement_Seria" xml:space="preserve">
+    <value>Սերիա</value>
+  </data>
+  <data name="Placement_StorageOrganization" xml:space="preserve">
+    <value>Պահեստ</value>
+  </data>
+  <data name="Placement_StoreName" xml:space="preserve">
+    <value>Պահեստ</value>
+  </data>
+  <data name="Placement_SupplyStorage" xml:space="preserve">
+    <value>Տրամադրել պահեստից</value>
+  </data>
+  <data name="Placement_SupplyStorageTitle" xml:space="preserve">
+    <value>Պահեստից տրամադրում</value>
+  </data>
+  <data name="Placement_Title" xml:space="preserve">
+    <value>Պահանջագրեր</value>
+  </data>
+  <data name="Placement_UnitCost" xml:space="preserve">
+    <value>Միավորի արժեք</value>
+  </data>
+  <data name="ReceiveAlert" xml:space="preserve">
+    <value>«Մուտքագրում պահեստ» կարելի է տալ այն գրառմանը, որն ունի «Պահեստից ստացված» կարգավճակ:</value>
+  </data>
+  <data name="ReceiveDate" xml:space="preserve">
+    <value>Հիմնարկի պահեստի մուտքի ա/թ</value>
+  </data>
+  <data name="ReleaseDate" xml:space="preserve">
+    <value>Պահեստից ստացման ա/թ</value>
+  </data>
+  <data name="RepresentAlert" xml:space="preserve">
+    <value>Կարգավիճակ ունեցող գրառումը «Ներկայացնել» հնարավոր չէ:</value>
+  </data>
+  <data name="Representation" xml:space="preserve">
+    <value>Պահանջագրի ներկայացում</value>
+  </data>
+  <data name="SatisfactionDate" xml:space="preserve">
+    <value>Բավարարման ա/թ</value>
+  </data>
+  <data name="Search" xml:space="preserve">
+    <value>Պահանջագրերի որոնում</value>
+  </data>
+  <data name="StatusName" xml:space="preserve">
+    <value>Կարգավիճակ</value>
+  </data>
+</root>

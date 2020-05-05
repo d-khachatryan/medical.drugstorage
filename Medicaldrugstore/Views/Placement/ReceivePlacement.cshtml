@@ -1,0 +1,84 @@
+﻿@model Medicaldrugstore.Models.PlacementReception
+
+@{
+    Layout = null;
+}
+
+@using (Html.BeginForm("Receive", "Placement", FormMethod.Post, new { id = "frmReception" }))
+{
+<div class="create-item">
+    @Html.HiddenFor(model => model.PlacementId)
+    @Html.HiddenFor(model => model.ReleaseDate)
+    <div class="col-sm-12 border-box">
+        <div class="form-group">
+            @Html.LabelFor(model => model.ReceiveDate, htmlAttributes: new { @class = "control-label" })
+            @Html.Kendo().DatePickerFor(model => model.ReceiveDate).Min(@Model.ReleaseDate.ToString())
+            @*@Html.EditorFor(model => model.ReceiveDate, new { htmlAttributes = new { @class = "" } })*@
+            @Html.ValidationMessageFor(model => model.ReceiveDate, "", new { @class = "text-danger" })
+        </div>
+    </div>
+    <div class="clear"></div>
+    <div class="col-sm-12 border-box">
+        <div class="form-group margin-10-0 align-right">
+            <button id="btnReceiveSave" class="k-button"><i class="glyphicon glyphicon-floppy-disk"></i> @Resources.General_Save</button>
+            <button id="btnReceiveCancel" class="k-button"><i class="glyphicon glyphicon-off"></i> @Resources.General_Close</button>
+        </div>
+    </div>
+    <div class="clear"></div>
+</div>
+}
+
+<script>
+    $(document).ready(function () {
+        $("#btnReceiveCancel")
+            .click(function() {
+                $(this).closest(".k-window-content").data("kendoWindow").close();
+                return false;
+            });
+        $("#btnReceiveSave")
+            .click(function (e) {
+                var errTmplt = '<div class="k-widget k-tooltip k-tooltip-validation" style="margin:0.5em; padding:3px 5px;"><span class="fa fa-exclamation-triangle"></span> #=message#<div class="k-callout k-callout-n"></div></div>';
+                var validator = $("#frmReception").kendoValidator({
+                    errorTemplate: errTmplt
+                }).data("kendoValidator");
+                if (!validator.validate()) {
+                    return false;
+                }
+                var item = new Object();
+                item.PlacementId = '@Model.PlacementId';
+                item.ReceiveDate = document.getElementById("ReceiveDate").value;
+                var rt = false;
+                var dt;
+                var q=  $.ajax({
+                    url: '@Url.Action("Receive", "Placement")',
+                    dataType: "json",
+                    type: "POST",
+                    data: JSON.stringify({ placementReception: item }),
+                    contentType: "application/json; charset=utf-8",
+                    async: false,
+                    success: function (data) {
+                        dt = data;
+                        rt = true;
+                    },
+                    error: function (xhr) {
+                        dt = xhr;
+                        rt = false;
+                    }
+                });
+                if (rt == true) {
+                    if (dt.success != true) {
+                        alert(JSON.stringify(dt.responseText));
+                        return false;
+                    }
+                    else {
+                        $(this).closest(".k-window-content").data("kendoWindow").close();
+                        return false;
+                    }
+                }
+                else {
+                    alert(JSON.stringify("Unknown error occured."));
+                    return false;
+                }
+            });
+    });
+</script>

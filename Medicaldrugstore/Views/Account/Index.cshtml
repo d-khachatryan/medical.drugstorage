@@ -1,0 +1,477 @@
+﻿@model IEnumerable<Medicaldrugstore.Models.ApplicationUser>
+
+@{
+    ViewBag.Title = "Գործարկողներ";
+}
+
+<script type="text/javascript">
+    $(document)
+        .ready(function () {
+            currentUserIndex = -1;
+        });
+
+</script>
+<div class="clear"></div>
+<div class="for-Toolbar">
+    @(Html.Kendo().ToolBar()
+    .Name("ToolBar")
+    .Items(items =>
+    {
+        items.Add().Type(CommandType.Button).Togglable(false).Text("Նոր Գրառում").Id("btnInsert").Click("CreateUser");
+    })
+    )
+    @* Search Panel - Right Slide *@
+    @*<div class="right-slidePanel">
+            <div class="slidePanel-Content">
+                <div class="slidePanel-btn">
+                </div>
+                <div class="slidePanel-Content-fields create-item">
+                    <h4>@Resources.General_Search</h4>
+                    <div class="form-group margin-5-0">
+
+                    </div>
+                    <div class="form-group margin-5-0">
+
+                    </div>
+
+                    <div class="form-group btns align-right">
+                        <button type="submit" id="rtSearch" class="k-button" onclick="return Search();"><i class="glyphicon glyphicon-search"></i> @Resources.General_Search</button>
+                        <button type="submit" class="k-button" onclick="return Clear();"><i class="glyphicon glyphicon-minus"></i> @Resources.General_Clean</button>
+                    </div>
+                </div>
+            </div>
+        </div>*@
+</div>
+
+
+@(Html.Kendo().Grid<Medicaldrugstore.Models.ApplicationUser>()
+      .Name("User")
+      .Events(events => events.DataBound("onUserDataBound").DetailExpand("onUserDetailExpand"))
+      .Columns(columns =>
+      {
+          columns.Bound(model => model.Id).Hidden();
+          columns.Bound(model => model.UserName).Title(rsUser.UserName);
+          columns.Bound(model => model.FirstName);
+          columns.Bound(model => model.LastName);
+          columns.Bound(model => model.PositionName);
+          columns.Bound(model => model.Email).Title(rsUser.Email);
+          columns.Command(commands =>
+          {
+              commands.Custom("cmdUpdateUser").Text(" ").Click("UpdateUser").HtmlAttributes(new { @class = "Update_Icon" });
+              commands.Custom("cmdDeleteUser").Text(" ").Click("DeleteUser").HtmlAttributes(new { @class = "Delete_Icon" });
+          }).Title("Հրահանգներ").Width(130);
+      })
+
+      .Selectable(s => s.Mode(GridSelectionMode.Single))
+      .Pageable()
+      .Filterable()
+      .Scrollable()
+      .Sortable()
+      //.HtmlAttributes(new { style = "height:620px;" })
+      .ClientDetailTemplateId("template")
+      .Resizable(resize => resize.Columns(true))
+      .Reorderable(reorder => reorder.Columns(true))
+      .DataSource(dataSource => dataSource
+          .Ajax()
+          .Read(read => read.Action("ReadUsers", "Account"))
+          .PageSize(15)
+          .Sort(sort => sort.Add("UserName").Descending())
+          .Model(model =>
+          {
+              model.Id(p => p.Id);
+              model.Id(p => p.UserName);
+          }
+          )
+)
+)
+
+@(Html.Kendo().Window().Name("wUser")
+              .Width(600)
+              .Height(300)
+              .Draggable().Resizable()
+              .Content("").Modal(true).Actions(actions => actions.Pin().Close())
+              .Visible(false).Events(events => events
+              .Close("onCloseUser")
+              .Open("onOpenUser")
+              .Refresh("onRefreshUser"))
+)
+
+@(Html.Kendo().Window().Name("wUserUpdate")
+              .Width(600)
+              .Height(240)
+              .Draggable().Resizable()
+              .Content("").Modal(true).Actions(actions => actions.Pin().Close())
+              .Visible(false).Events(events => events
+              .Close("onCloseUser")
+              .Open("onOpenUser")
+              .Refresh("onRefreshUser"))
+)
+
+<script>
+
+    function onUserDataBound(e) {
+        showCommandIcons();
+        if (currentUserIndex != -1) {
+            var row = $(this.tbody).find("tr.k-master-row:eq(" + currentUserIndex + ")");
+            this.expandRow(row);
+        }
+    }
+
+    function onUserDetailExpand(e) {
+        currentUserIndex = $(e.masterRow).index(".k-master-row");
+        var selectedItem = this.dataItem(e.masterRow);
+        UID = selectedItem.Id;
+        this.collapseRow(this.tbody.find(' > tr.k-master-row').not(e.masterRow));
+    }
+
+    function CreateUser() {
+        var window = $("#wUser").data("kendoWindow");
+        window.content("");
+        window.title("Նոր գրառում");
+        window.refresh({
+            url: "@Url.Action("CreateUser", "Account")"
+        });
+        window.center();
+        window.open();
+        return false;
+    }
+
+    function UpdateUser(e) {
+        var row = $(e.target).closest("tr");
+        var grid = $("#User").data("kendoGrid");
+        var dataItem = grid.dataItem(row);
+        var window = $("#wUserUpdate").data("kendoWindow");
+        window.content("");
+        window.title("Նոր գրառում");
+        window.refresh({
+            url: "@Url.Action("UpdateUser", "Account")" + "/" + dataItem.Id
+        });
+        window.center();
+        window.open();
+        return false;
+    }
+
+    function DeleteUser(e) {
+        var row = $(e.target).closest("tr");
+        var grid = $("#User").data("kendoGrid");
+        var dataItem = grid.dataItem(row);
+        var r = confirm("Ցանկանում էք հեռացնել գրառումը՞:");
+        if (r == false) {
+            return false;
+        }
+        var rt = false;
+        var dt;
+        var q = $.ajax({
+            url: '@Url.Action("Delete", "Account")',
+            dataType: "json",
+            type: "GET",
+            data: {
+                id: dataItem.Id
+            },
+            async: false,
+            success: function (data) {
+                dt = data;
+                rt = true;
+            },
+            error: function (xhr) {
+                dt = xhr;
+                rt = false;
+            }
+        });
+
+        if (rt == true) {
+            if (dt.success != true) {
+                alert(JSON.stringify(dt.responseText));
+            }
+            else {
+                $("#User").data("kendoGrid").dataSource.read();
+            }
+        }
+        else {
+            alert(JSON.stringify("Unknown error occured."));
+        }
+        return false;
+    }
+
+    function onOpenUser(e) {
+        kendo.ui.progress(e.sender.element, true);
+    }
+    function onCloseUser(e) {
+        $("#User").data("kendoGrid").dataSource.read();
+        $(".k-overlay").css("display", "none");
+    }
+    function onRefreshUser(e) {
+        kendo.ui.progress(e.sender.element, false);
+    }
+
+</script>
+
+<script id="template" type="text/kendo-tmpl">
+    @(Html.Kendo().TabStrip()
+              .Name("tabStrip_#=Id#")
+              .SelectedIndex(0)
+              .Animation(animation => animation.Open(open => open.Fade(FadeDirection.In)))
+              .Items(items =>
+              {
+              items.Add().Text("Դերեր").Content(@<text>
+        @(Html.Kendo().Grid<Medicaldrugstore.Models.UserRoleItem>()
+                  .Name("UserRole_#=Id#")
+                  .Events(e => e.DataBound("showCommandIcons"))
+                  .Columns(columns =>
+                  {
+                      columns.Bound(model => model.UserId).Hidden();
+                      columns.Bound(model => model.RoleId).Hidden();
+                      columns.Bound(model => model.Name);
+                      columns.Command(commands =>
+                      {
+                          commands.Custom("DeleteRole_#=Id#").Text(" ").Click("DeleteUserRole").HtmlAttributes(new { @class = "Remove_Icon" });
+                      }).Title("Հրահանգներ").Width(130).HtmlAttributes(new { style = "text-align: center" });
+                  })
+                      .ToolBar(toolbar =>
+                      {
+                          toolbar.Custom().Name("CreateRole_#=Id#").Text("Նոր գրառում").HtmlAttributes(new { onclick = "return CreateUserRole();" });
+                      })
+                      .DataSource(dataSource => dataSource
+                          .Ajax()
+                          .PageSize(5)
+                          .Read(read => read.Action("ReadUserRoles", "Account", new { id = "#=Id#" }))
+                          .Model(model =>
+                          {
+                              model.Id(p => p.UserId);
+                              model.Id(p => p.RoleId);
+                          }
+                          )
+                      )
+                      .Scrollable()
+                      .Resizable(resize => resize.Columns(true))
+                      .Reorderable(reorder => reorder.Columns(true))
+                      .Pageable()
+                      .Sortable()
+                      .ToClientTemplate()
+        )
+            </text>);
+              items.Add().Text("Կազմակերպություններ").Content(@<text>
+        @(Html.Kendo().Grid<Medicaldrugstore.Models.UserOrganizationItem>()
+              .Name("UserOrganization_#=Id#")
+              .Events(e => e.DataBound("showCommandIcons"))
+              .Columns(columns =>
+              {
+                  columns.Bound(model => model.UserOrganizationId).Hidden();
+                  columns.Bound(model => model.Id).Hidden();
+                  columns.Bound(model => model.OrganizationId).Hidden();
+                  columns.Bound(model => model.OrganizationCode).Width(80);
+                  columns.Bound(model => model.OrganizationName).Width(163);
+                  columns.Bound(o => o.Psm01).ClientTemplate("<input type='checkbox' \\#= Psm01 ? checked='checked' :'' \\# />").HtmlAttributes(new { style = "text-align: center" });
+                  columns.Bound(o => o.Psm02).ClientTemplate("<input type='checkbox' \\#= Psm02 ? checked='checked' :'' \\# />").HtmlAttributes(new { style = "text-align: center" });
+                  columns.Bound(o => o.Psm03).ClientTemplate("<input type='checkbox' \\#= Psm03 ? checked='checked' :'' \\# />").HtmlAttributes(new { style = "text-align: center" });
+                  columns.Bound(o => o.Psm04).ClientTemplate("<input type='checkbox' \\#= Psm04 ? checked='checked' :'' \\# />").HtmlAttributes(new { style = "text-align: center" });
+                  columns.Bound(o => o.Psm05).ClientTemplate("<input type='checkbox' \\#= Psm05 ? checked='checked' :'' \\# />").HtmlAttributes(new { style = "text-align: center" });
+                  columns.Bound(o => o.Psm06).ClientTemplate("<input type='checkbox' \\#= Psm06 ? checked='checked' :'' \\# />").HtmlAttributes(new { style = "text-align: center" });
+                  columns.Bound(o => o.Psm07).ClientTemplate("<input type='checkbox' \\#= Psm07 ? checked='checked' :'' \\# />").HtmlAttributes(new { style = "text-align: center" });
+                  columns.Bound(o => o.Psm08).ClientTemplate("<input type='checkbox' \\#= Psm08 ? checked='checked' :'' \\# />").HtmlAttributes(new { style = "text-align: center" });
+                  columns.Bound(o => o.Psm09).ClientTemplate("<input type='checkbox' \\#= Psm09 ? checked='checked' :'' \\# />").HtmlAttributes(new { style = "text-align: center" });
+                  columns.Bound(o => o.Psm10).ClientTemplate("<input type='checkbox' \\#= Psm10 ? checked='checked' :'' \\# />").HtmlAttributes(new { style = "text-align: center" });
+                  columns.Command(commands =>
+                  {
+                      commands.Custom("UpdateUserOrganization_#=Id#").Text(" ").Click("UpdateUserOrganization").HtmlAttributes(new { @class = "Update_Icon" });
+                      commands.Custom("DeleteUserOrganization_#=Id#").Text(" ").Click("DeleteUserOrganization").HtmlAttributes(new { @class = "Delete_Icon" });
+                  }).Title("Հրահանգներ").Width(130).HtmlAttributes(new { style = "text-align: center" });
+              })
+                  .ToolBar(toolbar =>
+                  {
+                      toolbar.Custom().Name("CreateUserOrganization_#=Id#").Text("Նոր գրառում").HtmlAttributes(new { onclick = "return CreateUserOrganization();" });
+                  })
+                  .DataSource(dataSource => dataSource
+                      .Ajax()
+                      .PageSize(5)
+                      .Read(read => read.Action("ReadUserOrganizations", "Account", new { id = "#=Id#" }))
+                      .Model(model =>
+                      {
+                          model.Id(p => p.UserOrganizationId);
+                      }
+                      )
+                  )
+                  .Scrollable()
+                  .Resizable(resize => resize.Columns(true))
+                  .Reorderable(reorder => reorder.Columns(true))
+                  .Pageable()
+                  .Sortable()
+                  .ToClientTemplate()
+        )
+            </text>);
+              })
+                .ToClientTemplate())
+</script>
+
+@(Html.Kendo().Window().Name("wUserRole")
+                  .Width(400).Height(100).Draggable().Resizable()
+                  .Content("").Modal(true).Actions(actions => actions.Pin().Close())
+                  .Visible(false).Events(events => events
+                  .Close("onCloseUserRole")
+                  .Open("onOpenUserRole")
+                  .Refresh("onRefreshUserRole"))
+)
+
+<script>
+    function CreateUserRole() {
+        //alert();
+        var window = $("#wUserRole").data("kendoWindow");
+        window.content("");
+        window.title("Դերեր");
+        window.refresh({
+            url: "@Url.Action("UserRoleTemplate", "Account")" + "/" + UID
+        });
+        window.center();
+        window.open();
+        return false;
+    }
+
+    function DeleteUserRole(e) {
+        var row = $(e.target).closest("tr");
+        var gridName = "#UserRole_" + UID;
+        var grid = $(gridName).data("kendoGrid");
+        var dataItem = grid.dataItem(row);
+        var r = confirm("Ցանկանում էք հեռացնել գրառումը՞:");
+        if (r == false) {
+            return false;
+        }
+        var rt = false;
+        var dt;
+        var q = $.ajax({
+            url: '@Url.Action("DeleteUserRole", "Account")',
+            dataType: "json",
+            type: "GET",
+            data: {
+                userId: dataItem.UserId,
+                roleName: dataItem.Name
+            },
+            async: false,
+            success: function (data) {
+                dt = data;
+                rt = true;
+            },
+            error: function (xhr) {
+                dt = xhr;
+                rt = false;
+            }
+        });
+
+        if (rt == true) {
+            if (dt.success != true) {
+                alert(JSON.stringify(dt.responseText));
+            }
+            else {
+                $("#UserRole_" + UID).data("kendoGrid").dataSource.read();
+            }
+        }
+        else {
+            alert(JSON.stringify("Unknown error occured."));
+        }
+        return false;
+
+    }
+    function onOpenUserRole(e) {
+        kendo.ui.progress(e.sender.element, true);
+
+    } function onCloseUserRole(e) {
+        $("#UserRole_" + UID).data("kendoGrid").dataSource.read();
+        $(".k-overlay").css("display", "none");
+    }
+    function onRefreshUserRole(e) {
+        kendo.ui.progress(e.sender.element, false);
+    }
+</script>
+
+@(Html.Kendo().Window().Name("wUserOrganization")
+                  .Width(600)
+                  .Height(450)
+                  .Draggable().Resizable()
+                  .Content("").Modal(true).Actions(actions => actions.Pin().Close())
+                  .Visible(false).Events(events => events
+                  .Close("onCloseUserOrganization")
+                  .Open("onOpenUserOrganization")
+                  .Refresh("onRefreshUserOrganization"))
+)
+
+<script>
+    function CreateUserOrganization() {
+        var window = $("#wUserOrganization").data("kendoWindow");
+        window.content("");
+        window.title("Կազմակերպություններ");
+        window.refresh({
+            url: "@Url.Action("CreateUserOrganization", "Account")" + "/" + UID
+        });
+        window.center();
+        window.open();
+        return false;
+    }
+
+    function UpdateUserOrganization(e) {
+        var row = $(e.target).closest("tr");
+        var gridName = "#UserOrganization_" + UID;
+        var grid = $(gridName).data("kendoGrid");
+        var dataItem = grid.dataItem(row);
+        var window = $("#wUserOrganization").data("kendoWindow");
+        window.content("");
+        window.title("Խմբագրել");
+        window.refresh({
+            url: "@Url.Action("UpdateUserOrganization", "Account")" + "/" + dataItem.UserOrganizationId
+        });
+        window.center();
+        window.open();
+        return false;
+    }
+
+    function DeleteUserOrganization(e) {
+        var row = $(e.target).closest("tr");
+        var gridName = "#UserOrganization_" + UID;
+        var grid = $(gridName).data("kendoGrid");
+        var dataItem = grid.dataItem(row);
+        var r = confirm("Ցանկանում էք հեռացնել գրառումը՞:");
+        if (r == false) {
+            return false;
+        }
+        var rt = false;
+        var dt;
+        var q = $.ajax({
+            url: '@Url.Action("DeleteUserOrganization", "Account")',
+            dataType: "json",
+            type: "GET",
+            data: {
+                id: dataItem.UserOrganizationId
+            },
+            async: false,
+            success: function (data) {
+                dt = data;
+                rt = true;
+            },
+            error: function (xhr) {
+                dt = xhr;
+                rt = false;
+            }
+        });
+
+        if (rt == true) {
+            if (dt.success != true) {
+                alert(JSON.stringify(dt.responseText));
+            }
+            else {
+                $("#UserOrganization_" + UID).data("kendoGrid").dataSource.read();
+            }
+        }
+        else {
+            alert(JSON.stringify("Unknown error occured."));
+        }
+        return false;
+    }
+    function onOpenUserOrganization(e) {
+        kendo.ui.progress(e.sender.element, true);
+
+    } function onCloseUserOrganization(e) {
+        $("#UserOrganization_" + UID).data("kendoGrid").dataSource.read();
+        $(".k-overlay").css("display", "none");
+    }
+    function onRefreshUserOrganization(e) {
+        kendo.ui.progress(e.sender.element, false);
+    }
+</script>

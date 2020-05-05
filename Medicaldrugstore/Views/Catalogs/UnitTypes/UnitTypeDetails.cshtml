@@ -1,0 +1,19 @@
+﻿@model Medicaldrugstore.Models.UnitType
+
+@{
+    Layout = null;
+}
+
+<div>
+    <table class="table table-striped details">
+        <tr>
+            <td class="col-xs-6">@Html.DisplayNameFor(model => model.UnitTypeCode)</td>
+            <td class="bold col-xs-6">@Html.DisplayFor(model => model.UnitTypeCode)</td>
+        </tr>
+        <tr>
+            <td class="col-xs-6">@Html.DisplayNameFor(model => model.UnitTypeName)</td>
+            <td class="col-xs-6">@Html.DisplayFor(model => model.UnitTypeName)</td>
+        </tr>
+    </table>
+</div>
+

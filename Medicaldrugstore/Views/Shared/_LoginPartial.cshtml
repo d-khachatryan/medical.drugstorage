@@ -1,0 +1,67 @@
+﻿@using Microsoft.AspNet.Identity
+@if (Request.IsAuthenticated)
+{
+    <a href="javascript:;" class="user-profile dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
+        <img src="~/Images/Icons/user.png" alt="">@User.Identity.GetUserName()
+        <span class="fa fa-angle-down"></span>
+    </a>
+    <ul class="dropdown-menu dropdown-usermenu pull-right">
+        @using (Html.BeginForm("LogOff", "Account", FormMethod.Post, new { id = "logoutForm" }))
+        {
+            @Html.AntiForgeryToken()
+            <li>
+                <a href="@Url.Action("ChangePassword", "Account", new { title = "Manage" })">
+                    <i class="fa fa-cogs pull-right"></i> Ծածկագրի փոփոխություն
+                </a>
+            </li>
+            <li>
+                <a href="javascript:document.getElementById('logoutForm').submit()">
+                    <i class="fa fa-sign-out pull-right"></i> @Resources.Layout_Login_LogOff
+                </a>
+            </li>
+        }
+    </ul>
+
+}
+else
+{
+    <a href="@Url.Action("Login", "Account", new { id = "loginLink" })"><i class="fa fa-sign-in"></i> @Resources.Layout_Login_LogIn</a>
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+@*<ul class="nav navbar-nav navbar-right login">
+
+    @if (Request.IsAuthenticated)
+    {
+        {
+            <li>
+                @using (Html.BeginForm("LogOff", "Account", FormMethod.Post, new {id = "logoutForm"}))
+                {
+                    @Html.AntiForgeryToken()
+                    <a href="@Url.Action("Index", "Manage", new { title = "Manage" })"><i class="glyphicon glyphicon-user"></i> @User.Identity.GetUserName()</a>
+                    @Html.ActionLink("Hello " + User.Identity.GetUserName() + "!", "Index", "Manage", routeValues: null, htmlAttributes: new { title = "Manage" })
+                    <a href="javascript:document.getElementById('logoutForm').submit()" class="logoff"><i class="glyphicon glyphicon-log-out"></i> @Resources.Layout_Login_LogOff</a>
+                }
+            </li>
+        }
+    }
+    else
+    {
+        <li>
+            
+        </li>
+    }
+
+</ul>*@

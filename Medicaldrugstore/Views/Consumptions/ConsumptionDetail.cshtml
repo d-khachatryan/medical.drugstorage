@@ -1,0 +1,62 @@
+﻿@model Medicaldrugstore.Models.ConsumptionDetail
+
+@{
+    Layout = null;
+}
+
+
+
+<div id="content">
+    <table class="table table-striped details">
+        <tr>
+            <td class="col-xs-6">@Html.DisplayNameFor(model => model.OrganizationName)</td>
+            <td class="bold col-xs-6">@Html.DisplayFor(model => model.OrganizationName)</td>
+        </tr>
+        <tr>
+            <td class="col-xs-6">@Html.DisplayNameFor(model => model.ConsumptionDate)</td>
+            <td class="col-xs-6">@Html.DisplayFor(model => model.ConsumptionDate)</td>
+        </tr>
+        <tr>
+            <td class="col-xs-6">@Html.DisplayNameFor(model => model.TerminationDate)</td>
+            <td class="col-xs-6">@Html.DisplayFor(model => model.TerminationDate)</td>
+        </tr>
+        <tr>
+            <td class="col-xs-6">@Html.DisplayNameFor(model => model.OrganizationName)</td>
+            <td class="col-xs-6">@Html.DisplayFor(model => model.OrganizationName)</td>
+        </tr>
+        <tr>
+            <td class="col-xs-6">@Html.DisplayNameFor(model => model.ConsumptionStatusName)</td>
+            <td class="col-xs-6">@Html.DisplayFor(model => model.ConsumptionStatusName)</td>
+        </tr>
+    </table>
+</div>
+
+
+<div class="form-group col-sm-12 border-box margin-10-0 align-right">
+    <button id="consumptionDetailExport" class="k-button"><i class="glyphicon glyphicon-download-alt"></i> Արտահանել</button>
+</div>
+
+<script>
+    $(document).ready(function () {
+        $("#consumptionDetailExport")
+            .click(function () {
+                var draw = kendo.drawing;
+                draw.drawDOM($("#content"), {
+                    avoidLinks: true,
+                    paperSize: "A4"
+                })
+                .then(function (root) {
+                    return draw.exportPDF(root);
+                })
+                .done(function (data) {
+                    kendo.saveAs({
+                        dataURI: data,
+                        fileName: '@Model.ConsumptionId'
+                    });
+                    return false;
+                });
+            });
+    }
+)
+</script>
+

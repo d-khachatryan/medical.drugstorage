@@ -1,0 +1,170 @@
+﻿@model Medicaldrugstore.Models.JunkConsumptionTemplate
+
+
+@{
+    Layout = null;
+}
+
+@*@using (Html.BeginForm("SaveJunkConsumption", "JunkConsumptions", FormMethod.Post, new { id = "frmJunkConsumption" }))
+{*@
+    <div class="container-full create-item" id="frmJunkConsumption">
+
+        @Html.HiddenFor(model => model.JunkConsumptionId)
+
+        <div class="form-group margin-5-0">
+            @Html.LabelFor(model => model.JunkConsumptionDate, new { @class = "control-label col-sm-4 border-box align-right" })
+            <div class="col-sm-8 border-box">
+                @Html.EditorFor(model => model.JunkConsumptionDate, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.JunkConsumptionDate, null, new { @class = "text-danger" })
+            </div>
+        </div>
+        <div class="clear"></div>
+        <div class="form-group margin-5-0">
+            @Html.LabelFor(model => model.OrganizationId, htmlAttributes: new { @class = "control-label col-sm-4 border-box align-right" })
+            <div class="col-sm-8 border-box">
+                @(Html.Kendo().ComboBoxFor(model => model.OrganizationId)
+                 .DataTextField("OrganizationName")
+                 .DataValueField("OrganizationId")
+                 .Placeholder("Select category...")
+                 .Filter(FilterType.StartsWith)
+                 .DataSource(source =>
+                 {
+                     source.Read(read =>
+                     {
+                         read.Action("GetOrganizations", "JunkConsumptions");
+                     });
+                 })
+                  .HtmlAttributes(new { data_value_primitive = true })
+                )
+                @Html.ValidationMessageFor(model => model.OrganizationId, null, new { @class = "text-danger" })
+            </div>
+        </div>
+        <div class="clear"></div>
+        <div class="form-group margin-5-0">
+            @Html.LabelFor(model => model.ProductId, htmlAttributes: new { @class = "control-label col-sm-4 border-box align-right" })
+            <div class="col-sm-8 border-box">
+                @(Html.Kendo().ComboBoxFor(model => model.ProductId)
+                .DataTextField("ProductName")
+                .DataValueField("ProductId")
+                .Placeholder("Select category...")
+                .Filter(FilterType.StartsWith)
+                .DataSource(source =>
+                  {
+                      source.Read(read =>
+                      {
+                          read.Action("GetProducts", "JunkConsumptions");
+                      });
+                  })
+                 .HtmlAttributes(new { data_value_primitive = true })
+                )
+               @Html.ValidationMessageFor(model => model.ProductId, null, new { @class = "text-danger" })
+            </div>
+        </div>
+        <div class="clear"></div>
+        <div class="form-group margin-5-0">
+            @Html.LabelFor(model => model.Quantity, htmlAttributes: new { @class = "control-label col-sm-4 border-box align-right" })
+            <div class="col-sm-8 border-box">
+                @Html.Kendo().IntegerTextBoxFor(model => model.Quantity)
+                @Html.ValidationMessageFor(model => model.Quantity, "", new { @class = "text-danger" })
+            </div>
+        </div>
+        <div class="clear"></div>
+        <div class="form-group margin-5-0">
+            @Html.LabelFor(model => model.JunkBaseId, htmlAttributes: new { @class = "control-label col-sm-4 border-box align-right" })
+            <div class="col-sm-8 border-box">
+                @(Html.Kendo().ComboBoxFor(model => model.JunkBaseId)
+                .DataTextField("JunkBaseName")
+                .DataValueField("JunkBaseId")
+                .Placeholder("Select category...")
+                .Filter(FilterType.StartsWith)
+                .DataSource(source =>
+                {
+                    source.Read(read =>
+                    {
+                        read.Action("GetJunkBases", "JunkConsumptions");
+
+                    });
+                })
+                .HtmlAttributes(new { data_value_primitive = true })
+                )
+                @Html.ValidationMessageFor(model => model.JunkBaseId, "", new { @class = "text-danger" })
+            </div>
+        </div>
+        <div class="clear"></div>
+
+        @*@Այստեղ պետք է ցուցադրվի սխալի հաղորդագրությունը:*@
+        <div class="form-group margin-10-0">
+            <div class="col-sm-7 border-box">
+                <span id="errormssg"></span>
+            </div>
+            <div class="col-sm-5 border-box align-right">
+                <button id="junkConsumptionTemplateSave" class="k-button"><i class="glyphicon glyphicon-floppy-disk"></i> @Resources.General_Save</button>
+                <button id="junkConsumptionTemplateCancel" class="k-button"><i class="glyphicon glyphicon-off"></i> @Resources.General_Close</button>
+            </div>
+        </div>
+    </div>
+@*}*@
+<script>
+    $(document).ready(function () {
+        $("#junkConsumptionTemplateCancel")
+            .click(function () {
+                $(this).closest(".k-window-content").data("kendoWindow").close();
+                return false;
+            });
+        $("#junkConsumptionTemplateSave")
+            .click(function (e) {
+                var errTmplt = '<div class="k-widget k-tooltip k-tooltip-validation" style="margin:0.5em; padding:3px 5px;"><span class="fa fa-exclamation-triangle"></span> #=message#<div class="k-callout k-callout-n"></div></div>';
+                var validator = $("#frmJunkConsumption").kendoValidator({
+                    errorTemplate: errTmplt
+                }).data("kendoValidator");
+                if (!validator.validate()) {
+                    //$("#errormssg").html("<span class='fa fa-exclamation-triangle'></span> @GeneralResources.FieldsRequired");
+                    return false;
+                }
+
+                var item = new Object();
+                item.JunkConsumptionId = '@Model.JunkConsumptionId';
+                item.ProductId = document.getElementById("ProductId").value;
+                item.OrganizationId = document.getElementById("OrganizationId").value;
+                item.JunkConsumptionDate = document.getElementById("JunkConsumptionDate").value;
+                item.Quantity = document.getElementById("Quantity").value;
+                item.JunkBaseId = document.getElementById("JunkBaseId").value;
+
+                var rt = false;
+                var dt;
+                var q = $.ajax({
+                    url: '@Url.Action("SaveJunkConsumption", "JunkConsumptions")',
+                    dataType: "json",
+                    type: "POST",
+                    data: JSON.stringify({ junkConsumptionTemplate: item }),
+                    contentType: "application/json; charset=utf-8",
+                    async: false,
+                    success: function (data) {
+                        dt = data;
+                        rt = true;
+                    },
+                    error: function (xhr) {
+                        dt = xhr;
+                        rt = false;
+                    }
+                });
+
+                if (rt == true) {
+                    if (dt.success != true) {
+                        /*Այստեղ իրականացվում է սերվերից վերադարձված սխալի ցուցադրման գործառույթը:
+                        Անհրաժեշտ է որ alert-ի փոխարեն կարմիր գույնով ցուցադրվի սխալը:
+                        Այդ սխալը պետք է տեղակայված լինի մուտքային վերջին դաշտի և հրահանգների արանքում:*/
+                        alert(JSON.stringify(dt.responseText));
+                    }
+                    else {
+                        $(this).closest(".k-window-content").data("kendoWindow").close();
+                    }
+                }
+                else {
+                    alert(JSON.stringify("Unknown error occured."));
+                }
+                return false;
+
+            });
+    });
+</script>

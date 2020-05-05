@@ -1,0 +1,85 @@
+﻿@model Medicaldrugstore.Models.Reception 
+
+@{
+    Layout = null;
+}
+
+@using (Html.BeginForm("Receive", "Replacements", FormMethod.Post, new { id = "frmReception" }))
+{
+<div class="create-item">
+
+    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+    @Html.HiddenFor(model => model.ReplacementId)
+
+    <div class="form-group margin-5-0 create-item">
+        @Html.LabelFor(model => model.ReceiveDate, htmlAttributes: new { @class = "control-label" })
+        @Html.EditorFor(model => model.ReceiveDate, new { htmlAttributes = new { @class = "" } })
+        <span class="k-invalid-msg" data-for="ReceiveDate"></span>
+    </div>
+    <div class="clear"></div>
+    <div class="form-group margin-10-0">
+        <div class="align-right">
+            <button id="rcvSave" class="k-button"><i class="glyphicon glyphicon-floppy-disk"></i> @Resources.General_Save</button>
+            <button id="rcvCancel" class="k-button"><i class="glyphicon glyphicon-off"></i> @Resources.General_Close</button>
+        </div>
+    </div>
+    <div class="clear"></div>
+</div>
+}
+
+<script>
+    $(document).ready(function () {
+        $("#rcvCancel")
+            .click(function () {
+                $(this).closest(".k-window-content").data("kendoWindow").close();
+                return false;
+            });
+        $("#rcvSave")
+            .click(function (e) {
+
+                var validator = $("#frmReception").kendoValidator({
+                    errorTemplate: '<div class="k-widget k-tooltip k-tooltip-validation" style="margin:0.5em"><span class="k-icon k-warning"> </span>#=message#<div class="k-callout k-callout-n"></div></div>'
+                }).data("kendoValidator");
+                if (!validator.validate()) {
+                    return false;
+                }
+
+                var item = new Object();
+                item.replacementId = '@Model.ReplacementId';
+                item.receiveDate = document.getElementById("ReceiveDate").value;
+
+                var rt = false;
+                var dt;
+                var q = $.ajax({
+                    url: '@Url.Action("Receive", "Replacements")',
+                    dataType: "json",
+                    type: "POST",
+                    data: JSON.stringify({ reception: item }),
+                    contentType: "application/json; charset=utf-8",
+                    async: false,
+                    success: function (data) {
+                        dt = data;
+                        rt = true;
+                    },
+                    error: function (xhr) {
+                        dt = xhr;
+                        rt = false;
+                    }
+                });
+                if (rt == true) {
+                    if (dt != "1") {
+                        alert(JSON.stringify(dt));
+                        return false;
+                    }
+                    else {
+                        $(this).closest(".k-window-content").data("kendoWindow").close();
+                        return false;
+                    }
+                }
+                else {
+                    alert(JSON.stringify(dt));
+                    return false;
+                }
+            });
+    });
+</script>

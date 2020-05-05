@@ -1,0 +1,65 @@
+﻿@model Medicaldrugstore.Models.Placement
+
+@{
+    Layout = null;
+}
+
+<div class="create-item">
+
+    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+    @Html.HiddenFor(model => model.PlacementId)
+
+    <div class="form-group">
+        @Html.LabelFor(model => model.CorrectionDate, htmlAttributes: new { @class = "control-label" })
+        @Html.EditorFor(model => model.CorrectionDate, new { htmlAttributes = new { @class = "" } })
+        @Html.ValidationMessageFor(model => model.CorrectionDate, "", new { @class = "text-danger" })
+    </div>    
+    <div class="clear"></div>
+    <div class="form-group margin-10-0 align-right">
+            <button id="btnCorrectSave" class="k-button"><i class="glyphicon glyphicon-floppy-disk"></i> @Resources.General_Save</button>
+            <button id="btnCorrectCancel" class="k-button"><i class="glyphicon glyphicon-off"></i> @Resources.General_Close</button>
+    </div>
+    <div class="clear"></div>
+</div>
+
+<script>
+    $(document).ready(function () {
+        $("#btnCorrectCancel")
+            .click(function() {
+                if ($(this).closest(".k-window-content").data("kendoWindow"))
+                    $(this).closest(".k-window-content").data("kendoWindow").close();
+            });
+        $("#btnCorrectSave")
+            .click(function (e) {
+                var placementId = document.getElementById("PlacementId").value;
+                var correctDate = document.getElementById("CorrectionDate").value;
+                var rt = false;
+                var dt;
+                var q=  $.ajax({
+                    url: '@Url.Action("Correct", "StoragePlacements")',
+                    dataType: "json",
+                    type: "GET",
+                    data: { pId: placementId, cDate: correctDate },
+                    async: false,
+                    success: function (data) {
+                        dt = data;
+                        rt = true;
+                    },
+                    error: function (xhr) {
+                        dt = xhr;
+                        rt = false;
+                    }
+                });
+                if (rt == true) {
+                    if ($(this).closest(".k-window-content").data("kendoWindow"))
+                        $(this).closest(".k-window-content").data("kendoWindow").close();
+                }
+                else
+                {
+                    alert(dt);
+                    return false;
+                }
+
+            });
+    });
+</script>

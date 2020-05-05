@@ -1,0 +1,96 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>@ViewBag.Title</title>
+    <link rel="icon" type="image/png" href="~/Files/Icons/pills-icon.png" />
+    @Styles.Render("~/Content/css")
+    @Styles.Render("~/Content/custom")
+    @RenderSection("Styles", false)
+
+
+
+    <!--This bundle was moved by the Telerik VS Extensions for compatibility reasons-->
+    @Scripts.Render("~/bundles/jquery")
+
+
+</head>
+
+<body class="nav-md">
+    <div class="container body">
+        <div class="main_container">
+            <div class="col-md-3 left_col">
+                <div class="left_col scroll-view">
+                    <div class="navbar nav_title" style="border: 0;">
+                        <a href="@Url.Action("Index", "Home")" class="site_title"><img src="~/Files/Icons/pills-icon.png" /></a>
+                    </div>
+                    <div class="navbar nav_title" style="border: 0;">
+                        <a href="@Url.Action("Index", "Home")" class="site_title"><span>Medical Drug Store</span></a>
+                    </div>
+                    <div class="clearfix"></div>
+                    <!-- menu profile quick info -->
+                    
+                    @*@Html.Partial("_LoginPartialInfo")*@
+                    <!-- /menu profile quick info -->
+                    <br />
+                    <!-- sidebar menu -->
+                    <div id="sidebar-menu" class="main_menu_side hidden-print main_menu login_menu">
+                        
+                    </div>
+                    <!-- /sidebar menu -->
+                    <!-- /menu footer buttons -->
+                    <div class="sidebar-footer hidden-small">
+                        <p>&copy; @DateTime.Now.Year</p>
+                    </div>
+                    <!-- /menu footer buttons -->
+                </div>
+            </div>
+            <!-- top navigation -->
+            <div class="top_nav">
+                <div class="nav_menu">
+                    <nav>
+                        <div class="nav toggle">
+                            <a id="menu_toggle"><i class="fa fa-bars"></i></a>
+                        </div>
+                        <ul class="nav navbar-nav navbar-right">
+                            <li class="">
+                                @Html.Partial("_LoginPartial")
+                            </li>
+                            <li class="lang">
+                                <a href="@Url.Action("SetLanguage", "Language", new {name = "hy-am"})">
+                                    <img src="~/Images/Icons/arm-flag.png" width="26" class="img-circle" />
+                                </a>
+                            </li>
+                            <li class="lang">
+                                <a href="@Url.Action("SetLanguage", "Language", new {name = "en"})">
+                                    <img src="~/Images/Icons/us-flag.png" width="26" class="img-circle" />
+                                </a>
+                            </li>
+                        </ul>
+                    </nav>
+                </div>
+            </div>
+            <!-- /top navigation -->
+            <!-- page content -->
+            <div class="right_col" role="main">
+                @RenderBody()
+            </div>
+            <!-- /page content -->
+            <!-- footer content -->
+            <footer>
+                <div class="pull-left">
+                    <p>&copy; @Html.Raw(Resources.Login_Footer)</p>
+                </div>
+                <div class="clearfix"></div>
+            </footer>
+            <!-- /footer content -->
+        </div>
+    </div>
+    @Scripts.Render("~/bundles/bootstrap")
+    @Scripts.Render("~/bundles/theme")
+    @Scripts.Render("~/bundles/own")
+    @RenderSection("Scripts", required: false)
+</body>
+</html>
+

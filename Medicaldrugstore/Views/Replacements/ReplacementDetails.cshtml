@@ -1,0 +1,65 @@
+﻿@model Medicaldrugstore.Models.ReplacementDetails
+
+
+@{
+    Layout = null;
+}
+
+
+<div>
+    <table class="table table-striped details">
+        <tr>
+            <td class="col-xs-5">@Html.DisplayNameFor(model => model.SourceOrganizationName)</td>
+            <td class="bold col-xs-7">@Html.DisplayFor(model => model.SourceOrganizationName)</td>
+        </tr>
+        <tr>
+            <td class="col-xs-5">@Html.DisplayNameFor(model => model.ConfirmOrganizationName)</td>
+            <td class="col-xs-7">@Html.DisplayFor(model => model.ConfirmOrganizationName)</td>
+        </tr>
+        <tr>
+            <td class="col-xs-5">@Html.DisplayNameFor(model => model.DestinationOrganizationName)</td>
+            <td class="col-xs-7">@Html.DisplayFor(model => model.DestinationOrganizationName)</td>
+        </tr>
+
+        <tr>
+            <td class="col-xs-5">@Html.DisplayNameFor(model => model.ReplacementBaseName)</td>
+            <td class="col-xs-7">@Html.DisplayFor(model => model.ReplacementBaseName)</td>
+        </tr>
+
+        <tr>
+            <td class="col-xs-5">@Html.DisplayNameFor(model => model.ReplacementBaseDate)</td>
+            <td class="col-xs-7">@Html.DisplayFor(model => model.ReplacementBaseDate)</td>
+        </tr>
+
+        <tr>
+            <td class="col-xs-5">@Html.DisplayNameFor(model => model.ReplacementBaseText)</td>
+            <td class="col-xs-7">@Html.DisplayFor(model => model.ReplacementBaseText)</td>
+        </tr>
+
+        <tr>
+            <td class="col-xs-5">@Html.DisplayNameFor(model => model.ReplacementStatusName)</td>
+            <td class="col-xs-7">@Html.DisplayFor(model => model.ReplacementStatusName)</td>
+        </tr>
+
+        <tr>
+            <td class="col-xs-5">@Html.DisplayNameFor(model => model.ReplacementDate)</td>
+            <td class="col-xs-7">@Html.DisplayFor(model => model.ReplacementDate)</td>
+        </tr>
+        <tr>
+            <td class="col-xs-5">@Html.DisplayNameFor(model => model.ConfirmDate)</td>
+            <td class="col-xs-7">@Html.DisplayFor(model => model.ConfirmDate)</td>
+        </tr>
+        <tr>
+            <td class="col-xs-5">@Html.DisplayNameFor(model => model.ReadyDate)</td>
+            <td class="col-xs-7">@Html.DisplayFor(model => model.ReadyDate)</td>
+        </tr>
+        <tr>
+            <td class="col-xs-5">@Html.DisplayNameFor(model => model.ProvisionDate)</td>
+            <td class="col-xs-7">@Html.DisplayFor(model => model.ProvisionDate)</td>
+        </tr>
+        <tr>
+            <td class="col-xs-5">@Html.DisplayNameFor(model => model.ReceiveDate)</td>
+            <td class="col-xs-7">@Html.DisplayFor(model => model.ReceiveDate)</td>
+        </tr>
+    </table>
+</div>

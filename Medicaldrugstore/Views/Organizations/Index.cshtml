@@ -1,0 +1,394 @@
+﻿@model IEnumerable<Medicaldrugstore.Models.OrganizationDetail>
+
+@using Kendo.Mvc.UI
+
+
+@{
+    ViewBag.Title = Resources.Organization_Title;
+}
+<div class="clear"></div>
+<div class="for-Toolbar">
+    @(Html.Kendo().ToolBar()
+    .Name("ToolBar")
+    .Items(items =>
+    {
+        items.Add().Type(CommandType.Button).Togglable(false).Text(@Resources.General_NewRecord).Id("btnNew").Click("CreateOrganization");
+        items.Add().Type(CommandType.Button).Togglable(false).Text(@Resources.General_Details).Id("btnDetails").Click("OrganizationDetail");
+    })
+    )
+    @* Search Panel - Right Slide *@
+    <div class="right-slidePanel">
+        <div class="slidePanel-Content">
+            <div class="slidePanel-btn">
+            </div>
+            <div class="slidePanel-Content-fields create-item">
+                <h4>@Resources.General_Search</h4>
+                <div class="form-group margin-5-0">
+                    <input id="prmOrganizationCode" class="k-textbox" placeholder=@Resources.Organization_Code />
+                </div>
+                <div class="form-group margin-5-0">
+                    <input id="prmOrganizationName" class="k-textbox" placeholder=@Resources.Organization_Name />
+                </div>
+                <div class="form-group btns align-right">
+                    <button type="submit" id="rtSearch" class="k-button" onclick="return Search();"><i class="glyphicon glyphicon-search"></i> @Resources.General_Search</button>
+                    <button type="submit" class="k-button" onclick="return Clear();"><i class="glyphicon glyphicon-minus"></i> @Resources.General_Clean</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script type="text/javascript">
+    function Search() {
+        $("#Organization").data("kendoGrid").dataSource.read();
+        $("#Organization").data("kendoGrid").refresh();
+        return false;
+    }
+    function Clear() {
+        $("#prmOrganizationCode").val("");
+        $("#prmOrganizationName").val("");
+        $("#Organization").data("kendoGrid").dataSource.read();
+        $("#Organization").data("kendoGrid").refresh();
+        return false;
+    }
+    function getParameter() {
+        return {
+            organizationCode: $("#prmOrganizationCode").val(),
+            organizationName: $("#prmOrganizationName").val()
+        };
+    }
+</script>
+
+
+@(Html.Kendo().Grid<Medicaldrugstore.Models.OrganizationDetail>()
+                        .Name("Organization")
+                        .Events(events => events.DataBound("onRowBound").DetailExpand("onOrganizationDetailExpand"))
+                        .Columns(columns =>
+                        {
+                            columns.Bound(model => model.OrganizationId).Hidden();
+                            columns.Bound(model => model.OrganizationCode).Width(85);
+                            columns.Bound(model => model.OrganizationName).Width(213);
+                            columns.Bound(model => model.OrganizationLocation).Width(260);
+                            columns.Bound(model => model.IsOrganization).HtmlAttributes(new { style = "text-align: center;" }).ClientTemplate("#if(IsOrganization){#" +
+                                               "<i class=\"glyphicon glyphicon-ok icon-ok\"></i>" +
+                                               "#} else {#" +
+                                               "<i class=\"glyphicon glyphicon-minus icon-wrong\"></i>" +
+                                               "# } #").Width(120);
+                            columns.Bound(model => model.IsRegion).HtmlAttributes(new { style = "text-align: center;" }).ClientTemplate("#if(IsRegion){#" +
+                                               "<i class=\"glyphicon glyphicon-ok icon-ok\"></i>" +
+                                               "#} else {#" +
+                                               "<i class=\"glyphicon glyphicon-minus icon-wrong\"></i>" +
+                                               "# } #").Width(110);
+                            columns.Bound(model => model.IsStorage).HtmlAttributes(new { style = "text-align: center;" }).ClientTemplate("#if(IsStorage){#" +
+                                               "<i class=\"glyphicon glyphicon-ok icon-ok\"></i>" +
+                                               "#} else {#" +
+                                               "<i class=\"glyphicon glyphicon-minus icon-wrong\"></i>" +
+                                               "# } #").Width(120);
+                            columns.Bound(model => model.IsGoverment).HtmlAttributes(new { style = "text-align: center;" }).ClientTemplate("#if(IsGoverment){#" +
+                                               "<i class=\"glyphicon glyphicon-ok icon-ok\"></i>" +
+                                               "#} else {#" +
+                                               "<i class=\"glyphicon glyphicon-minus icon-wrong\"></i>" +
+                                               "# } #").Width(168);
+                            columns.Command(commands =>
+                            {
+                                commands.Custom("Update").Text(" ").Click("UpdateOrganization");
+                                commands.Custom("Delete").Text(" ").Click("DeleteOrganization");
+                            }).Title(Resources.General_Commands).Width(130);
+                        })
+                        .Selectable(s => s.Mode(Kendo.Mvc.UI.GridSelectionMode.Single))
+                        .Pageable(pageable => pageable
+                        .Refresh(true)
+                        .PageSizes(true)
+                        .ButtonCount(5))
+                        .Filterable()
+                        .Scrollable()
+                        .ClientDetailTemplateId("template")
+                        .Resizable(resize => resize.Columns(true))
+                        .Reorderable(reorder => reorder.Columns(true))
+                        .Sortable()
+                        .HtmlAttributes(new { style = "height:620px;" })
+                        .DataSource(dataSource => dataSource
+                        .Ajax()
+                        .Read(read => read.Action("ReadOrganizations", "Organizations").Data("getParameter"))
+                        .PageSize(15)
+                        .Model(model => model.Id(p => p.OrganizationId))
+)
+)
+
+
+@(Html.Kendo().Window().Name("wndOrganization").Width(800)
+            .Height(620).Draggable()
+            .Resizable().Content("")
+            .Title(Resources.Organization_Edit_Title)
+            .Modal(true)
+            .Actions(actions => actions.Pin().Close())
+            .Visible(false)
+            .Events(events => events
+            .Close("onClose").Open("onOpen").Refresh("onRefresh"))
+)
+
+@(Html.Kendo().Window().Name("wndOrganizationDetail").Width(800)
+            .Height(550).Draggable()
+            .Resizable().Content("")
+            .Title(Resources.General_NewRecord)
+            .Modal(true)
+            .Actions(actions => actions.Pin().Close())
+            .Visible(false)
+            .Events(events => events
+            .Close("onClose").Open("onOpen").Refresh("onRefresh"))
+)
+<script>
+
+    function onOrganizationDetailExpand(e) {
+        var selectedItem = this.dataItem(e.masterRow);
+        OID = selectedItem.OrganizationId;
+    }
+
+    function CreateOrganization() {
+        var window = $("#wndOrganization").data("kendoWindow");
+        window.content("");
+        window.title("@Resources.General_NewRecord");
+
+        window.refresh({
+            url: "@Url.Action("OrganizationTemplate", "Organizations")" + "?organizationId=" + 0
+        });
+        window.center();
+        window.open();
+        return false;
+    }
+
+    function UpdateOrganization(e) {
+        var row = $(e.target).closest("tr");
+        var grid = $("#Organization").data("kendoGrid");
+        var dataItem = grid.dataItem(row);
+        var window = $("#wndOrganization").data("kendoWindow");
+        window.content("");
+        window.title("@Resources.General_Edit");
+        window.refresh({
+            url: "@Url.Action("OrganizationTemplate", "Organizations")" + "?organizationId=" + dataItem.OrganizationId
+        });
+        window.center();
+        window.open();
+        return false;
+    }
+
+    function DeleteOrganization(e) {
+        var row = $(e.target).closest("tr");
+        var grid = $("#Organization").data("kendoGrid");
+        var dataItem = grid.dataItem(row);
+        var r = confirm("@Resources.General_Delete_Question");
+        if (r == false) {
+            return false;
+        }
+        var rt = false;
+        var dt;
+        var q = $.ajax({
+            url: '@Url.Action("DeleteOrganization", "Organizations")',
+            dataType: "json",
+            type: "GET",
+            data: {
+                id: dataItem.OrganizationId
+            },
+            async: false,
+            success: function (data) {
+                dt = data;
+                rt = true;
+            },
+            error: function (xhr) {
+                dt = xhr;
+                rt = false;
+            }
+        });
+
+        if (rt == true) {
+            if (dt.success != true) {
+                alert(JSON.stringify(dt.responseText));
+            }
+            else {
+                $("#Organization").data("kendoGrid").dataSource.read();
+            }
+        }
+        else {
+            alert(JSON.stringify("Unknown error occured."));
+        }
+        return false;
+    }
+
+    function OrganizationDetail() {
+        var window = $("#wndOrganizationDetail").data("kendoWindow");
+        var grid = $("#Organization").data("kendoGrid");
+        var selectedItem = grid.dataItem(grid.select());
+        if (selectedItem == null) {
+            alert("@Resources.General_NotSelected");
+            return false;
+        }
+        window.content("");
+        window.title("@Resources.Organization_Details_Title");
+        window.refresh({
+            url: "@Url.Action("OrganizationDetail", "Organizations")" + "/" + selectedItem.OrganizationId
+        });
+        window.center();
+        window.open();
+        return false;
+    }
+
+    function onOpen(e) {
+        kendo.ui.progress(e.sender.element, true);
+    }
+    function onClose() {
+        $("#Organization").data("kendoGrid").dataSource.read();
+    }
+    function onRefresh(e) {
+        kendo.ui.progress(e.sender.element, false);
+    }
+</script>
+
+<script id="template" type="text/kendo-tmpl">
+    @(Html.Kendo().TabStrip()
+                  .Name("tabstrip_#=OrganizationId#")
+                  .SelectedIndex(0)
+                  .Animation(animation => animation.Open(open => open.Fade(FadeDirection.In)))
+                  .Items(items =>
+                  {
+                  items.Add().Text("Ենթապահեստներ").Content(@<text>
+        @(Html.Kendo().Grid<Medicaldrugstore.Models.StorageDetail>()
+                  .Name("Storage_#=OrganizationId#")
+                  .Columns(columns =>
+                  {
+                      columns.Bound(o => o.OrganizationId).Hidden();
+                      columns.Bound(p => p.StorageId).Hidden();
+                      columns.Bound(o => o.StorageCode).Width(110);
+                      columns.Bound(o => o.StorageName);
+                      columns.Command(commands =>
+                      {
+                          commands.Custom("Update").Text(" ").Click("UpdateStorage");
+                          commands.Custom("Delete").Text(" ").Click("DeleteStorage");
+                      }).Title(Resources.General_Commands).Width(130);
+                  })
+                  .ToolBar(toolbar =>
+                  {
+                      toolbar.Custom().Name("Create").Text(Resources.General_NewRecord).HtmlAttributes(new { onclick = "return CreateStorage();" });
+                  })
+                  .Editable(editable =>
+                  {
+                      editable.DisplayDeleteConfirmation(Resources.General_Delete_Record);
+                  })
+                  .DataSource(dataSource => dataSource
+                      .Ajax()
+                      .PageSize(5)
+                      .Read(read => read.Action("ReadStorages", "Organizations", new { id = "#=OrganizationId#" }))
+                      .Model(model =>
+                      {
+                          model.Id(p => p.StorageId);
+                      }
+                      )
+                  )
+                  .Scrollable()
+                  .Events(e => e.DataBound("onRowBound"))
+                  .Pageable()
+                  .Sortable()
+                  .Resizable(resize => resize.Columns(true))
+                  .Reorderable(reorder => reorder.Columns(true))
+                  .ToClientTemplate()
+        )
+                </text>);
+                  }).ToClientTemplate())
+
+
+</script>
+
+@(Html.Kendo().Window().Name("wndStorage")
+                .Width(500).Height(130)
+                .Draggable().Resizable()
+                .Content("").Modal(true)
+                .Actions(actions => actions.Pin().Close())
+                .Visible(false)
+                .Events(events => events
+                .Close("onCloseStorage").Open("onOpenStorage").Refresh("onRefreshStorage"))
+)
+<script>
+    function CreateStorage() {
+        var window = $("#wndStorage").data("kendoWindow");
+        window.content("");
+        window.title("Ենթապահեստի մուտքագրում");
+        window.refresh({
+            url: '@Url.Action("StorageTemplate", "Organizations")?storageId=' + 0 + '&organizationId=' + OID
+        });
+        window.center();
+        window.open();
+        return false;
+    }
+
+    function UpdateStorage(e) {
+        var row = $(e.target).closest("tr");
+        var gridName = "#Storage_" + OID;
+        var grid = $(gridName).data("kendoGrid");
+        var dataItem = grid.dataItem(row);
+        var window = $("#wndStorage").data("kendoWindow");
+        window.content("");
+        window.title("Խմբագրել ենթապահեստի տվյալները");
+        window.refresh({
+            url: '@Url.Action("StorageTemplate", "Organizations")?storageId=' + dataItem.StorageId + '&organizationId=' + OID
+        });
+        window.center();
+        window.open();
+        return false;
+    }
+
+    function DeleteStorage(e) {
+        var row = $(e.target).closest("tr");
+        var gridName = "#Storage_" + OID;
+        var grid = $(gridName).data("kendoGrid");
+        var dataItem = grid.dataItem(row);
+
+        var r = confirm("@Resources.General_Delete_Question");
+        if (r == false) {
+            return false;
+        }
+        var rt = false;
+        var dt;
+        var q = $.ajax({
+            url: '@Url.Action("DeleteStorage", "Organizations")',
+            dataType: "json",
+            type: "GET",
+            data: {
+                id: dataItem.StorageId
+            },
+            async: false,
+            success: function (data) {
+                dt = data;
+                rt = true;
+            },
+            error: function (xhr) {
+                dt = xhr;
+                rt = false;
+            }
+        });
+
+        if (rt == true) {
+            if (dt.success != true) {
+                alert(JSON.stringify(dt.responseText));
+            }
+            else {
+                $(gridName).data("kendoGrid").dataSource.read();
+            }
+        }
+        else {
+            alert(JSON.stringify("Unknown error occured."));
+        }
+        return false;
+    }
+
+    function onOpenStorage(e) {
+        kendo.ui.progress(e.sender.element, true);
+    }
+
+    function onCloseStorage(e) {
+        var gridName = "#Storage_" + OID;
+        $(gridName).data("kendoGrid").dataSource.read();
+    }
+
+    function onRefreshStorage(e) {
+        kendo.ui.progress(e.sender.element, false);
+    }
+</script>

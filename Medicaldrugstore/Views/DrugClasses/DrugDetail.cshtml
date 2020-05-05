@@ -1,0 +1,105 @@
+﻿@model Medicaldrugstore.Models.DrugDetail
+
+@{
+    Layout = null;
+}
+
+<div>
+    <table class="table table-striped details">
+        <tr>
+            <td class="col-sm-3">@Html.DisplayNameFor(model => model.DrugId)</td>
+            <td class="bold col-sm-9">@Html.DisplayFor(model => model.DrugId)</td>
+        </tr>
+        <tr>
+            <td class="col-sm-3">@Html.DisplayNameFor(model => model.Seria)</td>
+            <td class="bold col-sm-9">@Html.DisplayFor(model => model.Seria)</td>
+        </tr>
+        <tr>
+            <td class="col-sm-3">@Html.DisplayNameFor(model => model.DrugName)</td>
+            <td class="col-sm-9">@Html.DisplayFor(model => model.DrugName)</td>
+        </tr>
+        <tr>
+            <td class="col-sm-3">@Html.DisplayNameFor(model => model.GenericName)</td>
+            <td class="col-sm-9">@Html.DisplayFor(model => model.GenericName)</td>
+        </tr>
+        <tr>
+            <td class="col-sm-3">@Html.DisplayNameFor(model => model.ExpirationDate)</td>
+            <td class="col-sm-9">@Html.DisplayFor(model => model.ExpirationDate)</td>
+        </tr>
+        <tr>
+            <td class="col-sm-3">@Html.DisplayNameFor(model => model.UnitTypeId)</td>
+            <td class="col-sm-9">@Html.DisplayFor(model => model.UnitTypeName)</td>
+        </tr>
+        <tr>
+            <td class="col-sm-3">@Html.DisplayNameFor(model => model.UnitCost)</td>
+            <td class="col-sm-9">@Html.DisplayFor(model => model.UnitCost)</td>
+        </tr>
+        <tr>
+            <td class="col-sm-3">@Html.DisplayNameFor(model => model.OrganizationId)</td>
+            <td class="col-sm-9">@Html.DisplayFor(model => model.OrganizationName)</td>
+        </tr>
+        <tr>
+            <td class="col-sm-3">@Html.DisplayNameFor(model => model.StoreOrganizationId)</td>
+            <td class="col-sm-9">@Html.DisplayFor(model => model.StoreOrganizationName)</td>
+        </tr>
+        <tr>
+            <td class="col-sm-3">@Html.DisplayNameFor(model => model.ProductCategoryId)</td>
+            <td class="col-sm-9">@Html.DisplayFor(model => model.ProductCategoryName)</td>
+        </tr>
+        <tr>
+            <td class="col-sm-3">@Html.DisplayNameFor(model => model.ProductGroupId)</td>
+            <td class="col-sm-9">@Html.DisplayFor(model => model.ProductGroupName)</td>
+        </tr>
+        <tr>
+            <td class="col-sm-3">@Html.DisplayNameFor(model => model.ProductTypeId)</td>
+            <td class="col-sm-9">@Html.DisplayFor(model => model.ProductTypeName)</td>
+        </tr>
+        <tr>
+            <td class="col-sm-3">@Html.DisplayNameFor(model => model.DrugTypeId)</td>
+            <td class="col-sm-9">@Html.DisplayFor(model => model.DrugTypeId)</td>
+        </tr>
+        <tr>
+            <td class="col-sm-3">@Html.DisplayNameFor(model => model.DrugSourceId)</td>
+            <td class="col-sm-9">@Html.DisplayFor(model => model.DrugSourceName)</td>
+        </tr>
+        <tr>
+            <td class="col-sm-3">@Html.DisplayNameFor(model => model.DrugCategoryId)</td>
+            <td class="col-sm-9">@Html.DisplayFor(model => model.DrugCategoryName)</td>
+        </tr>
+        <tr>
+            <td class="col-sm-3">@Html.DisplayNameFor(model => model.SupplierId)</td>
+            <td class="col-sm-9">@Html.DisplayFor(model => model.SupplierName)</td>
+        </tr>
+        <tr>
+            <td class="col-sm-3">@Html.DisplayNameFor(model => model.CountryId)</td>
+            <td class="col-sm-9">@Html.DisplayFor(model => model.CountryName)</td>
+        </tr>
+        <tr>
+            <td class="col-sm-3">@Html.DisplayNameFor(model => model.Manufacturer)</td>
+            <td class="col-sm-9">@Html.DisplayFor(model => model.Manufacturer)</td>
+        </tr>
+        <tr>
+            <td class="col-sm-3">@Html.DisplayNameFor(model => model.Quantity)</td>
+            <td class="col-sm-9">@Html.DisplayFor(model => model.Quantity)</td>
+        </tr>
+        <tr>
+            <td class="col-sm-3">@Html.DisplayNameFor(model => model.ItemQuantity)</td>
+            <td class="col-sm-9">@Html.DisplayFor(model => model.ItemQuantity)</td>
+        </tr>
+        <tr>
+            <td class="col-sm-3">@Html.DisplayNameFor(model => model.TotalCost)</td>
+            <td class="col-sm-9">@Html.DisplayFor(model => model.TotalCost)</td>
+        </tr>
+        <tr>
+            <td class="col-sm-3">@Html.DisplayNameFor(model => model.Description)</td>
+            <td class="col-sm-9">@Html.DisplayFor(model => model.Description)</td>
+        </tr>
+        @if (Model.Files.Any(f => f.FileType == FileType.Avatar))
+        {
+            <tr>
+                <td class="col-sm-3">Պատկեր</td>
+                <td class="col-sm-9"><img src="~/File?id=@Model.Files.First(f => f.FileType == FileType.Avatar).FileId" alt="avatar" /></td>
+            </tr>
+        }
+    </table>
+</div>

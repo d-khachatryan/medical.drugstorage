@@ -1,0 +1,104 @@
+﻿@model Medicaldrugstore.Models.ReplacementProduct
+
+@{
+    Layout = null;
+}
+
+@using (Html.BeginForm("SaveReplacementProduct", "Replacement", FormMethod.Post, new { id = "frmReplacementProduct" }))
+{
+<div class="create-item">
+
+    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+    @Html.HiddenFor(model => model.ReplacementProductId)
+    @Html.HiddenFor(model => model.ReplacementId)
+    
+    <div class="form-group margin-5-0 create-item">
+        @Html.LabelFor(model => model.ProductId, htmlAttributes: new { @class = "control-label col-sm-3 align-right border-box" })
+        <div class="col-sm-9 border-box">
+            @(Html.Kendo().ComboBoxFor(model => model.ProductId)
+                .DataTextField("Text")
+                .DataValueField("Value")
+                .Filter(FilterType.StartsWith)
+                .BindTo(ViewBag.vbProducts)
+                .HtmlAttributes(new { required = "required", validationmessage = "Դաշտը լրացված չէ", data_value_primitive = true/*, style = "width:300px" */})
+            )
+            <span class="k-invalid-msg" data-for="ProductId"></span>
+        </div>
+        
+    </div>
+    <div class="clear"></div>
+    <div class="form-group margin-5-0">
+        @Html.LabelFor(model => model.Quantity, htmlAttributes: new { @class = "control-label col-sm-3 align-right border-box" })
+        <div class="col-sm-9 border-box">
+            @Html.EditorFor(model => model.Quantity, new { htmlAttributes = new { required = "required", validationmessage = "Դաշտը լրացված չէ", @class = "k-textbox", style="width:100px;" } })
+            <span class="k-invalid-msg" data-for="Quantity"></span>
+        </div>
+    </div>
+    <div class="clear"></div>
+    <div class="form-group margin-10-0">
+        <div class="col-xs-3 border-box"></div>
+        <div class="col-xs-9 border-box align-right">
+            <button id="rptSave" class="k-button"><i class="glyphicon glyphicon-floppy-disk"></i> @Resources.General_Save</button>
+            <button id="rptCancel" class="k-button"><i class="glyphicon glyphicon-off"></i> @Resources.General_Close</button>
+        </div>
+    </div>
+    <div class="clear"></div>
+</div>
+}
+
+<script>
+    $(document).ready(function () {
+        $("#rptCancel")
+            .click(function () {
+                $(this).closest(".k-window-content").data("kendoWindow").close();
+                return false;
+            });
+        $("#rptSave")
+            .click(function (e) {
+
+                var validator = $("#frmReplacementProduct").kendoValidator().data("kendoValidator");
+                if (!validator.validate()) {
+                    return false;
+                }
+
+                var item = new Object();
+                item.replacementProductId = '@Model.ReplacementProductId';
+                item.replacementId = '@Model.ReplacementId';
+                item.productId = document.getElementById("ProductId").value;
+                item.quantity = document.getElementById("Quantity").value;
+
+                var rt = false;
+                var dt;
+                var q = $.ajax({
+                    url: '@Url.Action("SaveReplacementProduct", "Replacements")',
+                    dataType: "json",
+                    type: "POST",
+                    data: JSON.stringify({ replacementProduct: item }),
+                    contentType: "application/json; charset=utf-8",
+                    async: false,
+                    success: function (data) {
+                        dt = data;
+                        rt = true;
+                    },
+                    error: function (xhr) {
+                        dt = xhr;
+                        rt = false;
+                    }
+                });
+                if (rt == true) {
+                    if (dt != "1") {
+                        alert(JSON.stringify(dt));
+                        return false;
+                    }
+                    else {
+                            $(this).closest(".k-window-content").data("kendoWindow").close();
+                        return false;
+                    }
+                }
+                else {
+                    alert(JSON.stringify(dt));
+                    return false;
+                }
+            });
+    });
+</script>

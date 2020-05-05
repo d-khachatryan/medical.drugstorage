@@ -1,0 +1,155 @@
+﻿@model Medicaldrugstore.Models.UserItem
+
+@{
+    Layout = null;
+}
+
+<div class="create-item" id="userItem">
+
+    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+
+    <div class="form-group margin-5-0 border-box">
+        @Html.LabelFor(model => model.UserName, new { @class = "control-label col-sm-5 align-right border-box" })
+        <div class="col-sm-7 border-box">
+            @Html.EditorFor(model => model.UserName, new { htmlAttributes = new { @class = "form-control" } })
+            @Html.ValidationMessageFor(model => model.UserName, null, new { @class = "text-danger" })
+        </div>
+    </div>
+    <div class="clear"></div>
+
+    <div class="form-group margin-5-0 border-box">
+        @Html.LabelFor(model => model.FirstName , new { @class = "control-label col-sm-5 align-right border-box" })
+        <div class="col-sm-7 border-box">
+            @Html.EditorFor(model => model.FirstName, new { htmlAttributes = new { @class = "form-control" } })
+            @Html.ValidationMessageFor(model => model.FirstName, null, new { @class = "text-danger" })
+        </div>
+    </div>
+    <div class="clear"></div>
+
+    <div class="form-group margin-5-0 border-box">
+        @Html.LabelFor(model => model.LastName, new { @class = "control-label col-sm-5 align-right border-box" })
+        <div class="col-sm-7 border-box">
+            @Html.EditorFor(model => model.LastName, new { htmlAttributes = new { @class = "form-control" } })
+            @Html.ValidationMessageFor(model => model.LastName, null, new { @class = "text-danger" })
+        </div>
+    </div>
+    <div class="clear"></div>
+
+    <div class="form-group margin-5-0 border-box">
+        @Html.LabelFor(model => model.PositionName , new { @class = "control-label col-sm-5 align-right border-box" })
+        <div class="col-sm-7 border-box">
+            @Html.EditorFor(model => model.PositionName, new { htmlAttributes = new { @class = "form-control" } })
+            @Html.ValidationMessageFor(model => model.PositionName, null, new { @class = "text-danger" })
+        </div>
+    </div>
+    <div class="clear"></div>
+
+    <div class="form-group margin-5-0">
+        @Html.LabelFor(model => model.Email, new { @class = "control-label col-sm-5 align-right border-box" })
+        <div class="col-sm-7 border-box">
+            @Html.EditorFor(model => model.Email, new { htmlAttributes = new { @class = "form-control" } })
+            @Html.ValidationMessageFor(model => model.Email, null, new { @class = "text-danger" })
+        </div>
+    </div>
+    <div class="clear"></div>
+
+    @if (String.IsNullOrEmpty(Model.Id))
+    {
+        <div class="form-group margin-5-0">
+            @Html.LabelFor(model => model.Password, new { @class = "control-label col-sm-5 align-right border-box" })
+            <div class="col-sm-7 border-box">
+                @Html.PasswordFor(model => model.Password, new { @class = "k-textbox" })
+                @Html.ValidationMessageFor(model => model.Password, null, new { @class = "text-danger" })
+            </div>
+        </div>
+        <div class="clear"></div>
+        <div class="form-group margin-5-0">
+            @Html.LabelFor(model => model.ConfirmPassword, new { @class = "control-label col-sm-5 align-right border-box" })
+            <div class="col-sm-7 border-box">
+                @Html.PasswordFor(model => model.ConfirmPassword, new { @class = "k-textbox" })
+                @Html.ValidationMessageFor(model => model.ConfirmPassword)
+            </div>
+        </div>
+        <div class="clear"></div>
+    }
+
+    <div>
+        <div class="form-group col-sm-7 margin-10-0 border-box">
+            <span id="errormssg"></span>
+        </div>
+        <div class="form-group col-sm-5 border-box margin-10-0 align-right">
+            <button id="rsdtSave" class="k-button"><i class="glyphicon glyphicon-floppy-disk"></i> @Resources.General_Save</button>
+            <button id="rsdtCancel" class="k-button"><i class="glyphicon glyphicon-off"></i> @Resources.General_Close</button>
+        </div>
+    </div>
+    <div class="clear"></div>
+
+</div>
+
+<script>
+    $(document).ready(function () {
+        $(".k-textbox").addClass("input-item");
+
+        $("#rsdtCancel")
+            .click(function () {
+                $(this).closest(".k-window-content").data("kendoWindow").close();
+                return false;
+            });
+        $("#rsdtSave")
+            .click(function (e) {
+                var errTmplt = '<div class="k-widget k-tooltip k-tooltip-validation" style="margin:0.5em; padding:3px 5px;"><span class="fa fa-exclamation-triangle"></span> #=message#<div class="k-callout k-callout-n"></div></div>';
+                var validator = $("#userItem").kendoValidator({
+                    errorTemplate: errTmplt
+                }).data("kendoValidator");
+                if (!validator.validate()) {
+                    $("#errormssg").html("<span class='fa fa-exclamation-triangle'></span> @GeneralResources.FieldsRequired");
+                    return false;
+                }
+
+                var item = new Object();
+                item.Id = '@Model.Id';
+                item.UserName = $("#UserName").val();
+                item.FirstName = $("#FirstName").val();
+                item.LastName = $("#LastName").val();
+                item.PositionName = $("#PositionName").val();
+                item.Email = $("#Email").val();
+                item.Password = $("#Password").val();
+
+                var rt = false;
+                var dt;
+                var q = $.ajax({
+                    url: '@Url.Action("SaveUser", "Account")',
+                    dataType: "json",
+                    type: "POST",
+                    data: JSON.stringify({ user: item }),
+                    contentType: "application/json; charset=utf-8",
+                    async: false,
+                    success: function (data) {
+                        dt = data;
+                        rt = true;
+                    },
+                    error: function (xhr) {
+                        dt = xhr;
+                        rt = false;
+                    }
+                });
+
+                if (rt == true) {
+                    if (dt.success != true) {
+                        /*Այստեղ իրականացվում է սերվերից վերադարձված սխալի ցուցադրման գործառույթը:
+                        Անհրաժեշտ է որ alert-ի փոխարեն կարմիր գույնով ցուցադրվի սխալը:
+                        Այդ սխալը պետք է տեղակայված լինի մուտքային վերջին դաշտի և հրահանգների արանքում:*/
+                        alert(JSON.stringify(dt.responseText));
+                    }
+                    else {
+                        $(this).closest(".k-window-content").data("kendoWindow").close();
+                    }
+                }
+                else {
+                    alert(JSON.stringify("Unknown error occured."));
+                }
+                return false;
+
+            });
+    });
+</script>

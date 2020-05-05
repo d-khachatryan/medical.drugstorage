@@ -1,0 +1,207 @@
+﻿@model IEnumerable<Medicaldrugstore.Models.UserPermission>
+@using Kendo.Mvc.UI
+
+@{
+    ViewBag.Title = "...";
+}
+<div class="margin-10-0">
+    <legend class="page-header-title">@Resources.Manufacturer_Title</legend>
+</div>
+
+@*<button class="accordion">@Resources.General_Search</button>
+    <div class="panel">
+        <div class="margin-10">
+            <div class="form-inline">
+                        </div>
+        </div>
+    </div>*@
+
+<div class="form-group">
+    <label class="">.....</label>
+    <input id="prmUserName" class="k-textbox" />
+    <button type="submit" class="k-button" onclick="return Search();"><i class="glyphicon glyphicon-search"></i> @Resources.General_Search</button>
+    <button type="submit" class="k-button" onclick="return Clear();"><i class="glyphicon glyphicon-minus"></i> @Resources.General_Clean</button>
+</div>
+
+
+<script type="text/javascript">
+    function Search() {
+        $("#UserPermission").data("kendoGrid").dataSource.read();
+        return false;
+    }
+
+    function Clear() {
+        $("#prmUserName").val("");
+        $("#UserPermission").data("kendoGrid").dataSource.read();
+        return false;
+    }
+
+    function getParameter() {
+        return {
+            userName: $("#prmUserName").val()
+        };
+    }
+</script>
+
+<div class="toolbar">
+    <button onclick="CreateUserPermission()" class="k-button">@Resources.General_NewRecord</button>
+    @*<button onclick="ShowDetails()" class="k-button">@Resources.General_Details</button>*@
+</div>
+@*
+        <div class="toolbar-fixed">
+            <button onclick="CreateUserPermission()" class="k-button">@Resources.General_NewRecord</button>
+           <button onclick="ShowDetails()" class="k-button">@Resources.General_Details</button>
+    </div>
+*@
+@(Html.Kendo().Grid<Medicaldrugstore.Models.UserPermission>()
+                        .Name("UserPermission")
+                        .Columns(columns =>
+                        {
+                            columns.Bound(model => model.UserPermissionId).Hidden();
+                            columns.Bound(model => model.UserName);
+                            //columns.ForeignKey(p => p.UserId, (List<SelectListItem>) ViewBag.vbUsers, "Value", "Text");
+                            columns.ForeignKey(p => p.OrganizationId, (List<SelectListItem>) ViewBag.vbOrganizations, "Value", "Text");
+                            columns.Bound(model => model.IsOrganizationUser).HtmlAttributes(new { style = "text-align: center;" }).ClientTemplate("<input type='checkbox' #= IsOrganizationUser ? checked='checked':'' # class='chkbx' />").Width(120);
+                            columns.Bound(model => model.IsStorageUser).HtmlAttributes(new { style = "text-align: center;" }).ClientTemplate("<input type='checkbox' #= IsStorageUser ? checked='checked':'' # class='chkbx' />").Width(120);
+                            columns.Bound(model => model.IsRegionUser).HtmlAttributes(new { style = "text-align: center;" }).ClientTemplate("<input type='checkbox' #= IsRegionUser ? checked='checked':'' # class='chkbx' />").Width(120);
+                            columns.Bound(model => model.IsGovermentUser).HtmlAttributes(new { style = "text-align: center;" }).ClientTemplate("<input type='checkbox' #= IsGovermentUser ? checked='checked':'' # class='chkbx' />").Width(120);
+                            columns.Bound(model => model.IsAdministrator).HtmlAttributes(new { style = "text-align: center;" }).ClientTemplate("<input type='checkbox' #= IsAdministrator ? checked='checked':'' # class='chkbx' />").Width(120);
+                            columns.Command(commands =>
+                            {
+                                commands.Custom("Update").Text("Update").Click("UpdateUserPermission");
+                                commands.Custom("Delete").Text("Delete").Click("DeleteUserPermission");
+                            }).Title(Resources.General_Commands).Width(130);
+                        })
+                        .Selectable(s => s.Mode(Kendo.Mvc.UI.GridSelectionMode.Single))
+                        //.Events(e => e.DataBound("onRowBound"))
+                        .Pageable(pageable => pageable
+                        .Refresh(true)
+                        .PageSizes(true)
+                        .ButtonCount(5))
+                        .Filterable()
+                        .Scrollable()
+                        .Resizable(resize => resize.Columns(true))
+                        .Reorderable(reorder => reorder.Columns(true))
+                        .Sortable()
+                        .HtmlAttributes(new { style = "height:620px;" })
+                        .DataSource(dataSource => dataSource
+                        .Ajax()
+                        .Read(read => read.Action("ReadUserPermissions", "UserPermissions").Data("getParameter"))
+                        .PageSize(15)
+                        .Model(model => model.Id(p => p.UserPermissionId))
+)
+)
+
+@(Html.Kendo().Window().Name("wndUserPermissionTemplate")
+                        .Width(600).Height(290)
+                        .Draggable().Resizable()
+                        .Content("").Modal(true)
+                        .Actions(actions => actions.Pin().Close())
+                        .Visible(false)
+                        .Events(events => events
+                        .Close("onClose").Open("onOpen").Refresh("onRefresh"))
+)
+
+
+@(Html.Kendo().Window().Name("wndUserPermissionDetails").Width(550)
+            .Height(120).Draggable()
+            .Resizable().Content("")
+            .Title(Resources.Manufacturer_Title)
+            .Modal(true)
+            .Actions(actions => actions.Pin().Close())
+            .Visible(false)
+            .Events(events => events
+            .Close("onClose").Open("onOpen").Refresh("onRefresh"))
+)
+
+<script>
+    function CreateUserPermission() {
+        var window = $("#wndUserPermissionTemplate").data("kendoWindow");
+        window.content("");
+        window.title(".....");
+        window.refresh({
+            url: "@Url.Action("UserPermissionTemplate", "UserPermissions")" + "?userPermissionId=" + 0
+        });
+        window.center();
+        window.open();
+        return false;
+    }
+
+    function UpdateUserPermission(e) {
+        var row = $(e.target).closest("tr");
+        var grid = $("#UserPermission").data("kendoGrid");
+        var dataItem = grid.dataItem(row);
+        var window = $("#wndUserPermissionTemplate").data("kendoWindow");
+        window.content("");
+        window.title("@Resources.General_Edit");
+        window.refresh({
+            url: "@Url.Action("UserPermissionTemplate", "UserPermissions")" + "?userPermissionId=" + dataItem.UserPermissionId
+        });
+        window.center();
+        window.open();
+        return false;
+    }
+
+    function DeleteUserPermission(e) {
+        var row = $(e.target).closest("tr");
+        var grid = $("#UserPermission").data("kendoGrid");
+        var dataItem = grid.dataItem(row);
+        var r = confirm("@Resources.General_Delete_Question");
+        if (r == false) {
+            return false;
+        }
+        var rt = false;
+        var dt;
+        var q = $.ajax({
+            url: '@Url.Action("DeleteUserPermission", "UserPermissions")',
+            dataType: "json",
+            type: "GET",
+            data: {
+                id: dataItem.UserPermissionId
+            },
+            async: false,
+            success: function (data) {
+                dt = data;
+                rt = true;
+            },
+            error: function (xhr) {
+                dt = xhr;
+                rt = false;
+            }
+        });
+        if (rt == true) {
+            $("#UserPermission").data("kendoGrid").dataSource.read();
+        } else {
+            alert(dt);
+            return false;
+        }
+        return false;
+    }
+
+    function ShowDetails() {
+        var grid = $("#UserPermission").data("kendoGrid");
+        var selectedItem = grid.dataItem(grid.select());
+        if (selectedItem == null) {
+            alert("@Resources.General_NotSelected");
+            return false;
+        }
+        var window = $("#wndUserPermissionDetails").data("kendoWindow");
+        window.content("");
+        window.title("....");
+        window.refresh({
+            url: "@Url.Action("UserPermissionDetails", "UserPermissions")" + "/" + selectedItem.UserPermissionId
+        });
+        window.center();
+        window.open();
+    }
+
+    function onOpen(e) {
+        kendo.ui.progress(e.sender.element, true);
+    }
+    function onClose() {
+        $("#UserPermission").data("kendoGrid").dataSource.read();
+    }
+    function onRefresh(e) {
+        kendo.ui.progress(e.sender.element, false);
+    }
+</script>

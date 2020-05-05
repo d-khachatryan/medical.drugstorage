@@ -1,0 +1,83 @@
+﻿@model Medicaldrugstore.Models.PlacementRepresentation
+
+@{
+    Layout = null;
+}
+
+@using (Html.BeginForm("Represent", "Placement", FormMethod.Post, new { id = "frmRepresentation" }))
+{
+    <div class="create-item">
+
+        @Html.HiddenFor(model => model.PlacementId)
+        <div class="col-sm-12 border-box">
+            <div class="form-group">
+                @Html.LabelFor(model => model.PlacementDate, htmlAttributes: new { @class = "control-label" })
+                @Html.EditorFor(model => model.PlacementDate, new { htmlAttributes = new { @class = "" } })
+                @Html.ValidationMessageFor(model => model.PlacementDate, "", new { @class = "text-danger" })
+            </div>
+        </div>
+        <div class="clear"></div>
+        <div class="col-sm-12 border-box">
+            <div class="form-group margin-10-0 align-right">
+                <button id="rpSave" class="k-button"><i class="glyphicon glyphicon-floppy-disk"></i> @Resources.General_Save</button>
+                <button id="rpCancel" class="k-button"><i class="glyphicon glyphicon-off"></i> @Resources.General_Close</button>
+            </div>
+        </div>
+        <div class="clear"></div>
+    </div>
+}
+
+<script>
+    $(document).ready(function () {
+        $("#rpCancel")
+            .click(function () {
+                $(this).closest(".k-window-content").data("kendoWindow").close();
+                return false;
+            });
+        $("#rpSave")
+            .click(function (e) {
+                var errTmplt = '<div class="k-widget k-tooltip k-tooltip-validation" style="margin:0.5em; padding:3px 5px;"><span class="fa fa-exclamation-triangle"></span> #=message#<div class="k-callout k-callout-n"></div></div>';
+                var validator = $("#frmRepresentation").kendoValidator({
+                    errorTemplate: errTmplt
+                }).data("kendoValidator");
+                if (!validator.validate()) {
+                    return false;
+                }
+                var item = new Object();
+                item.PlacementId = '@Model.PlacementId';
+                item.PlacementDate = document.getElementById("PlacementDate").value;
+                var rt = false;
+                var dt;
+                var q = $.ajax({
+                    url: '@Url.Action("Represent", "Placement")',
+                    dataType: "json",
+                    type: "POST",
+                    data: JSON.stringify({ placementRepresentation: item }),
+                    contentType: "application/json; charset=utf-8",
+                    async: false,
+                    success: function (data) {
+                        dt = data;
+                        rt = true;
+                    },
+                    error: function (xhr) {
+                        dt = xhr;
+                        rt = false;
+                    }
+                });
+                if (rt == true) {
+                    if (dt.success != true) {
+                        alert(JSON.stringify(dt.responseText));
+                        return false;
+                    }
+                    else {
+                        $(this).closest(".k-window-content").data("kendoWindow").close();
+                        return false;
+                    }
+                }
+                else {
+                    alert(JSON.stringify("Unknown error occured."));
+                    return false;
+                }
+            });
+    });
+</script>

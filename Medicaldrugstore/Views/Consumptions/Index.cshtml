@@ -1,0 +1,377 @@
+﻿@model IEnumerable<Medicaldrugstore.Models.ConsumptionDetail>
+
+@{
+    ViewBag.Title = Resources.ConsumptionPeriod_Title;
+}
+
+<div class="clear"></div>
+<div class="for-Toolbar">
+    @(Html.Kendo().ToolBar()
+    .Name("ToolBar")
+    .Items(items =>
+    {
+        items.Add().Type(CommandType.Button).Togglable(false).Text(@Resources.Consumption_New).Id("btnNew").Click("CreateConsumption");
+        items.Add().Type(CommandType.Button).Togglable(false).Text(@Resources.General_Represent).Id("btnRepresent").Click("RepresentConsumption");
+        items.Add().Type(CommandType.Button).Togglable(false).Text(@Resources.General_Details).Id("btnDetails").Click("ConsumptionDetail");
+    })
+    )
+    @* Search Panel - Right Slide *@
+    <div class="right-slidePanel">
+        <div class="slidePanel-Content">
+            <div class="slidePanel-btn">
+            </div>
+            <div class="slidePanel-Content-fields create-item">
+                <h4>@Resources.General_Search</h4>
+                <div class="form-group margin-10-0">
+                    <label class="control-label" for="prmInitiationStartDate">@Resources.General_DatePeriod</label>
+                    <div class="input-search data-period">
+                        @(Html.Kendo().DatePicker()
+                                    .Name("prmStartDate")
+                                    .HtmlAttributes(new { placeholder = @Resources.General_Start, @class = "width100" })
+                        )
+                        @(Html.Kendo().DatePicker()
+                                    .Name("prmTerminationDate")
+                                    .HtmlAttributes(new { placeholder = @Resources.General_End, @class = "width100" })
+                        )
+                    </div>
+                </div>
+                <div class="form-group margin-5-0">
+                    @(Html.Kendo().ComboBox()
+                  .Name("prmOrganizationId")
+                  .DataTextField("Text")
+                  .Placeholder(@Resources.Consumption_Organization)
+                  .DataValueField("Value")
+                  .Filter(FilterType.StartsWith)
+                  .BindTo(ViewBag.vbOrganizations)
+                  .HtmlAttributes(new { data_value_primitive = true, @class = "width100" })
+                    )
+                </div>
+                <div class="form-group margin-5-0">
+                    @(Html.Kendo().ComboBox()
+                  .Name("prmConsumptionStatusId")
+                  .DataTextField("Text")
+                  .Placeholder(@Resources.Consumption_Status)
+                  .DataValueField("Value")
+                  .Filter(FilterType.StartsWith)
+                  .BindTo(ViewBag.vbConsumptionStatuses)
+                  .HtmlAttributes(new { data_value_primitive = true, @class = "width100" })
+                    )
+                </div>
+                <div class="form-group btns align-right">
+                    <button type="submit" id="rtSearch" class="k-button" onclick="return Search();"><i class="glyphicon glyphicon-search"></i> @Resources.General_Search</button>
+                    <button type="submit" class="k-button" onclick="return Clear();"><i class="glyphicon glyphicon-minus"></i> @Resources.General_Clean</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<script type="text/javascript">
+
+    $(document)
+        .ready(function () {
+            currentConsumptionIndex = -1;
+        });
+
+    function Clear() {
+        $("#prmOrganizationId").data("kendoComboBox").select(-1);
+        $("#prmStartDate").val("");
+        $("#prmTerminationDate").val("");
+        $("#prmConsumptionStatusId").data("kendoComboBox").select(-1);
+        $("#Consumption").data("kendoGrid").dataSource.read();
+        $("#Consumption").data("kendoGrid").refresh();
+        return false;
+    }
+
+    function Search() {
+        $("#Consumption").data("kendoGrid").dataSource.read();
+        $("#Consumption").data("kendoGrid").refresh();
+        return false;
+    }
+
+    function getParameter() {
+        return {
+            startDate: $("#prmStartDate").val(),
+            terminationDate: $("#prmTerminationDate").val(),
+            organizationId: $("#prmOrganizationId").val(),
+            consumptionStatusId: $("#prmConsumptionStatusId").val()
+        };
+    }
+</script>
+
+
+@(Html.Kendo().Grid<Medicaldrugstore.Models.ConsumptionDetail>()
+      .Name("Consumption")
+      .Events(events => events.DataBound("onConsumptionDataBound").DetailExpand("onConsumptionDetailExpand"))
+      .Columns(columns =>
+      {
+          columns.Bound(model => model.ConsumptionId).Hidden();
+          columns.Bound(model => model.OrganizationName);
+          columns.Bound(model => model.ConsumptionDate).Width(110);
+          columns.Bound(model => model.TerminationDate).Width(110);
+          columns.Bound(model => model.ConsumptionStatusName).Width(165);
+          columns.Command(commands =>
+          {
+              commands.Custom("Update").Text(" ").Click("UpdateConsumption");
+              commands.Custom("Delete").Text(" ").Click("DeleteConsumption");
+          }).Title(Resources.General_Commands).Width(120);
+      })
+      .Selectable(s => s.Mode(Kendo.Mvc.UI.GridSelectionMode.Single))
+      .Pageable()
+      .ClientDetailTemplateId("cpTemplate")
+      .Scrollable()
+      .Sortable()
+      .Resizable(resize => resize.Columns(true))
+      .Reorderable(reorder => reorder.Columns(true))
+      .DataSource(dataSource => dataSource
+          .Ajax()
+          .Read(read => read.Action("ReadConsumptions", "Consumptions").Data("getParameter"))
+          .PageSize(15)
+          .Sort(sort => sort.Add("ConsumptionId").Descending())
+          .Model(model =>
+          {
+              model.Id(p => p.ConsumptionId);
+          }
+          )
+)
+)
+
+@(Html.Kendo().Window().Name("wndConsumption")
+                        .Width(720).Height(520)
+                        .Draggable().Resizable()
+                        .Content("").Modal(true)
+                        .Actions(actions => actions.Pin().Close())
+                        .Visible(false)
+                        .Events(events => events
+                        .Close("onCloseConsumption").Open("onOpenConsumption").Refresh("onRefreshConsumption"))
+)
+
+@(Html.Kendo().Window().Name("wndConsumptionDetail")
+                       .Width(600).Height(280)
+                       .Draggable().Resizable()
+                       .Content("").Modal(true)
+                       .Actions(actions => actions.Pin().Close())
+                       .Visible(false)
+                       .Events(events => events
+                       .Open("onOpenConsumption").Refresh("onRefreshConsumption"))
+)
+
+<script>
+
+    function onConsumptionDataBound(e) {
+        $(".k-grid-Update, .Update_Icon").find("span").addClass("glyphicon glyphicon-pencil");
+        $(".k-grid-Delete, .Delete_Icon").find("span").addClass("glyphicon glyphicon-trash");
+        if (currentConsumptionIndex != -1) {
+            var row = $(this.tbody).find("tr.k-master-row:eq(" + currentConsumptionIndex + ")");
+            this.expandRow(row);
+        }
+    }
+
+    function onConsumptionDetailExpand(e) {
+        currentConsumptionIndex = $(e.masterRow).index(".k-master-row");
+        var selectedItem = this.dataItem(e.masterRow);
+        CID = selectedItem.ConsumptionId;
+        CSID = selectedItem.ConsumptionStatusId;
+        this.collapseRow(this.tbody.find(' > tr.k-master-row').not(e.masterRow));
+    }
+
+    function CreateConsumption() {
+
+        var window = $("#wndConsumption").data("kendoWindow");
+        window.content("");
+        window.title("@Resources.Consumption_New");
+
+        window.refresh({
+            url: "@Url.Action("ConsumptionTemplate", "Consumptions")" + "?consumptionId=" + 0
+        });
+        window.center();
+        window.open();
+        return false;
+    }
+
+    function UpdateConsumption(e) {
+        var row = $(e.target).closest("tr");
+        var grid = $("#Consumption").data("kendoGrid");
+        var dataItem = grid.dataItem(row);
+        if (dataItem.ConsumptionStatusId != null) {
+            alert("@Resources.General_NoSubjectToEditing");
+            return false;
+        }
+        var window = $("#wndConsumption").data("kendoWindow");
+        window.content("");
+        window.title("@Resources.General_Edit");
+        window.refresh({
+            url: "@Url.Action("ConsumptionTemplate", "Consumptions")" + "?consumptionId=" + dataItem.ConsumptionId
+        });
+        window.center();
+        window.open();
+        return false;
+    }
+
+    function DeleteConsumption(e) {
+        var row = $(e.target).closest("tr");
+        var grid = $("#Consumption").data("kendoGrid");
+        var dataItem = grid.dataItem(row);
+        if (dataItem.ConsumptionStatusId != null) {
+            alert("@Resources.General_NoSubjectToDelete");
+            return false;
+        }
+        var r = confirm("@Resources.General_Delete_Question");
+        if (r == false) {
+            return false;
+        }
+        var rt = false;
+        var dt;
+        var q = $.ajax({
+            url: '@Url.Action("DeleteConsumption", "Consumptions")',
+            dataType: "json",
+            type: "GET",
+            data: {
+                id: dataItem.ConsumptionId
+            },
+            async: false,
+            success: function (data) {
+                dt = data;
+                rt = true;
+            },
+            error: function (xhr) {
+                dt = xhr;
+                rt = false;
+            }
+        });
+
+        if (rt == true) {
+            if (dt.success != true) {
+                alert(JSON.stringify(dt.responseText));
+            }
+            else {
+                $("#Consumption").data("kendoGrid").dataSource.read();
+            }
+        }
+        else {
+            alert(JSON.stringify("Unknown error occured."));
+        }
+        return false;
+
+    }
+
+    function RepresentConsumption() {
+
+        var grid = $("#Consumption").data("kendoGrid");
+        var selectedItem = grid.dataItem(grid.select());
+
+        if (selectedItem == null) {
+            alert("@Resources.General_NotSelected");
+            return false;
+        }
+
+        if (selectedItem.ConsumptionStatusId != null) {
+            alert("Գրառումն արդեն ներկայացված է:");
+            return false;
+        }
+
+        var r = confirm("Իսկապե՞ս ցանկանում եք ներկայացնել գրառումը:");
+        if (r == false) {
+            return false;
+        }
+
+        var rt = false;
+        var dt;
+
+        var q = $.ajax({
+            url: '@Url.Action("RepresentConsumption", "Consumptions")',
+            dataType: "json",
+            type: "GET",
+            data: {
+                consumptionId: selectedItem.ConsumptionId
+            },
+            async: false,
+            success: function (data) {
+                dt = data;
+                rt = true;
+            },
+            error: function (xhr) {
+                dt = xhr;
+                rt = false;
+            }
+        });
+
+        if (rt == true) {
+            if (dt.success != true) {
+                alert(JSON.stringify(dt.responseText));
+            }
+            else {
+                $("#Consumption").data("kendoGrid").dataSource.read();
+            }
+        }
+        else {
+            alert(JSON.stringify("Unknown error occured."));
+        }
+        return false;
+    }
+
+    function ConsumptionDetail() {
+        var window = $("#wndConsumptionDetail").data("kendoWindow");
+        var grid = $("#Consumption").data("kendoGrid");
+        var selectedItem = grid.dataItem(grid.select());
+        if (selectedItem == null) {
+            alert("@Resources.General_NotSelected");
+            return false;
+        }
+        window.content("");
+        window.title("Մանրամասն տվյալներ");
+        window.refresh({
+            url: "@Url.Action("ConsumptionDetail", "Consumptions")" + "/" + selectedItem.ConsumptionId
+        });
+        window.center();
+        window.open();
+    }
+
+    function onOpenConsumption(e) {
+        kendo.ui.progress(e.sender.element, true);
+    }
+    function onCloseConsumption(e) {
+        $("#Consumption").data("kendoGrid").dataSource.read();
+    }
+    function onRefreshConsumption(e) {
+        kendo.ui.progress(e.sender.element, false);
+    }
+
+
+
+</script>
+
+
+<script id="cpTemplate" type="text/kendo-tmpl">
+    @(Html.Kendo().Grid<Medicaldrugstore.Models.ConsumptionProductDetail>()
+              .Name("ConsumptionProduct_#=ConsumptionId#")
+              .Columns(columns =>
+              {
+                  columns.Bound(p => p.ConsumptionProductId).Hidden();
+                  columns.Bound(p => p.ConsumptionId).Hidden();
+                  columns.Bound(p => p.ProductName);
+                  columns.Bound(p => p.Quantity).Width(80);
+                  columns.Bound(p => p.ItemQuantity).Width(137);
+                  columns.Bound(p => p.UnitCost).Width(132);
+                  columns.Bound(p => p.TotalCost).Width(139);
+              })
+              .DataSource(dataSource => dataSource
+                  .Ajax()
+                  .PageSize(5)
+                  .Read(read => read.Action("ReadConsumptionProductDetails", "Consumptions", new { id = "#=ConsumptionId#" }))
+                  .Model(model =>
+                  {
+                      model.Id(p => p.ConsumptionProductId);
+                  }
+                  )
+              )
+              .Scrollable()
+              .Pageable()
+              .Sortable()
+              .Resizable(resize => resize.Columns(true))
+      .Reorderable(reorder => reorder.Columns(true))
+    .ToClientTemplate()
+    )
+</script>
+

@@ -1,0 +1,106 @@
+﻿@model Medicaldrugstore.Models.ReplacementProductStorage
+
+@{
+    Layout = null;
+}
+
+@using (Html.BeginForm("SaveReplacementProductStorage", "Replacement", FormMethod.Post, new { id = "frmReplacementProductStorage" }))
+{
+<div class="create-item">
+
+    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+    @Html.HiddenFor(model => model.ReplacementProductStorageId)
+    @Html.HiddenFor(model => model.ReplacementProductId)
+
+    <div class="form-group margin-5-0 create-item">
+        @Html.LabelFor(model => model.StorageId, htmlAttributes: new { @class = "control-label col-sm-6 align-right border-box" })
+        <div class="col-sm-6 border-box">
+            @(Html.Kendo().ComboBoxFor(model => model.StorageId)
+                .DataTextField("Text")
+                .DataValueField("Value")
+                .Filter(FilterType.StartsWith)
+                .BindTo(ViewBag.vbStorages)
+                .HtmlAttributes(new { required = "required", validationmessage = "Դաշտը լրացված չէ", data_value_primitive = true })
+            )
+            <span class="k-invalid-msg" data-for="StorageId"></span>
+        </div>
+    </div>
+    <div class="clear"></div>
+    <div class="form-group margin-5-0">
+        @Html.LabelFor(model => model.Quantity, htmlAttributes: new { @class = "control-label col-sm-6 align-right border-box" })
+        <div class="col-sm-6 border-box">
+            @Html.EditorFor(model => model.Quantity, new { htmlAttributes = new { required = "required", validationmessage = "Դաշտը լրացված չէ", @class = "k-textbox" } })
+            <span class="k-invalid-msg" data-for="Quantity"></span>
+        </div>
+    </div>
+    <div class="clear"></div>
+    <div class="form-group margin-10-0">
+        <div class="align-right col-xs-12 border-box">
+            <button id="rpstSave" class="k-button"><i class="glyphicon glyphicon-floppy-disk"></i> @Resources.General_Save</button>
+            <button id="rpstCancel" class="k-button"><i class="glyphicon glyphicon-off"></i> @Resources.General_Close</button>
+        </div>
+    </div>
+    <div class="clear"></div>
+</div>
+}
+
+<script>
+    $(document).ready(function () {
+        $("#rpstCancel")
+            .click(function () {
+                $(this).closest(".k-window-content").data("kendoWindow").close();
+                return false;
+            });
+        $("#rpstSave")
+            .click(function (e) {
+        
+                var validator = $("#frmReplacementProductStorage").kendoValidator().data("kendoValidator");
+                var StorageId = $("#StorageId").data("kendoComboBox").input;
+                if (!validator.validate()) {
+                    StorageId.addClass("k-invalid");
+                    return false;
+                }
+                StorageId.removeClass("k-invalid");
+
+
+                var item = new Object();
+                item.replacementProductStorageId = '@(Model.ReplacementProductStorageId)';
+                item.replacementProductId = '@(Model.ReplacementProductId)';
+                item.storageId = document.getElementById("StorageId").value;
+                item.quantity = document.getElementById("Quantity").value;
+
+                var rt = false;
+                var dt;
+                var q = $.ajax({
+                    url: '@Url.Action("SaveReplacementProductStorage", "Replacements")',
+                    dataType: "json",
+                    type: "POST",
+                    data: JSON.stringify({ replacementProductStorage: item }),
+                    contentType: "application/json; charset=utf-8",
+                    async: false,
+                    success: function (data) {
+                        dt = data;
+                        rt = true;
+                    },
+                    error: function (xhr) {
+                        dt = xhr;
+                        rt = false;
+                    }
+                });
+                if (rt == true) {
+                    if (dt.success != true) {
+                        alert(JSON.stringify(dt.responseText));
+                        return false;
+                    }
+                    else {
+                        $(this).closest(".k-window-content").data("kendoWindow").close();
+                        return false;
+                    }
+                }
+                else {
+                    alert(JSON.stringify("Unknown error occured."));
+                    return false;
+                }
+            });
+            });
+</script>
